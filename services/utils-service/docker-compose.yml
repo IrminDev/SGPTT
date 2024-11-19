@@ -1,0 +1,40 @@
+version: '1.0'
+services:
+  spring-app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
+    volumes:
+      - .:/app              
+      - /app/build          
+    environment:
+      - SPRING_DEVTOOLS_RESTART_TRIGGER_FILE=/app/src/main/resources/.trigger  
+      - DATABASE_URL=jdbc:postgresql://db:5432/sgptt
+      - DATABASE_USER=irmin
+      - DATABASE_PASSWORD=irmin
+    stdin_open: true      
+    entrypoint: ["./gradlew", "bootRun"]
+    tty: true
+    depends_on:
+      - db
+  db:
+    image: postgres:15.9-alpine
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_USER=irmin
+      - POSTGRES_PASSWORD=irmin
+      - POSTGRES_DB=sgptt
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U irmin -d sgptt"] 
+      interval: 1s
+      timeout: 5s
+      retries: 10
+      start_period: 15s
+    
+volumes:
+  pgdata:

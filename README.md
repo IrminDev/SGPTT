@@ -1,7 +1,6 @@
 
 # Manager System of Protocols for Trabajos Terminales
 
-A management system designed to organize, track, and manage protocols for "Trabajos Terminales" (final projects or thesis work). This system provides a user-friendly interface for students, advisors, and administrators to submit, review, and approve protocols efficiently.
 
 ## Table of Contents
 
