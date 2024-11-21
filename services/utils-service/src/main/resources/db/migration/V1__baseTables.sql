@@ -1,115 +1,142 @@
-create table if not exists Person(
-	person_id serial primary key,
-	name varchar(50) not null,
-	pathernal_surname varchar(50) not null,
-	mathernal_surname varchar(50) not null,
-	email varchar(100) unique not null,
-	password varchar(50) not null,
-	created_at timestamp not null default current_timestamp,
-	is_enabled boolean not null default true
+CREATE TABLE IF NOT EXISTS Person (
+    person_id SERIAL PRIMARY KEY,
+    name NVARCHAR(50) NOT NULL,
+    paternal_surname NVARCHAR(50) NOT NULL,
+    maternal_surname NVARCHAR(50) NOT NULL,
+    email NVARCHAR(100) UNIQUE NOT NULL,
+    password NVARCHAR(50) NOT NULL,
+    created_at TIMESTAMP NOT NULL DEFAULT current_timestamp,
+    is_active BOOLEAN NOT NULL DEFAULT true
 );
 
-
-alter table Person add column person_key varchar(10) unique not null;
-
-create type Career as enum('ISC', 'LCD', 'IA');
-
-create table if not exists Student(
-	career Career
-) inherits (Person);
-
-create table if not exists Academy(
-	academy_id serial primary key,
-	name varchar(100) not null
+CREATE TABLE IF NOT EXISTS Career (
+    career_id SERIAL PRIMARY KEY,
+    name NVARCHAR(50) UNIQUE NOT NULL
 );
 
-create table if not exists Professor(
-	academy_id integer not null,
-	school varchar(25) default 'ESCOM',
-	constraint fk_professor_academy foreign key(academy_id) references Academy(academy_id) on update cascade on delete cascade
-) inherits (Person);
+INSERT INTO Career (name) VALUES ('ISC'), ('LCD'), ('IA');
 
-create table if not exists CATT(
-	role varchar(50),
-	is_active boolean not null default true
-) inherits (Person);
-
-create type ProtocolState as enum('Pendiente', 'Aprobado', 'Rechazado');
-
-create table if not exists Protocol(
-	protocol_id serial primary key,
-	title varchar(255) not null,
-	keywords text not null,
-	abstract text not null,
-	pdf_file bytea not null,
-	state ProtocolState,
-	upload_at timestamp not null default current_timestamp
+CREATE TABLE IF NOT EXISTS Student (
+    person_id INTEGER PRIMARY KEY,
+    student_number VARCHAR(20) UNIQUE NOT NULL, -- Número de estudiante
+    career_id INTEGER NOT NULL,
+    CONSTRAINT fk_student_person FOREIGN KEY (person_id) REFERENCES Person(person_id) ON DELETE CASCADE,
+    CONSTRAINT fk_student_career FOREIGN KEY (career_id) REFERENCES Career(career_id) ON DELETE CASCADE
 );
 
-create table if not exists ChangeRequest(
-	request_id serial primary key,
-	format bytea not null,
-	request_comments text not null,
-	arrived_at timestamp not null,
-	status ProtocolState,
-	protocol_id serial not null,
-	constraint fk_changerequest_protocol
-	foreign key (protocol_id) references Protocol(protocol_id) on update cascade on delete cascade
+CREATE TABLE IF NOT EXISTS Academy (
+    academy_id SERIAL PRIMARY KEY,
+    name NVARCHAR(100) NOT NULL
 );
 
-create table if not exists ProtocolAcademy(
-	academy_id integer not null,
-	protocol_id integer not null,
-	target_date timestamp,
-	constraint fk_academy_protocol
-	foreign key (academy_id) references Academy(academy_id) on update cascade on delete cascade,
-	constraint fk_protocol_academy
-	foreign key (protocol_id) references Protocol(protocol_id) on update cascade on delete cascade
+CREATE TABLE IF NOT EXISTS Professor (
+    person_id INTEGER PRIMARY KEY,
+    professor_id VARCHAR(20) UNIQUE NOT NULL, -- Número de empleado del profesor
+    academy_id INTEGER NOT NULL,
+    school NVARCHAR(25) DEFAULT 'ESCOM',
+    CONSTRAINT fk_professor_person FOREIGN KEY (person_id) REFERENCES Person(person_id) ON DELETE CASCADE,
+    CONSTRAINT fk_professor_academy FOREIGN KEY (academy_id) REFERENCES Academy(academy_id) ON DELETE CASCADE
 );
 
-create table if not exists ProtocolStudent(
-	protocol_id serial not null,
-	student_id serial not null,
-	registration_date timestamp,
-	constraint fk_protocol_student
-	foreign key (protocol_id) references Protocol(protocol_id) on update cascade on delete cascade,
-	constraint fk_student_protocol
-	foreign key (student_id) references Person(person_id) on update cascade on delete cascade
+CREATE TABLE IF NOT EXISTS Role (
+	role_id SERIAL PRIMARY KEY,
+	name NVARCHAR(50) UNIQUE NOT NULL
 );
 
-create table if not exists Sinodal(
-	protocol_id integer not null,
-	target_date timestamp,
-	constraint fk_protocol_sinodal
-	foreign key (protocol_id) references Protocol(protocol_id) on update cascade on delete cascade
-) inherits (Professor);
-
-create table if not exists Activity(
-	period_id serial primary key,
-	open_date date,
-	end_date date,
-	activity text
+CREATE TABLE IF NOT EXISTS CATT (
+    person_id INTEGER PRIMARY KEY,
+    catt_id VARCHAR(20) UNIQUE NOT NULL, -- Número identificador de CATT
+	role_id INTEGER NOT NULL,
+    is_active BOOLEAN NOT NULL DEFAULT true,
+	CONSTRAINT fk_catt_role FOREIGN KEY (role_id) REFERENCES Role(role_id) ON DELETE CASCADE,
+    CONSTRAINT fk_catt_person FOREIGN KEY (person_id) REFERENCES Person(person_id) ON DELETE CASCADE
 );
 
-create table if not exists Evaluation(
-	evaluation_id serial primary key,
-	sinodal_id integer not null,
-	is_approved boolean not null default false,
-	evaluation_comments text,
-	evaluation_date timestamp,
-	constraint fk_evaluation_sinodal
-	foreign key (sinodal_id) references Person(person_id) on update cascade on delete cascade
+CREATE TABLE IF NOT EXISTS ProtocolState (
+    state_id SERIAL PRIMARY KEY,
+    name NVARCHAR(50) UNIQUE NOT NULL
 );
 
-create type CriterionResult as enum('Aprovado', 'Rechazado', 'Correciones');
+INSERT INTO ProtocolState (name) VALUES ('Pendiente'), ('Aprobado'), ('Rechazado');
 
-create table if not exists Criterion(
-	criterion_id serial primary key,
-	criterion text,
-	evaluation_id integer not null,
-	results CriterionResult,
-	criterion_comments text,
-	evaluation_date timestamp,
-	constraint fk_evaluation_criterion
-	foreign key (evaluation_id) references Evaluation(evaluation_id) on update cascade on delete cascade
+CREATE TABLE IF NOT EXISTS Protocol (
+    protocol_id SERIAL PRIMARY KEY,
+    title VARCHAR(255) NOT NULL,
+    keywords TEXT NOT NULL,
+    abstract TEXT NOT NULL,
+    file_data BYTEA NOT NULL,
+    state_id INTEGER NOT NULL,
+    upload_at TIMESTAMP NOT NULL DEFAULT current_timestamp,
+    CONSTRAINT fk_protocol_state FOREIGN KEY (state_id) REFERENCES ProtocolState(state_id) ON DELETE CASCADE
+);
+
+CREATE TABLE IF NOT EXISTS ChangeRequest (
+    request_id SERIAL PRIMARY KEY,
+    format_data BYTEA NOT NULL,
+    request_comments TEXT NOT NULL,
+    created_at TIMESTAMP NOT NULL,
+    state_id INTEGER NOT NULL,
+    protocol_id INTEGER NOT NULL,
+    CONSTRAINT fk_changerequest_protocol FOREIGN KEY (protocol_id) REFERENCES Protocol(protocol_id) ON DELETE CASCADE,
+    CONSTRAINT fk_changerequest_status FOREIGN KEY (state_id) REFERENCES ProtocolState(state_id) ON DELETE CASCADE
+);
+
+CREATE TABLE IF NOT EXISTS ProtocolAcademy (
+    academy_id INTEGER NOT NULL,
+    protocol_id INTEGER NOT NULL,
+    CONSTRAINT fk_academy_protocol FOREIGN KEY (academy_id) REFERENCES Academy(academy_id) ON DELETE CASCADE,
+    CONSTRAINT fk_protocol_academy FOREIGN KEY (protocol_id) REFERENCES Protocol(protocol_id) ON DELETE CASCADE
+);
+
+CREATE TABLE IF NOT EXISTS ProtocolStudent (
+    protocol_id INTEGER NOT NULL,
+    student_id INTEGER NOT NULL,
+    CONSTRAINT fk_protocol_student FOREIGN KEY (protocol_id) REFERENCES Protocol(protocol_id) ON DELETE CASCADE,
+    CONSTRAINT fk_student_protocol FOREIGN KEY (student_id) REFERENCES Student(person_id) ON DELETE CASCADE
+);
+
+CREATE TABLE IF NOT EXISTS Sinodal (
+    protocol_id INTEGER NOT NULL,
+    professor_id INTEGER UNIQUE NOT NULL PRIMARY KEY,
+    CONSTRAINT fk_sinodal_protocol FOREIGN KEY (protocol_id) REFERENCES Protocol(protocol_id) ON DELETE CASCADE,
+    CONSTRAINT fk_sinodal_professor FOREIGN KEY (professor_id) REFERENCES Professor(person_id) ON DELETE CASCADE
+);
+
+CREATE TABLE IF NOT EXISTS Activity (
+    activity_id SERIAL PRIMARY KEY,
+    open_date DATE,
+    close_date DATE,
+    activity NVARCHAR(50)
+);
+
+CREATE TABLE IF NOT EXISTS Evaluation (
+    evaluation_id SERIAL PRIMARY KEY,
+    sinodal_id INTEGER NOT NULL,
+    is_approved BOOLEAN NOT NULL DEFAULT false,
+    evaluation_comments TEXT,
+    evaluation_date TIMESTAMP,
+    CONSTRAINT fk_evaluation_sinodal FOREIGN KEY (sinodal_id) REFERENCES Sinodal(sinodal_id) ON DELETE CASCADE
+);
+
+CREATE TABLE IF NOT EXISTS CriterionResult (
+    result_id SERIAL PRIMARY KEY,
+    name VARCHAR(50) UNIQUE NOT NULL
+);
+
+INSERT INTO CriterionResult (name) VALUES ('Aprobado'), ('Rechazado'), ('Correciones');
+
+CREATE TABLE IF NOT EXISTS Criterion (
+    criterion_id SERIAL PRIMARY KEY,
+    criterion NVARCHAR(50) UNIQUE NOT NULL,
+);
+
+CREATE TABLE IF NOT EXISTS CriterionEvaluation (
+	evaluation_id INTEGER NOT NULL,
+	criterion_id INTEGER NOT NULL,
+	result_id INTEGER NOT NULL,
+	criterion_comments TEXT,
+	evaluation_date TIMESTAMP,
+	CONSTRAINT fk_criterion_evaluation_evaluation FOREIGN KEY (evaluation_id) REFERENCES Evaluation(evaluation_id) ON DELETE CASCADE,
+	CONSTRAINT fk_criterion_evaluation_criterion FOREIGN KEY (criterion_id) REFERENCES Criterion(criterion_id) ON DELETE CASCADE,
+	CONSTRAINT fk_criterion_evaluation_result FOREIGN KEY (result_id) REFERENCES CriterionResult(result_id) ON DELETE CASCADE
 );
