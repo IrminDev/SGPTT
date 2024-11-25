@@ -1,5 +1,6 @@
-package com.sgpttt.UtilsService.model;
+package com.sgpttt.UtilsService.entity;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -9,16 +10,18 @@ import jakarta.persistence.Id;
 public class CriterionResult {
     @Id
     @GeneratedValue(strategy=GenerationType.AUTO)
-    private Long result_id;
+    @Column(name="result_id")
+    private Long resultId;
 
     private String result;
 
     // Getters and Setters
-    public Long getResult_id() {
-        return result_id;
+    public Long getResultId() {
+        return resultId;
     }
-    public void setResult_id(Long result_id) {
-        this.result_id = result_id;
+
+    public void setResultId(Long resultId) {
+        this.resultId = resultId;
     }
 
     public String getResult() {

@@ -1,7 +1,8 @@
-package com.sgpttt.UtilsService.model;
+package com.sgpttt.UtilsService.entity;
 
 import java.sql.Timestamp;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -16,16 +17,20 @@ import jakarta.persistence.TemporalType;
 public class ChangeRequest {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long request_id;
+    @Column(name = "request_id")
+    private Long requestId;
 
     @Lob
-    private byte[] format_data;
+    @Column(name = "format_data")
+    private byte[] formatData;
 
     @Lob
-    private String request_comments;
+    @Column(name = "request_comments")
+    private String requestComments;
 
     @Temporal(TemporalType.TIMESTAMP)
-    private Timestamp created_at;
+    @Column(name = "created_at")
+    private Timestamp createdAt;
 
     @ManyToOne
     @JoinColumn(name = "state_id")
@@ -36,32 +41,36 @@ public class ChangeRequest {
     private Protocol protocol;
 
     // Getters and Setters
-    public Long getRequest_id() {
-        return request_id;
-    }
-    public void setRequest_id(Long request_id) {
-        this.request_id = request_id;
+    public Long getRequestId() {
+        return requestId;
     }
 
-    public byte[] getFormat_data() {
-        return format_data;
-    }
-    public void setFormat_data(byte[] format_data) {
-        this.format_data = format_data;
+    public void setRequestId(Long requestId) {
+        this.requestId = requestId;
     }
 
-    public String getRequest_comments() {
-        return request_comments;
-    }
-    public void setRequest_comments(String request_comments) {
-        this.request_comments = request_comments;
+    public byte[] getFormatData() {
+        return formatData;
     }
 
-    public Timestamp getCreated_at() {
-        return created_at;
+    public void setFormatData(byte[] formatData) {
+        this.formatData = formatData;
     }
-    public void setCreated_at(Timestamp created_at) {
-        this.created_at = created_at;
+
+    public String getRequestComments() {
+        return requestComments;
+    }
+
+    public void setRequestComments(String requestComments) {
+        this.requestComments = requestComments;
+    }
+
+    public Timestamp getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(Timestamp createdAt) {
+        this.createdAt = createdAt;
     }
 
     public ProtocolState getState() {

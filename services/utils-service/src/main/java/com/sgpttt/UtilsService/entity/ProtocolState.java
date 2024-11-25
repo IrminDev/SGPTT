@@ -1,5 +1,6 @@
-package com.sgpttt.UtilsService.model;
+package com.sgpttt.UtilsService.entity;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -9,7 +10,8 @@ import jakarta.persistence.Id;
 public class ProtocolState {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long state_id;
+    @Column(name = "state_id")
+    private Long stateId;
 
     private String name;
 
@@ -20,11 +22,12 @@ public class ProtocolState {
         this.name = name;
     }
 
-    public Long getState_id() {
-        return state_id;
+    public Long getStateId() {
+        return stateId;
     }
-    public void setState_id(Long state_id) {
-        this.state_id = state_id;
+
+    public void setStateId(Long stateId) {
+        this.stateId = stateId;
     }
 
     public String getName() {

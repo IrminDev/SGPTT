@@ -1,12 +1,21 @@
-package com.sgpttt.UtilsService.model;
+package com.sgpttt.UtilsService.entity;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.MapsId;
 import jakarta.persistence.OneToOne;
 
 @Entity
 public class Student {
+
+    @Id
+    @Column (name = "person_id")
+    private Long personId;
+
+    @MapsId
     @OneToOne
     @JoinColumn(name = "person_id")
     private Person person;
@@ -18,6 +27,14 @@ public class Student {
     private String student_id;
 
     // Getters and Setters
+    public Long getPersonId() {
+        return personId;
+    }
+
+    public void setPersonId(Long personId) {
+        this.personId = personId;
+    }
+
     public Person getPerson() {
         return person;
     }

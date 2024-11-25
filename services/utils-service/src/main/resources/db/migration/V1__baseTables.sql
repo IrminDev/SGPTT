@@ -1,17 +1,17 @@
 CREATE TABLE IF NOT EXISTS Person (
     person_id SERIAL PRIMARY KEY,
-    name NVARCHAR(50) NOT NULL,
-    paternal_surname NVARCHAR(50) NOT NULL,
-    maternal_surname NVARCHAR(50) NOT NULL,
-    email NVARCHAR(100) UNIQUE NOT NULL,
-    password NVARCHAR(50) NOT NULL,
+    name VARCHAR(50) NOT NULL,
+    paternal_surname VARCHAR(50) NOT NULL,
+    maternal_surname VARCHAR(50) NOT NULL,
+    email VARCHAR(100) UNIQUE NOT NULL,
+    password VARCHAR(50) NOT NULL,
     created_at TIMESTAMP NOT NULL DEFAULT current_timestamp,
     is_active BOOLEAN NOT NULL DEFAULT true
 );
 
 CREATE TABLE IF NOT EXISTS Career (
     career_id SERIAL PRIMARY KEY,
-    name NVARCHAR(50) UNIQUE NOT NULL
+    name VARCHAR(50) UNIQUE NOT NULL
 );
 
 INSERT INTO Career (name) VALUES ('ISC'), ('LCD'), ('IA');
@@ -26,35 +26,34 @@ CREATE TABLE IF NOT EXISTS Student (
 
 CREATE TABLE IF NOT EXISTS Academy (
     academy_id SERIAL PRIMARY KEY,
-    name NVARCHAR(100) NOT NULL
+    name VARCHAR(100) NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS Professor (
     person_id INTEGER PRIMARY KEY,
     professor_id VARCHAR(20) UNIQUE NOT NULL, -- Número de empleado del profesor
     academy_id INTEGER NOT NULL,
-    school NVARCHAR(25) DEFAULT 'ESCOM',
+    school VARCHAR(25) DEFAULT 'ESCOM',
     CONSTRAINT fk_professor_person FOREIGN KEY (person_id) REFERENCES Person(person_id) ON DELETE CASCADE,
     CONSTRAINT fk_professor_academy FOREIGN KEY (academy_id) REFERENCES Academy(academy_id) ON DELETE CASCADE
 );
 
 CREATE TABLE IF NOT EXISTS Role (
 	role_id SERIAL PRIMARY KEY,
-	name NVARCHAR(50) UNIQUE NOT NULL
+	name VARCHAR(50) UNIQUE NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS CATT (
     person_id INTEGER PRIMARY KEY,
     catt_id VARCHAR(20) UNIQUE NOT NULL, -- Número identificador de CATT
 	role_id INTEGER NOT NULL,
-    is_active BOOLEAN NOT NULL DEFAULT true,
 	CONSTRAINT fk_catt_role FOREIGN KEY (role_id) REFERENCES Role(role_id) ON DELETE CASCADE,
     CONSTRAINT fk_catt_person FOREIGN KEY (person_id) REFERENCES Person(person_id) ON DELETE CASCADE
 );
 
 CREATE TABLE IF NOT EXISTS ProtocolState (
     state_id SERIAL PRIMARY KEY,
-    name NVARCHAR(50) UNIQUE NOT NULL
+    name VARCHAR(50) UNIQUE NOT NULL
 );
 
 INSERT INTO ProtocolState (name) VALUES ('Pendiente'), ('Aprobado'), ('Rechazado');
@@ -106,7 +105,7 @@ CREATE TABLE IF NOT EXISTS Activity (
     activity_id SERIAL PRIMARY KEY,
     open_date DATE,
     close_date DATE,
-    activity NVARCHAR(50)
+    activity VARCHAR(50)
 );
 
 CREATE TABLE IF NOT EXISTS Evaluation (
@@ -115,7 +114,7 @@ CREATE TABLE IF NOT EXISTS Evaluation (
     is_approved BOOLEAN NOT NULL DEFAULT false,
     evaluation_comments TEXT,
     evaluation_date TIMESTAMP,
-    CONSTRAINT fk_evaluation_sinodal FOREIGN KEY (sinodal_id) REFERENCES Sinodal(sinodal_id) ON DELETE CASCADE
+    CONSTRAINT fk_evaluation_sinodal FOREIGN KEY (sinodal_id) REFERENCES Sinodal(professor_id) ON DELETE CASCADE
 );
 
 CREATE TABLE IF NOT EXISTS CriterionResult (
@@ -127,7 +126,7 @@ INSERT INTO CriterionResult (name) VALUES ('Aprobado'), ('Rechazado'), ('Correci
 
 CREATE TABLE IF NOT EXISTS Criterion (
     criterion_id SERIAL PRIMARY KEY,
-    criterion NVARCHAR(50) UNIQUE NOT NULL,
+    criterion VARCHAR(50) UNIQUE NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS CriterionEvaluation (

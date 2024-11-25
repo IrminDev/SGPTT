@@ -1,25 +1,41 @@
-package com.sgpttt.UtilsService.model;
+package com.sgpttt.UtilsService.entity;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.MapsId;
 import jakarta.persistence.OneToOne;
 
 @Entity
 public class CATT {
+
+    @Id
+    @Column(name = "person_id")
+    private Long personId;
+
+    @MapsId
     @OneToOne
     @JoinColumn(name = "person_id")
     private Person person;
-
+    
     @ManyToOne
     @JoinColumn(name = "role_id")
     private Role role;
 
-    private String catt_id;
-
-    private boolean is_active;
+    @Column(name = "catt_id")
+    private String cattId;
 
     // Getters and Setters
+    public Long getPersonId() {
+        return personId;
+    }
+
+    public void setPersonId(Long personId) {
+        this.personId = personId;
+    }
+
     public Person getPerson() {
         return person;
     }
@@ -34,17 +50,11 @@ public class CATT {
         this.role = role;
     }
 
-    public String getCatt_id() {
-        return catt_id;
-    }
-    public void setCatt_id(String catt_id) {
-        this.catt_id = catt_id;
+    public String getCattId() {
+        return cattId;
     }
 
-    public boolean isIs_active() {
-        return is_active;
-    }
-    public void setIs_active(boolean is_active) {
-        this.is_active = is_active;
+    public void setCattId(String cattId) {
+        this.cattId = cattId;
     }
 }

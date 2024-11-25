@@ -1,5 +1,6 @@
-package com.sgpttt.UtilsService.model;
+package com.sgpttt.UtilsService.entity;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -10,16 +11,18 @@ public class Career {
 
     @Id
     @GeneratedValue(strategy=GenerationType.AUTO)
-    private Long career_id;
+    @Column(name="career_id")
+    private Long careerId;
 
     private String name;
 
     // Getters and Setters
-    public Long getCareer_id() {
-        return career_id;
+    public Long getCareerId() {
+        return careerId;
     }
-    public void setCareer_id(Long id) {
-        this.career_id = id;
+
+    public void setCareerId(Long careerId) {
+        this.careerId = careerId;
     }
 
     public String getName() {

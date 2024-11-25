@@ -1,17 +1,26 @@
-package com.sgpttt.UtilsService.model;
+package com.sgpttt.UtilsService.entity;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.MapsId;
 import jakarta.persistence.OneToOne;
 
 @Entity
 public class Professor {
+    @Id
+    @Column(name = "person_id")
+    private Long personId;
+
+    @MapsId
     @OneToOne
     @JoinColumn(name = "person_id")
     private Person person;
 
-    private String professor_number;
+    @Column(name = "professor_number")
+    private String professorNumber;
 
     @ManyToOne
     @JoinColumn(name = "academy_id")
@@ -20,6 +29,14 @@ public class Professor {
     private String school;
 
     // Getters and Setters
+    public Long getPersonId() {
+        return personId;
+    }
+
+    public void setPersonId(Long personId) {
+        this.personId = personId;
+    }
+
     public Person getPerson() {
         return person;
     }
@@ -27,11 +44,12 @@ public class Professor {
         this.person = person;
     }
 
-    public String getProfessor_number() {
-        return professor_number;
+    public String getProfessorNumber() {
+        return professorNumber;
     }
-    public void setProfessor_number(String professor_number) {
-        this.professor_number = professor_number;
+
+    public void setProfessorNumber(String professorNumber) {
+        this.professorNumber = professorNumber;
     }
 
     public Academy getAcademy() {
@@ -51,9 +69,10 @@ public class Professor {
     public Professor() {
     }
 
-    public Professor(Person person, String professor_number, Academy academy, String school) {
+    public Professor(Long personId, Person person, String professorNumber, Academy academy, String school) {
+        this.personId = personId;
         this.person = person;
-        this.professor_number = professor_number;
+        this.professorNumber = professorNumber;
         this.academy = academy;
         this.school = school;
     }

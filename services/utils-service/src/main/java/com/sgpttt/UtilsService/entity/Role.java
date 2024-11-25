@@ -1,24 +1,27 @@
-package com.sgpttt.UtilsService.model;
+package com.sgpttt.UtilsService.entity;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 
 @Entity
-public class Academy {
+public class Role {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long academy_id;
+    @Column(name = "role_id")
+    private Long roleId;
 
     private String name;
 
     // Getters and Setters
-    public Long getAcademy_id() {
-        return academy_id;
+    public Long getRoleId() {
+        return roleId;
     }
-    public void setAcademy_id(Long academy_id) {
-        this.academy_id = academy_id;
+
+    public void setRoleId(Long roleId) {
+        this.roleId = roleId;
     }
 
     public String getName() {

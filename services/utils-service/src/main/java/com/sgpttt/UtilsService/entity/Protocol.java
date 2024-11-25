@@ -1,4 +1,4 @@
-package com.sgpttt.UtilsService.model;
+package com.sgpttt.UtilsService.entity;
 
 import java.sql.Timestamp;
 
@@ -17,7 +17,8 @@ import jakarta.persistence.TemporalType;
 public class Protocol {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long protocol_id;
+    @Column(name = "protocol_id")
+    private Long protocolId;
 
     private String title;
 
@@ -28,22 +29,25 @@ public class Protocol {
     private String protocolAbstract;
 
     @Lob
-    private byte[] file_data;
+    @Column(name="file_data")
+    private byte[] fileData;
 
     @ManyToOne
     @JoinColumn(name = "state_id")
     private ProtocolState state;
 
     @Temporal(TemporalType.TIMESTAMP)
-    private Timestamp created_at;
+    @Column(name = "created_at")
+    private Timestamp createdAt;
 
     
     // Getters and Setters
-    public Long getProtocol_id() {
-        return protocol_id;
+    public Long getProtocolId() {
+        return protocolId;
     }
-    public void setProtocol_id(Long protocol_id) {
-        this.protocol_id = protocol_id;
+
+    public void setProtocolId(Long protocolId) {
+        this.protocolId = protocolId;
     }
 
     public String getTitle() {
@@ -67,11 +71,12 @@ public class Protocol {
         this.protocolAbstract = protocolAbstract;
     }
 
-    public byte[] getFile_data() {
-        return file_data;
+    public byte[] getFileData() {
+        return fileData;
     }
-    public void setFile_data(byte[] file_data) {
-        this.file_data = file_data;
+
+    public void setFileData(byte[] fileData) {
+        this.fileData = fileData;
     }
 
     public ProtocolState getState() {
@@ -81,22 +86,24 @@ public class Protocol {
         this.state = state;
     }
 
-    public Timestamp getCreated_at() {
-        return created_at;
+    public Timestamp getCreatedAt() {
+        return createdAt;
     }
-    public void setCreated_at(Timestamp created_at) {
-        this.created_at = created_at;
+
+    public void setCreatedAt(Timestamp createdAt) {
+        this.createdAt = createdAt;
     }
 
     public Protocol() {
     }
 
-    public Protocol(String title, String keywords, String protocolAbstract, byte[] file_data, ProtocolState state, Timestamp created_at) {
+    public Protocol(Long protocolId, String title, String keywords, String protocolAbstract, byte[] fileData, ProtocolState state, Timestamp createdAt) {
+        this.protocolId = protocolId;
         this.title = title;
         this.keywords = keywords;
         this.protocolAbstract = protocolAbstract;
-        this.file_data = file_data;
+        this.fileData = fileData;
         this.state = state;
-        this.created_at = created_at;
+        this.createdAt = createdAt;
     }
 }

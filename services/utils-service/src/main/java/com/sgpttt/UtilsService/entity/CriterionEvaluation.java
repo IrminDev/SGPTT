@@ -1,7 +1,8 @@
-package com.sgpttt.UtilsService.model;
+package com.sgpttt.UtilsService.entity;
 
 import java.sql.Timestamp;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -16,7 +17,8 @@ import jakarta.persistence.TemporalType;
 public class CriterionEvaluation {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long evaluation_id;
+    @Column(name = "evaluation_id")
+    private Long evaluationId;
 
     @ManyToOne
     @JoinColumn(name = "result_id")
@@ -27,17 +29,19 @@ public class CriterionEvaluation {
     private Criterion criterion;
 
     @Lob
-    private String criterion_comments;
+    @Column(name = "criterion_comments")
+    private String criterionComments;
 
     @Temporal(TemporalType.TIMESTAMP)
     private Timestamp evaluation_date;
 
     // Getters and Setters
-    public Long getEvaluation_id() {
-        return evaluation_id;
+    public Long getEvaluationId() {
+        return evaluationId;
     }
-    public void setEvaluation_id(Long evaluation_id) {
-        this.evaluation_id = evaluation_id;
+
+    public void setEvaluationId(Long evaluationId) {
+        this.evaluationId = evaluationId;
     }
 
     public CriterionResult getCriterionResult() {
@@ -54,11 +58,12 @@ public class CriterionEvaluation {
         this.criterion = criterion;
     }
 
-    public String getCriterion_comments() {
-        return criterion_comments;
+    public String getCriterionComments() {
+        return criterionComments;
     }
-    public void setCriterion_comments(String criterion_comments) {
-        this.criterion_comments = criterion_comments;
+
+    public void setCriterionComments(String criterionComments) {
+        this.criterionComments = criterionComments;
     }
 
     public Timestamp getEvaluation_date() {

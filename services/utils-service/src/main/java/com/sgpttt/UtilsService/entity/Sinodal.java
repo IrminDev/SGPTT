@@ -1,11 +1,15 @@
-package com.sgpttt.UtilsService.model;
+package com.sgpttt.UtilsService.entity;
 
+import jakarta.persistence.EmbeddedId;
 import jakarta.persistence.Entity;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 
 @Entity
 public class Sinodal {
+    @EmbeddedId
+    private SinodalId id;
+
     @ManyToOne
     @JoinColumn(name = "professor_id")
     private Professor professor;
@@ -15,6 +19,14 @@ public class Sinodal {
     private Protocol protocol;
 
     // Getters and Setters
+    public SinodalId getId() {
+        return id;
+    }
+
+    public void setId(SinodalId id) {
+        this.id = id;
+    }
+
     public Professor getProfessor() {
         return professor;
     }

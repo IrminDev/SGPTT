@@ -13,8 +13,7 @@ services:
       - DATABASE_URL=jdbc:postgresql://db:5432/sgptt
       - DATABASE_USER=irmin
       - DATABASE_PASSWORD=irmin
-      - ELASTICSEARCH_HOST=elastic-search
-      - ELASTICSEARCH_PORT=9200
+      - ELASTICSEARCH_URL=http://elastic-search:9200
     stdin_open: true      
     entrypoint: ["./gradlew", "bootRun"]
     tty: true
@@ -46,8 +45,6 @@ services:
       - discovery.type=single-node
       - xpack.security.enabled=false
       - xpack.security.http.ssl.enabled=false
-      - ELASTIC_PASSWORD=irmin
-      - ELASTIC_USERNAME=elastic
     ports:
       - "9200:9200"
       - "9300:9300"
