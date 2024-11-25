@@ -95,8 +95,9 @@ CREATE TABLE IF NOT EXISTS ProtocolStudent (
 );
 
 CREATE TABLE IF NOT EXISTS Sinodal (
+    sinodal_id SERIAL PRIMARY KEY,
     protocol_id INTEGER NOT NULL,
-    professor_id INTEGER UNIQUE NOT NULL PRIMARY KEY,
+    professor_id INTEGER NOT NULL,
     CONSTRAINT fk_sinodal_protocol FOREIGN KEY (protocol_id) REFERENCES Protocol(protocol_id) ON DELETE CASCADE,
     CONSTRAINT fk_sinodal_professor FOREIGN KEY (professor_id) REFERENCES Professor(person_id) ON DELETE CASCADE
 );
@@ -114,7 +115,15 @@ CREATE TABLE IF NOT EXISTS Evaluation (
     is_approved BOOLEAN NOT NULL DEFAULT false,
     evaluation_comments TEXT,
     evaluation_date TIMESTAMP,
-    CONSTRAINT fk_evaluation_sinodal FOREIGN KEY (sinodal_id) REFERENCES Sinodal(professor_id) ON DELETE CASCADE
+    CONSTRAINT fk_evaluation_sinodal FOREIGN KEY (sinodal_id) REFERENCES Sinodal(sinodal_id) ON DELETE CASCADE
+);
+
+CREATE TABLE IF NOT EXISTS Director (
+    director_id SERIAL PRIMARY KEY,
+    professor_id INTEGER NOT NULL,
+    protocol_id INTEGER NOT NULL,
+    CONSTRAINT fk_director_professor FOREIGN KEY (professor_id) REFERENCES Professor(person_id) ON DELETE CASCADE,
+    CONSTRAINT fk_director_protocol FOREIGN KEY (protocol_id) REFERENCES Protocol(protocol_id) ON DELETE CASCADE
 );
 
 CREATE TABLE IF NOT EXISTS CriterionResult (

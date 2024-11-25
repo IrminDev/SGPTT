@@ -12,11 +12,11 @@ public class ProtocolStudent {
     private ProtocolStudentId id;
 
     @ManyToOne
-    @JoinColumn(name="protocol_id")
-    private Protocol protocol;
+    @JoinColumn(name = "protocol_id", insertable = false, updatable = false)
+    private Protocol protocol; 
 
     @ManyToOne
-    @JoinColumn(name="student_id")
+    @JoinColumn(name = "student_id", insertable = false, updatable = false)
     private Student student;
 
     // Getters and Setters

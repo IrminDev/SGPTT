@@ -1,30 +1,33 @@
 package com.sgpttt.UtilsService.entity;
 
-import jakarta.persistence.EmbeddedId;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 
 @Entity
 public class Sinodal {
-    @EmbeddedId
-    private SinodalId id;
+
+    @Id
+    @Column(name = "sinodal_id")
+    private Long sinodalId;
 
     @ManyToOne
-    @JoinColumn(name = "professor_id")
+    @JoinColumn(name = "professor_id", insertable = false, updatable = false)
     private Professor professor;
 
     @ManyToOne
-    @JoinColumn(name = "protocol_id")
+    @JoinColumn(name = "protocol_id", insertable = false, updatable = false)
     private Protocol protocol;
 
     // Getters and Setters
-    public SinodalId getId() {
-        return id;
+    public Long getSinodalId() {
+        return sinodalId;
     }
 
-    public void setId(SinodalId id) {
-        this.id = id;
+    public void setSinodalId(Long sinodalId) {
+        this.sinodalId = sinodalId;
     }
 
     public Professor getProfessor() {

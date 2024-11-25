@@ -9,15 +9,15 @@ import jakarta.persistence.ManyToOne;
 public class ProtocolAcademy {
 
     @EmbeddedId
-    private ProtocolAcademyId id;
+    private ProtocolAcademyId id; // La clave primaria compuesta
 
     @ManyToOne
-    @JoinColumn(name = "protocol_id")
-    private Protocol protocol;
-
-    @ManyToOne
-    @JoinColumn(name = "academy_id")
+    @JoinColumn(name = "academy_id", insertable = false, updatable = false)
     private Academy academy;
+
+    @ManyToOne
+    @JoinColumn(name = "protocol_id", insertable = false, updatable = false)
+    private Protocol protocol;
 
     // Getters and Setters
 

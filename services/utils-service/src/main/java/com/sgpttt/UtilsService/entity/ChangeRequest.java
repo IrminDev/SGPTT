@@ -8,7 +8,6 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.Lob;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
@@ -20,11 +19,9 @@ public class ChangeRequest {
     @Column(name = "request_id")
     private Long requestId;
 
-    @Lob
     @Column(name = "format_data")
     private byte[] formatData;
 
-    @Lob
     @Column(name = "request_comments")
     private String requestComments;
 

@@ -8,7 +8,6 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.Lob;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
@@ -24,11 +23,9 @@ public class Protocol {
 
     private String keywords;
 
-    @Lob
     @Column(name="abstract")
     private String protocolAbstract;
 
-    @Lob
     @Column(name="file_data")
     private byte[] fileData;
 
