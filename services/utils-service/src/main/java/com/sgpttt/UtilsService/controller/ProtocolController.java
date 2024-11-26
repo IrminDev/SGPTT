@@ -12,7 +12,7 @@ import com.sgpttt.UtilsService.entity.ProtocolDocument;
 import com.sgpttt.UtilsService.service.ProtocolDocumentService;
 
 @RestController
-@RequestMapping("/api/protocol")
+@RequestMapping("/api/utils")
 public class ProtocolController {
     @Autowired
     private ProtocolDocumentService protocolDocumentService;
