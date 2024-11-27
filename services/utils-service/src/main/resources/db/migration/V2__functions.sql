@@ -1,21 +1,17 @@
-
-/*Función que devuelve todos los protocolos pendientes asignados a una academía para que el usuario
-profesor escoja ser sinodal de alguno de ellos*/
-create or replace function getProtocolsByAcademyId(academyId integer) returns table(
-	idProtocol integer,
-	title varchar(255),
-	keywords text,
-	abstract text,
-	pdf_file bytea,
-	upload_at timestamp
-) as $$
-begin
-return query select protocol.idProtocol,
-		protocol.title,
-		protocol.keywords,
-		protocol.abstract,
-		protocol.pdf_file,
-		protocol.upload_at
-from protocolacademy inner join protocol on protocolacademy.academy_id = academyId and protocol.state = 'Pendiente';
-end;
-$$ language plpgsql;
+CREATE OR REPLACE FUNCTION update_sinodal_is_active()
+RETURNS TRIGGER AS $$
+BEGIN
+    IF NEW.state_id = (SELECT state_id FROM ProtocolState WHERE name = 'Rechazado') OR
+       NEW.state_id = (SELECT state_id FROM ProtocolState WHERE name = 'Finalizado') THEN
+        UPDATE Sinodal
+        SET is_active = false
+        WHERE protocol_id = NEW.protocol_id;
+    END IF;
+    RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+s
+CREATE TRIGGER protocol_state_change
+AFTER UPDATE OF state_id ON Protocol
+FOR EACH ROW
+EXECUTE FUNCTION update_sinodal_is_active();

@@ -56,7 +56,7 @@ CREATE TABLE IF NOT EXISTS ProtocolState (
     name VARCHAR(50) UNIQUE NOT NULL
 );
 
-INSERT INTO ProtocolState (name) VALUES ('Pendiente'), ('Aprobado'), ('Rechazado');
+INSERT INTO ProtocolState (name) VALUES ('Pendiente'), ('Aprobado'), ('Rechazado'), ('Finalizado');
 
 CREATE TABLE IF NOT EXISTS Protocol (
     protocol_id SERIAL PRIMARY KEY,
@@ -98,6 +98,7 @@ CREATE TABLE IF NOT EXISTS Sinodal (
     sinodal_id SERIAL PRIMARY KEY,
     protocol_id INTEGER NOT NULL,
     professor_id INTEGER NOT NULL,
+    is_active BOOLEAN NOT NULL DEFAULT true,
     CONSTRAINT fk_sinodal_protocol FOREIGN KEY (protocol_id) REFERENCES Protocol(protocol_id) ON DELETE CASCADE,
     CONSTRAINT fk_sinodal_professor FOREIGN KEY (professor_id) REFERENCES Professor(person_id) ON DELETE CASCADE
 );
