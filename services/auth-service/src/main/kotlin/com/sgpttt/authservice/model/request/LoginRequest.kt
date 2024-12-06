@@ -1,4 +1,4 @@
-package com.sgpttt.authservice.model
+package com.sgpttt.authservice.model.request
 
 data class LoginRequest(
     val email: String,

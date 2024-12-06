@@ -6,8 +6,8 @@ services:
     ports:
       - "8090:8090"
     volumes:
-      - .:/app              
-      - /app/build          
+      - .:/app
+      - /app/build
     environment:
       - DATABASE_URL=jdbc:postgresql://db:5432/sgptt
       - DATABASE_USER=irmin
@@ -19,7 +19,10 @@ services:
       - db
 
   db:
-    image: postgres:15.9-alpine
+    build:
+      context: ./dockerdb
+      dockerfile: Dockerfile
+    #image: postgres:15.9-alpine
     ports:
       - "5432:5432"
     environment:
