@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: utils-deployment
+  labels:
+    app: sgptt
+    service: utils
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: sgptt
+      service: utils
+  template:
+    metadata:
+      labels:
+        app: sgptt
+        service: utils
+    spec:
+      containers:
+        - name: utils-service
+          image: sgptt-utils:latest
+          ports:
+            - containerPort: 8080
+          env:
+            - name: DATABASE_URL
+              value: "jdbc:postgresql://db:5432/sgptt"
+            - name: DATABASE_USER
+              value: "irmin"
+            - name: DATABASE_PASSWORD
+              value: "irmin"
+            - name: ELASTICSEARCH_URL
+              value: "http://elastic-search:9200"

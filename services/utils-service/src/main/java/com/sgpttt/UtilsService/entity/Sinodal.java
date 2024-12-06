@@ -17,6 +17,8 @@ public class Sinodal {
     @JoinColumn(name = "professor_id", insertable = false, updatable = false)
     private Professor professor;
 
+    private boolean isActive;
+
     @ManyToOne
     @JoinColumn(name = "protocol_id", insertable = false, updatable = false)
     private Protocol protocol;
@@ -38,6 +40,14 @@ public class Sinodal {
         this.professor = professor;
     }
 
+    public boolean isActive() {
+        return isActive;
+    }
+
+    public void setActive(boolean isActive) {
+        this.isActive = isActive;
+    }
+
     public Protocol getProtocol() {
         return protocol;
     }
@@ -50,8 +60,10 @@ public class Sinodal {
     public Sinodal() {
     }
 
-    public Sinodal(Professor professor, Protocol protocol) {
+    public Sinodal(Long sinodalId, Professor professor, boolean isActive, Protocol protocol) {
+        this.sinodalId = sinodalId;
         this.professor = professor;
+        this.isActive = isActive;
         this.protocol = protocol;
     }
 }

@@ -44,6 +44,7 @@ services:
     environment:
       - discovery.type=single-node
       - xpack.security.enabled=false
+      - xpack.security.enrollment.enabled=false
       - xpack.security.http.ssl.enabled=false
     ports:
       - "9200:9200"

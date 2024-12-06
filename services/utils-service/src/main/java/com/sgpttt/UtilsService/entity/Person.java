@@ -7,6 +7,8 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
 
@@ -22,6 +24,10 @@ public class Person {
 
     @Column(name="paternal_surname")
     private String paternalSurname;
+
+    @ManyToOne
+    @JoinColumn(name="role_id")
+    private Role role;
 
     @Column(name="maternal_surname")
     private String maternalSurname;
@@ -97,14 +103,23 @@ public class Person {
         this.isActive = isActive;
     }
 
+    public Role getRole() {
+        return role;
+    }
+
+    public void setRole(Role role) {
+        this.role = role;
+    }
+
     // Constructors
     public Person() {
     }
 
-    public Person(Long personId, String name, String paternalSurname, String maternalSurname, String email, String password, Timestamp createdAt, boolean isActive) {
+    public Person(Long personId, String name, String paternalSurname, Role role, String maternalSurname, String email, String password, Timestamp createdAt, boolean isActive) {
         this.personId = personId;
         this.name = name;
         this.paternalSurname = paternalSurname;
+        this.role = role;
         this.maternalSurname = maternalSurname;
         this.email = email;
         this.password = password;

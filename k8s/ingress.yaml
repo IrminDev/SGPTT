@@ -1,1 +1,25 @@
-
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: sgptt-ingress
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /
+spec:
+  rules:
+    - host: sgptt.local
+      http:
+        paths:
+        - path: api/utils
+          pathType: Prefix
+          backend:
+            service:
+              name: utils-service
+              port:
+                number: 8080
+        - path: /
+          pathType: Prefix
+          backend:
+            service: # Application service
+              name: utils-service
+              port:
+                number: 8080

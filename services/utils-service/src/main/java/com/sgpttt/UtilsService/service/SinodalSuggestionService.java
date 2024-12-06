@@ -32,7 +32,7 @@ public class SinodalSuggestionService {
     public List<Professor> suggestSinodals(String id) {
         List<Professor> professors = sinodalRepository.findProfessorsWithLessThanFiveProtocols();
 
-        List<Academy> academies = protocolRepository.findAcademyByProtocolId(id);
+        List<Academy> academies = protocolRepository.findAcademyByProtocolId(Long.valueOf(id));
 
         // Parse the academies to a Set
         Set<Academy> academySet = new HashSet<>(academies);

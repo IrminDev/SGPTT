@@ -1,0 +1,49 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: database-deployment
+  labels:
+    app: sgptt
+    service: es
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: sgptt
+      service: es
+  template:
+    metadata:
+      labels:
+        app: sgptt
+        service: es
+    spec:
+      containers:
+        - name: elastic-search
+          image: docker.elastic.co/elasticsearch/elasticsearch:8.16.0
+          ports:
+            - containerPort: 9200
+            - containerPort: 9300
+          env:
+            - name: discovery.type
+              value: single-node
+            - name: xpack.security.enabled
+              value: "false"
+            - name: xpack.security.enrollment.enabled
+              value: "false"
+            - name: xpack.security.http.ssl.enabled
+              value: "false"
+          ulimits:
+            memlock:
+              soft: -1
+              hard: -1
+          resources:
+            limits:
+              memory: 4Gi
+            requests:
+              memory: 2Gi
+          volumeMounts:
+            - name: es_data
+              mountPath: /usr/share/elasticsearch/data
+      volumes:
+        - name: es_data
+          emptyDir: {}

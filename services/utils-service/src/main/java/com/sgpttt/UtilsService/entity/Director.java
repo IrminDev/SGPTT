@@ -36,4 +36,22 @@ public class Director {
     public void setProtocol(Protocol protocol) {
         this.protocol = protocol;
     }
+
+    public Professor getProfessor() {
+        return professor;
+    }
+
+    public void setProfessor(Professor professor) {
+        this.professor = professor;
+    }
+
+    // Constructors
+    public Director() {
+    }
+
+    public Director(Long directorId, Protocol protocol, Professor professor) {
+        this.directorId = directorId;
+        this.protocol = protocol;
+        this.professor = professor;
+    }
 }

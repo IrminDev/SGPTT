@@ -12,5 +12,5 @@ import com.sgpttt.UtilsService.entity.Protocol;
 @Repository
 public interface ProtocolRepository extends JpaRepository<Protocol, Long> {
     @Query("SELECT a FROM Academy a JOIN ProtocolAcademy pa ON a.academy_id = pa.academy_id WHERE pa.protocol_id = ?1")
-    public List<Academy> findAcademyByProtocolId(String protocolId);
+    public List<Academy> findAcademyByProtocolId(Long protocolId);
 }

@@ -1,0 +1,43 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: database-deployment
+  labels:
+    app: sgptt
+    service: db
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: sgptt
+      service: db
+  template:
+    metadata:
+      labels:
+        app: sgptt
+        service: db
+    spec:
+      containers:
+        - name: db
+          image: postgres:15.9-alpine
+          ports:
+            - containerPort: 5432
+          env:
+            - name: POSTGRES_USER
+              value: irmin
+            - name: POSTGRES_PASSWORD
+              value: irmin
+            - name: POSTGRES_DB
+              value: sgptt
+          volumeMounts:
+            - name: pgdata
+              mountPath: /var/lib/postgresql/data
+          healthcheck:
+            test: ["CMD-SHELL", "pg_isready -U irmin -d sgptt"] 
+            interval: 1s
+            timeout: 5s
+            retries: 10
+            start_period: 15s
+      volumes:
+        - name: pgdata
+          emptyDir: {}
