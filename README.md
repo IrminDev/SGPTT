@@ -128,7 +128,7 @@ Otherwise, it will return an exception
 ### 1. Register
 
 Regardless of whether it is a Student or a Professor, a Person will be inserted into the database, where their role will
-be assigned accordingly, and the Student or Professor will also be inserted into their own table..
+be assigned accordingly, and the Student or Professor will also be inserted into their own table.
 
 The password is encrypted using the PostgreSQL **crypt** function with the MD5 algorithm.
 
