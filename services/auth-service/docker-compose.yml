@@ -12,6 +12,7 @@ services:
       - DATABASE_URL=jdbc:postgresql://db:5432/sgptt
       - DATABASE_USER=irmin
       - DATABASE_PASSWORD=irmin
+      - JWT_SECRET=mySuperSecureSecretKeyThatContainsAtLeast32Bits
     stdin_open: true      
     entrypoint: ["./gradlew", "bootRun"]
     tty: true

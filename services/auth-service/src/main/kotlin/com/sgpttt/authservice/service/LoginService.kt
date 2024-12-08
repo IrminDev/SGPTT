@@ -9,14 +9,14 @@ import com.sgpttt.authservice.model.response.WrongPassword
 import com.sgpttt.authservice.repository.PersonRepository
 import com.sgpttt.authservice.repository.model.Role
 import com.sgpttt.authservice.service.component.GetRepository
+import com.sgpttt.authservice.service.component.TokenManager
 import org.springframework.stereotype.Service
-
-/*TODO( Add JWT for authenticated users )*/
 
 @Service
 class LoginService(
 	private val personRepository: PersonRepository,
-	private val getRepository: GetRepository
+	private val getRepository: GetRepository,
+	private val tokenManager: TokenManager
 ) {
 	
 	fun getPersonByEmailAndPassword(email: String, password: String): LoginResponse {
@@ -33,7 +33,12 @@ class LoginService(
 		if (loginResult.wrongPassword)
 			return WrongPassword(PersonDTO.UnauthenticatedPerson(name = person.name))
 		
-		return Success(person, token = "token")
+		val claims = mapOf(
+			"personId" to personDb.personId,
+			"role" to personDb.role.name
+		)
+		
+		return Success(person, token = tokenManager.createToken(claims))
 		
 	}
 	
