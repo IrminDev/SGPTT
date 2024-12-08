@@ -161,7 +161,7 @@ The Token contains in its payload personId, their roles and iat and exp, it look
 }
 ```
 > [!NOTE] 
-> The sceret key is base64 encoded, that means the code get the environment variable JWT_SECRET and encodes it on Base 64, after it is signed
+> The sceret key is base64 encoded, that means the code get the environment variable JWT_SECRET and encodes it on Base 64, after it is signed, for getting more details see [this](https://github.com/jwtk/jjwt)
 
 ## Technologies Used
 |   Name      | Version       | Icon |
