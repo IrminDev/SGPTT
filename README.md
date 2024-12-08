@@ -44,7 +44,7 @@ It gets a simple login request object based on email and password
    }
    ```
 
-## Responses
+## Usage
 
 In this requirements project has been defined a three different types of user
 1. **Students**
@@ -64,26 +64,24 @@ For example, with the given credentials
        "password" : "password1"
    }
    ```
+It begin an student user with an active status
 
-It begin an student user with an active status, the api responses for every use case
+And this one, begin a Person with an inactive status
+```json
+   {
+      "email" : "edu4r@gmail.com",
+      "password" : "i_h4t3_ni"
+   }
+```
+The api responses for every use case.
 <table>
    <tr>
       <td>
-        Use case 1 - Login Success Status Code 200 OK
+        Use case 1 - Login Success Status Code <div style="background-color=#90ee90">200 OK</div>
       </td>
       <td>
-         Use case 2 - Bad credentials Status Code 406 Not acceptable
-      </td>
-      <td>
-         Use case 3 - email not found Status code 404 Not found
-      </td>
-      <td>
-         Use case 4 - Inactive user Status code 202 Accepted
-      </td>
-   </tr>
-<tr>
-      <td>
-<code>
+         <pre>
+         <code>
 {
    "person": {
       "career": "ISC",
@@ -91,45 +89,84 @@ It begin an student user with an active status, the api responses for every use 
       "number": "2021601366",
       "isActive": true
    },
-      "token": "token",
-      "result": "Success"
-}   
-      </code>
+   "token": "eyJhbGciOiJIUzI1NiJ9.eyJwZXJzb25JZCI6Miwicm9sZSI6IkVzdHVkaWFudGUiLCJpYXQiOjE3MzM2MTY5NTEsImV4cCI6MTczMzYxODc1MX0.vrfJLZCM-3UY3KIkCHc4qpE10g9ErlOE3FFd6E7faRU",
+   "result": "Success"
+}
+         </code>
+         </pre>
+      </td>
+   </tr>
+   <tr>
+      <td>
+         Use case 2 - Bad credentials Status Code 406 Not acceptable
       </td>
       <td>
-<code>
+         <pre>
+         <code>
 {
    "person": {
       "name": "Juan Pérez García",
       "number": null,
       "isActive": true
    },
-    "result": "Wrong password"
+   "result": "Wrong password"
 }
-</code>
-</td>
-<td>
-<code>
+         </code>
+         </pre>
+      </td>
+   </tr>
+   <tr>
+      <td>
+         Use case 3 - email not found Status code 404 Not found
+      </td>
+      <td>
+         <pre>
+         <code>
 {
    "person": null,
    "result": "Person not found"
 }
-</code>
-</td>
-<td>
-<code>
+         </code>
+         </pre>
+      </td>      
+   </tr>
+   <tr>
+      <td>
+         Use case 4 - Inactive user Status code 202 Accepted
+      </td>
+      <td>
+         <pre>
+         <code>
 {
-    "person": {
-        "name": "Eduardo Martínez García",
-        "number": "2023121314",
-        "isActive": false
-    },
-    "result": "Inactive person"
+   "person": {
+      "name": "Eduardo Martínez García",
+      "number": "2023121314",
+      "isActive": false
+   },
+   "result": "Inactive person"
 }   
-</code>
-</td>
-</td>      
-</tr>
+         </code>
+         </pre>
+      </td>
+   </tr>
 </table>
 
-The Token will contain information like the user id and role, it is comming soon!
+The Token contains in its payload personId, their roles and iat and exp, it looks like that
+```json
+{
+  "personId": 2,
+  "role": "Estudiante",
+  "iat": 1733616951,
+  "exp": 1733618751
+}
+```
+> [!NOTE] 
+> The sceret key is base64 encoded, that means the code get the environment variable JWT_SECRET and encodes it on Base 64, after it is signed
+
+## Technologies Used
+|   Name      | Version       | Icon |
+|-------------|---------------|--------------------------------------------------------------------------------- |
+|   Kotlin    | 2.1.0 | [![My Skills](https://skillicons.dev/icons?i=kotlin&theme=dark)](https://skillicons.dev) |
+| Spring boot | 3.0.4 | [![My Skills](https://skillicons.dev/icons?i=spring&theme=dark)](https://skillicons.dev) |
+|  PostgreSQL | 15.9  | [![My Skills](https://skillicons.dev/icons?i=postgresql&theme=dark)](https://skillicons.dev)|
+| Docker      | 27.2.0| [![My Skills](https://skillicons.dev/icons?i=docker&theme=dark)](https://skillicons.dev) |
