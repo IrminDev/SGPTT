@@ -70,7 +70,7 @@ And this one, begin a Person with an inactive status
 ```json
    {
       "email" : "edu4r@gmail.com",
-      "password" : "i_h4t3_ni"
+      "password" : "Eduardo's password"
    }
 ```
 The api responses for every use case.
@@ -80,6 +80,7 @@ The api responses for every use case.
         Use case 1 - Login Success Status Code <div style="background-color=#90ee90">200 OK</div>
       </td>
       <td>
+         <h3>Student</h3>
          <pre>
          <code>
 {
@@ -93,6 +94,37 @@ The api responses for every use case.
    "result": "Success"
 }
          </code>
+         </pre>
+         <h3>Professors</h3>
+         <pre>
+            <code>
+{
+    "person": {
+        "school": "ESCOM",
+        "academy": "Sistemas computacionales",
+        "name": "María López Martínez",
+        "number": "9275018326",
+        "isActive": true
+    },
+    "token": "eyJhbGciOiJIUzI1NiJ9.eyJwZXJzb25JZCI6Mywicm9sZSI6IlByb2Zlc29yIiwiaWF0IjoxNzMzNjIxNzQ3LCJleHAiOjE3MzM2MjM1NDd9.zoTxmXUcwoCTxf93fOF4YVXd29Er6M9-MVRV5RTlpww",
+    "result": "Success"
+}
+            </code>
+         </pre>
+         <h3>CATT</h3>
+         <pre>
+            <code>
+{
+    "person": {
+        "name": "Carlos Sánchez Fernández",
+        "number": "7521840395",
+        "role": "Secretary",
+        "isActive": true
+    },
+    "token": "eyJhbGciOiJIUzI1NiJ9.eyJwZXJzb25JZCI6NCwicm9sZSI6IkNBVFQiLCJpYXQiOjE3MzM2MjE4MjYsImV4cCI6MTczMzYyMzYyNn0.nDOJ-rOYmyNqd_yw__3GSwPcRERudS3iHn9OUZtqQ1s",
+    "result": "Success"
+}
+            </code>
          </pre>
       </td>
    </tr>
