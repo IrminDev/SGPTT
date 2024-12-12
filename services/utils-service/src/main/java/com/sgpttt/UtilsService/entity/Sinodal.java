@@ -17,6 +17,7 @@ public class Sinodal {
     @JoinColumn(name = "professor_id", insertable = false, updatable = false)
     private Professor professor;
 
+    @Column(name = "is_active")
     private boolean isActive;
 
     @ManyToOne

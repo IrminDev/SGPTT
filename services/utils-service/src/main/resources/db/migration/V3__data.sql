@@ -1,73 +1,74 @@
---Personas
-CREATE EXTENSION pgcrypto;
 
-INSERT INTO Person (person_id, name, paternal_surname, maternal_surname, email, password, role_id)
-VALUES (2, 'Juan', 'Pérez', 'García', 'juan.perez@example.com',
-        crypt('password1', gen_salt('md5')), 1),
-       (3, 'María', 'López', 'Martínez', 'maria.lopez@example.com',
-        crypt('password2', gen_salt('md5')), 2),
-       (4, 'Carlos', 'Sánchez', 'Fernández', 'carlos.sanchez@example.com',
-        crypt('password3', gen_salt('md5')), 3),
-       (5, 'Ana', 'Gómez', 'Rodríguez', 'ana.gomez@example.com',
-        crypt('password4', gen_salt('md5')), 1),
-       (6, 'Pedro', 'Martín', 'Hernández', 'pedro.martin@example.com',
-        crypt('password5', gen_salt('md5')), 2)
-on conflict (person_id) do nothing;
+-- Insert sample data into the Person table
+INSERT INTO Person (name, paternal_surname, maternal_surname, email, password, role_id)
+VALUES 
+('John', 'Doe', 'Smith', 'john.doe@example.com', 'password', 2),
+('Jane', 'Doe', 'Smith', 'jane.doe@example.com', 'password', 2),
+('Alice', 'Johnson', 'Brown', 'alice.johnson@example.com', 'password', 2),
+('Bob', 'Williams', 'Davis', 'bob.williams@example.com', 'password', 2),
+('Charlie', 'Brown', 'Wilson', 'charlie.brown@example.com', 'password', 2);
 
---Estudiantes
-insert into student(person_id, student_number, career_id)
-values (2, '2021601366', 1),
-(5, '2023401526', 3) on conflict(person_id) do nothing;
+-- Insert sample data into the Academy table
+INSERT INTO Academy (name) VALUES ('Computer Science'), ('Mathematics'), ('Physics');
 
---Academy
-insert into academy (academy_id, name) values
-(1, 'Sistemas computacionales'),
-(2, 'Sistemas digitales')
-on conflict (academy_id) do nothing;
+-- Insert sample data into the Professor table
+INSERT INTO Professor (person_id, professor_id, academy_id, school)
+VALUES 
+((SELECT person_id FROM Person WHERE email = 'john.doe@example.com'), 'P001', (SELECT academy_id FROM Academy WHERE name = 'Computer Science'), 'ESCOM'),
+((SELECT person_id FROM Person WHERE email = 'jane.doe@example.com'), 'P002', (SELECT academy_id FROM Academy WHERE name = 'Mathematics'), 'ESCOM'),
+((SELECT person_id FROM Person WHERE email = 'alice.johnson@example.com'), 'P003', (SELECT academy_id FROM Academy WHERE name = 'Physics'), 'ESCOM'),
+((SELECT person_id FROM Person WHERE email = 'bob.williams@example.com'), 'P004', (SELECT academy_id FROM Academy WHERE name = 'Computer Science'), 'ESCOM'),
+((SELECT person_id FROM Person WHERE email = 'charlie.brown@example.com'), 'P005', (SELECT academy_id FROM Academy WHERE name = 'Mathematics'), 'ESCOM');
 
---Profesores
-insert into professor (person_id, professor_id, academy_id)
-values (3,'9275018326', 1),
-       (6, '4839201574', 2)
-on conflict (person_id) do nothing;
 
---catt
-insert into catt (person_id, catt_id, role_id)
-values (4, '7521840395', 3)
-on conflict (person_id) do nothing ;
+-- Insert sample data into the Protocol table
+INSERT INTO Protocol (title, keywords, abstract, file_data, state_id)
+VALUES 
+('Protocol 1', 'keyword1, keyword2', 'Abstract for protocol 1', NULL, (SELECT state_id FROM ProtocolState WHERE name = 'Pendiente')),
+('Protocol 2', 'keyword3, keyword4', 'Abstract for protocol 2', NULL, (SELECT state_id FROM ProtocolState WHERE name = 'Aprobado')),
+('Protocol 3', 'keyword5, keyword6', 'Abstract for protocol 3', NULL, (SELECT state_id FROM ProtocolState WHERE name = 'Rechazado')),
+('Protocol 4', 'keyword7, keyword8', 'Abstract for protocol 4', NULL, (SELECT state_id FROM ProtocolState WHERE name = 'Finalizado')),
+('Protocol 5', 'keyword1, keyword3', 'Abstract for protocol 5', NULL, (SELECT state_id FROM ProtocolState WHERE name = 'Pendiente')),
+('Protocol 6', 'keyword2, keyword4', 'Abstract for protocol 6', NULL, (SELECT state_id FROM ProtocolState WHERE name = 'Aprobado')),
+('Protocol 7', 'keyword5, keyword7', 'Abstract for protocol 7', NULL, (SELECT state_id FROM ProtocolState WHERE name = 'Rechazado')),
+('Protocol 8', 'keyword6, keyword8', 'Abstract for protocol 8', NULL, (SELECT state_id FROM ProtocolState WHERE name = 'Finalizado')),
+('Protocol 9', 'keyword1, keyword4', 'Abstract for protocol 9', NULL, (SELECT state_id FROM ProtocolState WHERE name = 'Pendiente')),
+('Protocol 10', 'keyword2, keyword5', 'Abstract for protocol 10', NULL, (SELECT state_id FROM ProtocolState WHERE name = 'Aprobado'));
 
---protocol
-/*INSERT INTO Protocol (protocol_id, title, keywords, abstract, file_data, state_id)
+-- Insert sample data into the Sinodal table
+INSERT INTO Sinodal (protocol_id, professor_id, is_active)
+VALUES 
+((SELECT protocol_id FROM Protocol WHERE title = 'Protocol 1'), (SELECT person_id FROM Professor WHERE professor_id = 'P001'), true),
+((SELECT protocol_id FROM Protocol WHERE title = 'Protocol 2'), (SELECT person_id FROM Professor WHERE professor_id = 'P001'), true),
+((SELECT protocol_id FROM Protocol WHERE title = 'Protocol 3'), (SELECT person_id FROM Professor WHERE professor_id = 'P001'), true),
+((SELECT protocol_id FROM Protocol WHERE title = 'Protocol 4'), (SELECT person_id FROM Professor WHERE professor_id = 'P001'), true),
+((SELECT protocol_id FROM Protocol WHERE title = 'Protocol 5'), (SELECT person_id FROM Professor WHERE professor_id = 'P001'), true),
+((SELECT protocol_id FROM Protocol WHERE title = 'Protocol 6'), (SELECT person_id FROM Professor WHERE professor_id = 'P002'), true),
+((SELECT protocol_id FROM Protocol WHERE title = 'Protocol 7'), (SELECT person_id FROM Professor WHERE professor_id = 'P002'), true),
+((SELECT protocol_id FROM Protocol WHERE title = 'Protocol 8'), (SELECT person_id FROM Professor WHERE professor_id = 'P002'), true),
+((SELECT protocol_id FROM Protocol WHERE title = 'Protocol 9'), (SELECT person_id FROM Professor WHERE professor_id = 'P003'), true),
+((SELECT protocol_id FROM Protocol WHERE title = 'Protocol 10'), (SELECT person_id FROM Professor WHERE professor_id = 'P003'), true),
+((SELECT protocol_id FROM Protocol WHERE title = 'Protocol 1'), (SELECT person_id FROM Professor WHERE professor_id = 'P004'), true),
+((SELECT protocol_id FROM Protocol WHERE title = 'Protocol 2'), (SELECT person_id FROM Professor WHERE professor_id = 'P004'), true),
+((SELECT protocol_id FROM Protocol WHERE title = 'Protocol 3'), (SELECT person_id FROM Professor WHERE professor_id = 'P004'), true),
+((SELECT protocol_id FROM Protocol WHERE title = 'Protocol 4'), (SELECT person_id FROM Professor WHERE professor_id = 'P004'), true),
+((SELECT protocol_id FROM Protocol WHERE title = 'Protocol 5'), (SELECT person_id FROM Professor WHERE professor_id = 'P004'), true),
+((SELECT protocol_id FROM Protocol WHERE title = 'Protocol 6'), (SELECT person_id FROM Professor WHERE professor_id = 'P005'), true),
+((SELECT protocol_id FROM Protocol WHERE title = 'Protocol 7'), (SELECT person_id FROM Professor WHERE professor_id = 'P005'), true),
+((SELECT protocol_id FROM Protocol WHERE title = 'Protocol 8'), (SELECT person_id FROM Professor WHERE professor_id = 'P005'), true),
+((SELECT protocol_id FROM Protocol WHERE title = 'Protocol 9'), (SELECT person_id FROM Professor WHERE professor_id = 'P005'), true),
+((SELECT protocol_id FROM Protocol WHERE title = 'Protocol 10'), (SELECT person_id FROM Professor WHERE professor_id = 'P005'), true);
+
+-- Insert data into ProtocolAcademy
+INSERT INTO ProtocolAcademy (academy_id, protocol_id)
 VALUES
-(1,'Análisis y propuesta de rediseño de la red de la escuela
-superior de cómputo (ESCOM) del Instituto Politécnico
-Nacional (IPN)', 'Red, Escuela Superior de Cómputo
-(ESCOM), Modelo OSI, Componentes, Switches, Routers, Access
-Points, Servidores, Diseño, Topología, Fallos, Gestión, Análisis,
-Subredes, VLSM, Segmentación, LANs, Enrutamiento, Escalable,
-Infraestructura, Tráfico de datos', 'El presente documento aborda el análisis y
-rediseño de la red de la Escuela Superior de Cómputo (ESCOM)
-mediante la aplicación del modelo OSI y la identificación de sus
-componentes clave. En la primera sección se presenta el marco
-teórico, donde se explica el modelo OSI y sus capas, así como
-los diferentes dispositivos de red como switches, routers, access
-points y servidores, que son esenciales para la infraestructura de
-comunicación. Se enfatiza la importancia de un diseño
-adecuado de la red para garantizar su funcionalidad y eficiencia.
-Posteriormente, se realiza un análisis del estado actual de la red
-en ESCOM, destacando que la topología mixta,
-predominantemente en anillo, presenta inconvenientes como
-puntos únicos de fallo y dificultades para la expansión. Se
-incluye un conteo detallado de los dispositivos de red en cada
-edificio, lo que permite una mejor planificación y gestión. En la
-sección económica, se presenta un desglose de los costos de los
-componentes necesarios, resaltando la importancia de un
-análisis financiero para asegurar la viabilidad del proyecto. El
-documento también propone un diseño preliminar que
-contempla la creación de subredes utilizando VLSM, con el
-objetivo de segmentar la red de acuerdo con la cantidad de hosts
-requeridos en cada área de la escuela. Finalmente, se plantean
-configuraciones de red que incorporan VLANs y enrutamiento
-entre ellas, con el fin de mejorar la gestión del tráfico y asegurar
-una infraestructura escalable',
- pg_read_binary_file('/app/build/resources/main/static/red_de_escom.pdf'), 1) on conflict (protocol_id) do nothing;*/
+((SELECT academy_id FROM Academy WHERE name = 'Computer Science'), (SELECT protocol_id FROM Protocol WHERE title = 'Protocol 1')),
+((SELECT academy_id FROM Academy WHERE name = 'Mathematics'), (SELECT protocol_id FROM Protocol WHERE title = 'Protocol 2')),
+((SELECT academy_id FROM Academy WHERE name = 'Physics'), (SELECT protocol_id FROM Protocol WHERE title = 'Protocol 3')),
+((SELECT academy_id FROM Academy WHERE name = 'Computer Science'), (SELECT protocol_id FROM Protocol WHERE title = 'Protocol 4')),
+((SELECT academy_id FROM Academy WHERE name = 'Mathematics'), (SELECT protocol_id FROM Protocol WHERE title = 'Protocol 5')),
+((SELECT academy_id FROM Academy WHERE name = 'Physics'), (SELECT protocol_id FROM Protocol WHERE title = 'Protocol 6')),
+((SELECT academy_id FROM Academy WHERE name = 'Computer Science'), (SELECT protocol_id FROM Protocol WHERE title = 'Protocol 7')),
+((SELECT academy_id FROM Academy WHERE name = 'Mathematics'), (SELECT protocol_id FROM Protocol WHERE title = 'Protocol 8')),
+((SELECT academy_id FROM Academy WHERE name = 'Physics'), (SELECT protocol_id FROM Protocol WHERE title = 'Protocol 9')),
+((SELECT academy_id FROM Academy WHERE name = 'Computer Science'), (SELECT protocol_id FROM Protocol WHERE title = 'Protocol 10'));

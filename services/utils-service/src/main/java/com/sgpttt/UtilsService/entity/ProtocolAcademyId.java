@@ -6,36 +6,35 @@ import java.util.Objects;
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
 
-
 @Embeddable
 public class ProtocolAcademyId implements Serializable {
     @Column(name = "academy_id")
-    private Integer academyId;
+    private Long academyId;
 
     @Column(name = "protocol_id")
-    private Integer protocolId;
+    private Long protocolId;
 
     public ProtocolAcademyId() {
     }
 
-    public ProtocolAcademyId(Integer academyId, Integer protocolId) {
+    public ProtocolAcademyId(Long academyId, Long protocolId) {
         this.academyId = academyId;
         this.protocolId = protocolId;
     }
 
-    public Integer getAcademyId() {
+    public Long getAcademyId() {
         return academyId;
     }
 
-    public void setAcademyId(Integer academyId) {
+    public void setAcademyId(Long academyId) {
         this.academyId = academyId;
     }
 
-    public Integer getProtocolId() {
+    public Long getProtocolId() {
         return protocolId;
     }
 
-    public void setProtocolId(Integer protocolId) {
+    public void setProtocolId(Long protocolId) {
         this.protocolId = protocolId;
     }
 
@@ -53,4 +52,3 @@ public class ProtocolAcademyId implements Serializable {
         return Objects.hash(academyId, protocolId);
     }
 }
-

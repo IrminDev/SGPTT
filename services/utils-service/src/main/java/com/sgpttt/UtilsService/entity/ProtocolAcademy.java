@@ -4,12 +4,14 @@ import jakarta.persistence.EmbeddedId;
 import jakarta.persistence.Entity;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
 
 @Entity
+@Table(name = "ProtocolAcademy")
 public class ProtocolAcademy {
 
     @EmbeddedId
-    private ProtocolAcademyId id; // La clave primaria compuesta
+    private ProtocolAcademyId id;
 
     @ManyToOne
     @JoinColumn(name = "academy_id", insertable = false, updatable = false)
@@ -20,21 +22,12 @@ public class ProtocolAcademy {
     private Protocol protocol;
 
     // Getters and Setters
-
     public ProtocolAcademyId getId() {
         return id;
     }
 
     public void setId(ProtocolAcademyId id) {
         this.id = id;
-    }
-
-    public Protocol getProtocol() {
-        return protocol;
-    }
-
-    public void setProtocol(Protocol protocol) {
-        this.protocol = protocol;
     }
 
     public Academy getAcademy() {
@@ -45,11 +38,11 @@ public class ProtocolAcademy {
         this.academy = academy;
     }
 
-    public ProtocolAcademy() {
+    public Protocol getProtocol() {
+        return protocol;
     }
 
-    public ProtocolAcademy(Protocol protocol, Academy academy) {
+    public void setProtocol(Protocol protocol) {
         this.protocol = protocol;
-        this.academy = academy;
     }
 }
