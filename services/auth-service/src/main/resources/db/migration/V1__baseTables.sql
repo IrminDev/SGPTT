@@ -1,3 +1,12 @@
+CREATE TABLE IF NOT EXISTS Role (
+	role_id SERIAL PRIMARY KEY,
+	name VARCHAR(50) UNIQUE NOT NULL
+);
+
+insert into role(role_id, name) values(1, 'Estudiante') on conflict(name) do nothing;
+insert into role(role_id, name) values(2, 'Profesor') on conflict(name) do nothing;
+insert into role(role_id, name) values(3, 'CATT') on conflict(name) do nothing;
+
 CREATE TABLE IF NOT EXISTS Person (
     person_id SERIAL PRIMARY KEY,
     name VARCHAR(50) NOT NULL,
@@ -6,7 +15,9 @@ CREATE TABLE IF NOT EXISTS Person (
     email VARCHAR(100) UNIQUE NOT NULL,
     password VARCHAR(50) NOT NULL,
     created_at TIMESTAMP NOT NULL DEFAULT current_timestamp,
-    is_active BOOLEAN NOT NULL DEFAULT true
+    is_active BOOLEAN NOT NULL DEFAULT true,
+    role_id INTEGER NOT NULL DEFAULT 1,
+    CONSTRAINT fk_person_role FOREIGN KEY (role_id) REFERENCES Role(role_id) ON DELETE CASCADE
 );
 
 CREATE TABLE IF NOT EXISTS Career (
@@ -20,6 +31,7 @@ CREATE TABLE IF NOT EXISTS Student (
     person_id INTEGER PRIMARY KEY,
     student_number VARCHAR(20) UNIQUE NOT NULL, -- Número de estudiante
     career_id INTEGER NOT NULL,
+    recursor BOOLEAN NOT NULL DEFAULT false,
     CONSTRAINT fk_student_person FOREIGN KEY (person_id) REFERENCES Person(person_id) ON DELETE CASCADE,
     CONSTRAINT fk_student_career FOREIGN KEY (career_id) REFERENCES Career(career_id) ON DELETE CASCADE
 );
@@ -36,11 +48,6 @@ CREATE TABLE IF NOT EXISTS Professor (
     school VARCHAR(25) DEFAULT 'ESCOM',
     CONSTRAINT fk_professor_person FOREIGN KEY (person_id) REFERENCES Person(person_id) ON DELETE CASCADE,
     CONSTRAINT fk_professor_academy FOREIGN KEY (academy_id) REFERENCES Academy(academy_id) ON DELETE CASCADE
-);
-
-CREATE TABLE IF NOT EXISTS Role (
-	role_id SERIAL PRIMARY KEY,
-	name VARCHAR(50) UNIQUE NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS CATT (
@@ -63,7 +70,7 @@ CREATE TABLE IF NOT EXISTS Protocol (
     title VARCHAR(255) NOT NULL,
     keywords TEXT NOT NULL,
     abstract TEXT NOT NULL,
-    file_data BYTEA NOT NULL,
+    file_data BYTEA,
     state_id INTEGER NOT NULL,
     upload_at TIMESTAMP NOT NULL DEFAULT current_timestamp,
     CONSTRAINT fk_protocol_state FOREIGN KEY (state_id) REFERENCES ProtocolState(state_id) ON DELETE CASCADE

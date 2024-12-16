@@ -51,10 +51,6 @@ allOpen {
 	annotation("jakarta.persistence.Embeddable")
 }
 
-tasks.withType<Test> {
-	useJUnitPlatform()
-}
-
 tasks
 	.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompilationTask<*>>()
 	.configureEach {

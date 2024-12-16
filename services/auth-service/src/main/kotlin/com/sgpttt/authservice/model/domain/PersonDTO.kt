@@ -7,6 +7,7 @@ sealed class PersonDTO(
 ) {
 	data class Student(
 		val career: Career,
+		val recursor: Boolean,
 		override val name: String,
 		override val number: String,
 		override val isActive: Boolean

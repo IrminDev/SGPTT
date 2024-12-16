@@ -46,7 +46,7 @@ It gets a simple login request object based on email and password
 
 ## Usage
 
-In this requirements project has been defined a three different types of user
+In this requirements project has been defined three different types of user
 1. **Students**
 2. **Professors**
 3. **CATT**
@@ -77,7 +77,7 @@ The api responses for every use case.
 <table>
    <tr>
       <td>
-        Use case 1 - Login Success Status Code <div style="background-color=#90ee90">200 OK</div>
+        Use case 1 - Login Success Status Code <div>200 OK</div>
       </td>
       <td>
          <h3>Student</h3>

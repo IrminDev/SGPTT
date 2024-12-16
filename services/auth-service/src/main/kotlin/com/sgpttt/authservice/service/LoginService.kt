@@ -42,4 +42,6 @@ class LoginService(
 		
 	}
 	
+	fun isAuthorized(token: String, role: Role): Boolean = tokenManager.isNonExpiredAndHasRole(token, role)
+	
 }

@@ -26,13 +26,17 @@ data class Student(
 	val career: Career,
 	
 	@Column(name = "student_number")
-	val studentNumber: String
+	val studentNumber: String,
+	
+	@Column(name = "recursor")
+	val recursor: Boolean
 
 ) : DomainDTO<PersonDTO> {
 	
 	override fun toDomain(): PersonDTO.Student {
 		return PersonDTO.Student(
 			career = enumValueOf<com.sgpttt.authservice.model.domain.Career>(career.name),
+			recursor = recursor,
 			name = "${person.name} ${person.paternalSurname} ${person.maternalSurname}",
 			number = studentNumber,
 			isActive = person.isActive

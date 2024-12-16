@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="SqlDialectMappings">
-    <file url="file://$PROJECT_DIR$/services/auth-service/src/main/resources/db/migration/V10__addCATTRoleTable.sql" dialect="PostgreSQL" />
     <file url="file://$PROJECT_DIR$/services/auth-service/src/main/resources/db/migration/V1__baseTables.sql" dialect="PostgreSQL" />
-    <file url="file://$PROJECT_DIR$/services/auth-service/src/main/resources/db/migration/V4__functions.sql" dialect="PostgreSQL" />
-    <file url="file://$PROJECT_DIR$/services/auth-service/src/main/resources/db/migration/V8__inserData.sql" dialect="PostgreSQL" />
+    <file url="file://$PROJECT_DIR$/services/auth-service/src/main/resources/db/migration/V5__insertData.sql" dialect="PostgreSQL" />
+    <file url="file://$PROJECT_DIR$/services/auth-service/src/main/resources/db/migration/V6__addCATTRoleTable.sql" dialect="PostgreSQL" />
     <file url="PROJECT" dialect="PostgreSQL" />
   </component>
 </project>
