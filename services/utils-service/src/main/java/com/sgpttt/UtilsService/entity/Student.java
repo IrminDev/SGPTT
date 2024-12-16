@@ -26,6 +26,8 @@ public class Student {
 
     private String student_id;
 
+    private boolean recursor;
+
     // Getters and Setters
     public Long getPersonId() {
         return personId;
@@ -54,5 +56,13 @@ public class Student {
     }
     public void setStudent_id(String student_id) {
         this.student_id = student_id;
+    }
+
+    public boolean isRecursor() {
+        return recursor;
+    }
+
+    public void setRecursor(boolean recursor) {
+        this.recursor = recursor;
     }
 }

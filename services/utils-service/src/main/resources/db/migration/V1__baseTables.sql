@@ -31,6 +31,7 @@ CREATE TABLE IF NOT EXISTS Student (
     person_id INTEGER PRIMARY KEY,
     student_number VARCHAR(20) UNIQUE NOT NULL, -- Número de estudiante
     career_id INTEGER NOT NULL,
+    recursor BOOLEAN NOT NULL DEFAULT false,
     CONSTRAINT fk_student_person FOREIGN KEY (person_id) REFERENCES Person(person_id) ON DELETE CASCADE,
     CONSTRAINT fk_student_career FOREIGN KEY (career_id) REFERENCES Career(career_id) ON DELETE CASCADE
 );
