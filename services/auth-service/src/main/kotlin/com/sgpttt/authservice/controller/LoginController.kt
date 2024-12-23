@@ -47,7 +47,7 @@ class LoginController(private val loginService: LoginService) {
 		}
 		
 		val token =
-			request.getHeader("Authorization")?.substring(7) ?: return ResponseEntity(false, HttpStatus.BAD_REQUEST)
+			request.getHeader("Authorization")?.substring(7) ?: return ResponseEntity(false, HttpStatus.UNAUTHORIZED)
 		
 		return with(loginService.isAuthorized(token, roleEnum)) {
 			ResponseEntity(
