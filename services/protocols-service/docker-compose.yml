@@ -1,0 +1,25 @@
+services:
+  spring-app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8081:8081"
+    volumes:
+      - .:/app
+      - /app/build
+    environment:
+      - DATABASE_URL=jdbc:postgresql://db:5432/sgptt
+      - DATABASE_USER=irmin
+      - DATABASE_PASSWORD=irmin
+    container_name: protocols-service
+    networks:
+      - services-net
+    stdin_open: true
+    entrypoint: [ "./gradlew", "bootRun" ]
+    tty: true
+
+networks:
+  services-net:
+    name: services
+    external: true
