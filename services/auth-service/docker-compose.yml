@@ -13,7 +13,10 @@ services:
       - DATABASE_USER=irmin
       - DATABASE_PASSWORD=irmin
       - JWT_SECRET=mySuperSecureSecretKeyThatContainsAtLeast32Bits
-    stdin_open: true      
+    container_name: auth-service
+    networks:
+      - services-net
+    stdin_open: true
     entrypoint: ["./gradlew", "bootRun"]
     tty: true
     depends_on:
@@ -30,15 +33,22 @@ services:
       - POSTGRES_USER=irmin
       - POSTGRES_PASSWORD=irmin
       - POSTGRES_DB=sgptt
+    container_name: db
+    networks:
+      - services-net
     volumes:
       - pgdata:/var/lib/postgresql/data
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U irmin -d sgptt"] 
+      test: ["CMD-SHELL", "pg_isready -U irmin -d sgptt"]
       interval: 1s
       timeout: 5s
       retries: 10
       start_period: 15s
-    
+
 volumes:
   pgdata:
     driver: local
+
+networks:
+  services-net:
+    name: services
