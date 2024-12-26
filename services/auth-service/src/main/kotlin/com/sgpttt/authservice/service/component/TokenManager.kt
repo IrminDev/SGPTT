@@ -1,5 +1,6 @@
 package com.sgpttt.authservice.service.component
 
+import com.sgpttt.authservice.model.response.PayloadResponse
 import com.sgpttt.authservice.repository.model.Role
 import io.jsonwebtoken.JwtException
 import io.jsonwebtoken.Jwts
@@ -24,15 +25,23 @@ class TokenManager {
 		.signWith(SECRET_KEY, Jwts.SIG.HS256)
 		.compact()
 	
-	fun isNonExpiredAndHasRole(token: String, role: Role): Boolean {
+	fun getPayloadIfTokenIsNonExpiredAndHasRole(token: String, role: Role): PayloadResponse {
 		val claims = try {
 			Jwts.parser().verifyWith(SECRET_KEY).build().parseSignedClaims(token)
-		} catch (e: JwtException) { return false }
-		val roleInPayload = (claims.payload?.get("role") as? String)?.let {Role.valueOf(it) } ?: return false
-		val timeExpired = claims.payload?.get("exp") as? Long ?: return false
+		} catch (e: JwtException) {
+			return PayloadResponse(isAuthorized = false, personId = -1)
+		}
+		val (roleInPayload, personIdInPayload) = with(claims.payload) {
+			Role.valueOf(this["role"] as String) to this["personId"] as Long
+		}
+		val timeExpired = claims.payload["exp"] as Long
 		val dateExpire = Date(timeExpired * 1000L)
 		val currentDate = Date(System.currentTimeMillis())
-		return roleInPayload == role && currentDate.before(dateExpire)
+		return PayloadResponse(
+			isAuthorized = roleInPayload == role && currentDate.before(dateExpire),
+			personId = personIdInPayload
+		)
+		
 	}
 	
 }

@@ -4,6 +4,7 @@ import com.sgpttt.authservice.model.domain.PersonDTO
 import com.sgpttt.authservice.model.response.InactiveResponse
 import com.sgpttt.authservice.model.response.LoginResponse
 import com.sgpttt.authservice.model.response.NotFound
+import com.sgpttt.authservice.model.response.PayloadResponse
 import com.sgpttt.authservice.model.response.Success
 import com.sgpttt.authservice.model.response.WrongPassword
 import com.sgpttt.authservice.repository.PersonRepository
@@ -42,6 +43,6 @@ class LoginService(
 		
 	}
 	
-	fun isAuthorized(token: String, role: Role): Boolean = tokenManager.isNonExpiredAndHasRole(token, role)
+	fun isAuthorized(token: String, role: Role): PayloadResponse = tokenManager.getPayloadIfTokenIsNonExpiredAndHasRole(token, role)
 	
 }
