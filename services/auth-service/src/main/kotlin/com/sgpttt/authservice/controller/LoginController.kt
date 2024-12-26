@@ -4,6 +4,7 @@ import com.sgpttt.authservice.model.request.LoginRequest
 import com.sgpttt.authservice.model.response.InactiveResponse
 import com.sgpttt.authservice.model.response.LoginResponse
 import com.sgpttt.authservice.model.response.NotFound
+import com.sgpttt.authservice.model.response.PayloadResponse
 import com.sgpttt.authservice.model.response.Success
 import com.sgpttt.authservice.model.response.WrongPassword
 import com.sgpttt.authservice.repository.model.Role
@@ -38,20 +39,28 @@ class LoginController(private val loginService: LoginService) {
 	@GetMapping("/authorize/{role}")
 	fun isAuthorized(
 		request: HttpServletRequest, @PathVariable role: String
-	): ResponseEntity<Boolean> {
+	): ResponseEntity<PayloadResponse> {
 		
 		val roleEnum = try {
 			Role.valueOf(role)
 		} catch (e: IllegalArgumentException) {
-			return ResponseEntity(false, HttpStatus.BAD_REQUEST)
+			return ResponseEntity(PayloadResponse(
+				isAuthorized = false,
+				personId = -1L
+			), HttpStatus.BAD_REQUEST)
 		}
 		
 		val token =
-			request.getHeader("Authorization")?.substring(7) ?: return ResponseEntity(false, HttpStatus.UNAUTHORIZED)
+			request.getHeader("Authorization")?.substring(7)
+				?: return ResponseEntity(PayloadResponse(
+					isAuthorized = false,
+					personId = -1,
+				), HttpStatus.UNAUTHORIZED)
 		
 		return with(loginService.isAuthorized(token, roleEnum)) {
 			ResponseEntity(
-				this, when (this) {
+				this,
+				when (this.isAuthorized) {
 					true -> HttpStatus.OK
 					false -> HttpStatus.FORBIDDEN
 				}
