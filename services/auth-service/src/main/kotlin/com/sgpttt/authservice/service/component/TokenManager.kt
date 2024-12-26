@@ -32,14 +32,14 @@ class TokenManager {
 			return PayloadResponse(isAuthorized = false, personId = -1)
 		}
 		val (roleInPayload, personIdInPayload) = with(claims.payload) {
-			Role.valueOf(this["role"] as String) to this["personId"] as Long
+			Role.valueOf(this["role"] as String) to this["personId"] as Number
 		}
 		val timeExpired = claims.payload["exp"] as Long
 		val dateExpire = Date(timeExpired * 1000L)
 		val currentDate = Date(System.currentTimeMillis())
 		return PayloadResponse(
 			isAuthorized = roleInPayload == role && currentDate.before(dateExpire),
-			personId = personIdInPayload
+			personId = personIdInPayload.toLong()
 		)
 		
 	}
