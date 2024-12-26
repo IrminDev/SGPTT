@@ -1,4 +1,4 @@
-package com.sgptt.protocolsservice.repository.entity.model
+package com.sgptt.protocolsservice.model
 
 enum class ProtocolState {
 	Pendiente,
