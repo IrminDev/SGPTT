@@ -1,7 +1,5 @@
 package com.sgpttt.UtilsService.entity;
 
-import java.time.LocalDateTime;
-
 import org.springframework.data.annotation.Id;
 import org.springframework.data.elasticsearch.annotations.Document;
 import org.springframework.data.elasticsearch.annotations.Field;
@@ -19,19 +17,16 @@ public class ProtocolDocument {
     private String keywords;
 
     @Field(type = FieldType.Text)
-    private String abstractText;
-
-    private LocalDateTime creationDate;
+    private String protocolAbstract;
 
     public ProtocolDocument() {
     }
 
-    public ProtocolDocument(Long id, String title, String keywords, String abstractText, LocalDateTime creationDate) {
+    public ProtocolDocument(Long id, String title, String keywords, String protocolAbstract) {
         this.id = id;
         this.title = title;
         this.keywords = keywords;
-        this.abstractText = abstractText;
-        this.creationDate = creationDate;
+        this.protocolAbstract = protocolAbstract;
     }
 
     public Long getId() {
@@ -47,12 +42,9 @@ public class ProtocolDocument {
     }
 
     public String getAbstractText() {
-        return abstractText;
+        return protocolAbstract;
     }
 
-    public LocalDateTime getCreationDate() {
-        return creationDate;
-    }
 
     public void setId(Long id) {
         this.id = id;
@@ -66,11 +58,7 @@ public class ProtocolDocument {
         this.keywords = keywords;
     }
 
-    public void setAbstractText(String abstractText) {
-        this.abstractText = abstractText;
-    }
-
-    public void setCreationDate(LocalDateTime creationDate) {
-        this.creationDate = creationDate;
+    public void setAbstractText(String protocolAbstract) {
+        this.protocolAbstract = protocolAbstract;
     }
 }

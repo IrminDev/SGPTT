@@ -10,7 +10,9 @@ import org.springframework.data.elasticsearch.core.SearchHits;
 import org.springframework.data.elasticsearch.core.query.MoreLikeThisQuery;
 import org.springframework.stereotype.Service;
 
+import com.sgpttt.UtilsService.dto.response.ProtocolDocumentDTO;
 import com.sgpttt.UtilsService.entity.ProtocolDocument;
+import com.sgpttt.UtilsService.mapper.ProtocolDocumentMapper;
 
 @Service
 public class ProtocolDocumentService {
@@ -18,7 +20,10 @@ public class ProtocolDocumentService {
     @Autowired
     private ElasticsearchOperations elasticsearchOperations;
 
-    public List<ProtocolDocument> findSimilarDocuments(String id) {
+    @Autowired
+    private ProtocolDocumentMapper protocolDocumentMapper;
+
+    public List<ProtocolDocumentDTO> findSimilarDocuments(String id) {
         MoreLikeThisQuery moreLikeThisQuery = new MoreLikeThisQuery();
         moreLikeThisQuery.setId(id);
         moreLikeThisQuery.addFields("title", "keywords", "abstratcText");
@@ -26,6 +31,9 @@ public class ProtocolDocumentService {
         moreLikeThisQuery.setMinTermFreq(1);
 
         SearchHits<ProtocolDocument> searchHits = elasticsearchOperations.search(moreLikeThisQuery, ProtocolDocument.class);
-        return searchHits.getSearchHits().stream().map(SearchHit::getContent).collect(Collectors.toList());
+
+        List<ProtocolDocument> protocolDocuments = searchHits.getSearchHits().stream().map(SearchHit::getContent).collect(Collectors.toList());
+
+        return protocolDocumentMapper.protocolsToProtocolDTOs(protocolDocuments);
     }
 }

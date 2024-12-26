@@ -83,4 +83,17 @@ public class ChangeRequest {
     public void setProtocol(Protocol protocol) {
         this.protocol = protocol;
     }
+
+    // Constructors
+    public ChangeRequest() {
+    }
+
+    public ChangeRequest(Long requestId, byte[] formatData, String requestComments, Timestamp createdAt, ProtocolState state, Protocol protocol) {
+        this.requestId = requestId;
+        this.formatData = formatData;
+        this.requestComments = requestComments;
+        this.createdAt = createdAt;
+        this.state = state;
+        this.protocol = protocol;
+    }
 }

@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.sgpttt.UtilsService.entity.Professor;
+import com.sgpttt.UtilsService.dto.response.ProfessorDTO;
 import com.sgpttt.UtilsService.service.SinodalSuggestionService;
 
 @RestController
@@ -23,7 +23,7 @@ public class SinodalsSuggestionController {
     }
 
     @GetMapping("/{id}")
-    public List<Professor> suggestSinodals(@PathVariable String id) {
+    public List<ProfessorDTO> suggestSinodals(@PathVariable String id) {
         return sinodalsSuggestionService.suggestSinodals(id);
     }
 }

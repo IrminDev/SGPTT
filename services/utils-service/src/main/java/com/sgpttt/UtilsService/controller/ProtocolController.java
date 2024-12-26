@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.sgpttt.UtilsService.entity.ProtocolDocument;
+import com.sgpttt.UtilsService.dto.response.ProtocolDocumentDTO;
 import com.sgpttt.UtilsService.service.ProtocolDocumentService;
 
 @RestController
@@ -18,7 +18,7 @@ public class ProtocolController {
     private ProtocolDocumentService protocolDocumentService;
 
     @GetMapping("/similar/{id}")
-    public List<ProtocolDocument> findSimilarDocuments(@PathVariable String id) {
+    public List<ProtocolDocumentDTO> findSimilarDocuments(@PathVariable String id) {
         return protocolDocumentService.findSimilarDocuments(id);
     }
 }
