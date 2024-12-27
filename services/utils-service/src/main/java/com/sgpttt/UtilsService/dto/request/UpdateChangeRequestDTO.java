@@ -1,10 +1,11 @@
 package com.sgpttt.UtilsService.dto.request;
 
+import com.sgpttt.UtilsService.model.State;
+
 public class UpdateChangeRequestDTO {
     private Long id;
 
-    private Long stateId;
-
+    private State state;
 
     // Getters and Setters
     public Long getId() {
@@ -15,20 +16,11 @@ public class UpdateChangeRequestDTO {
         this.id = id;
     }
 
-    public Long getStateId() {
-        return stateId;
+    public State getState() {
+        return state;
     }
 
-    public void setStateId(Long stateId) {
-        this.stateId = stateId;
-    }
-
-    // Constructors
-    public UpdateChangeRequestDTO() {
-    }
-
-    public UpdateChangeRequestDTO(Long id, Long stateId) {
-        this.id = id;
-        this.stateId = stateId;
+    public void setState(State state) {
+        this.state = state;
     }
 }

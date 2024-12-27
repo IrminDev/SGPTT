@@ -2,8 +2,9 @@ package com.sgpttt.UtilsService.controller;
 
 import java.util.List;
 
-import com.sgpttt.UtilsService.entity.Person;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -15,16 +16,16 @@ import com.sgpttt.UtilsService.service.SinodalSuggestionService;
 @RestController
 @RequestMapping("/api/utils/suggestions")
 public class SinodalsSuggestionController {
-    
-    private final SinodalSuggestionService sinodalsSuggestionService;
-
     @Autowired
-    public SinodalsSuggestionController(SinodalSuggestionService sinodalsSuggestionService) {
-        this.sinodalsSuggestionService = sinodalsSuggestionService;
-    }
+    private SinodalSuggestionService sinodalsSuggestionService;
 
     @GetMapping("/{id}")
-    public List<Person> suggestSinodals(@PathVariable String id) {
-        return sinodalsSuggestionService.suggestSinodals(id);
+    public ResponseEntity<List<ProfessorDTO>> suggestSinodals(@PathVariable String id) {
+        try {
+            List<ProfessorDTO> professors = sinodalsSuggestionService.suggestSinodals(id);
+            return ResponseEntity.status(HttpStatus.OK).body(professors);
+        } catch (Exception e) {
+            return ResponseEntity.notFound().build();
+        }
     }
 }

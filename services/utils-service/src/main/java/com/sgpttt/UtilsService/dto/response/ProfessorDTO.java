@@ -3,7 +3,15 @@ package com.sgpttt.UtilsService.dto.response;
 public class ProfessorDTO {
     private Long id;
 
-    private String professorId;
+    private String name;
+
+    private String paternalSurname;
+
+    private String maternalSurname;
+
+    private String email;
+
+    private boolean isActive;
 
     private Long academy;
 
@@ -28,14 +36,6 @@ public class ProfessorDTO {
         this.professorNumber = professorNumber;
     }
 
-    public String getProfessorId() {
-        return professorId;
-    }
-
-    public void setProfessorId(String professorId) {
-        this.professorId = professorId;
-    }
-
     public Long getAcademy() {
         return academy;
     }
@@ -52,4 +52,43 @@ public class ProfessorDTO {
         this.school = school;
     }
 
+    public boolean isActive() {
+        return isActive;
+    }
+
+    public void setActive(boolean isActive) {
+        this.isActive = isActive;
+    }
+
+    public String getMaternalSurname() {
+        return maternalSurname;
+    }
+
+    public void setMaternalSurname(String maternalSurname) {
+        this.maternalSurname = maternalSurname;
+    }
+
+    public String getPaternalSurname() {
+        return paternalSurname;
+    }
+
+    public void setPaternalSurname(String paternalSurname) {
+        this.paternalSurname = paternalSurname;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
 }

@@ -5,8 +5,6 @@ import com.sgpttt.UtilsService.model.State;
 public class ChangeRequestDTO {
     private Long id;
 
-    private byte[] formatData;
-
     private String requestComments;
 
     private String createdAt;
@@ -22,14 +20,6 @@ public class ChangeRequestDTO {
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public byte[] getFormatData() {
-        return formatData;
-    }
-
-    public void setFormatData(byte[] formatData) {
-        this.formatData = formatData;
     }
 
     public String getRequestComments() {

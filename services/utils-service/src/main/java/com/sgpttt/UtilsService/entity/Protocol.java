@@ -13,7 +13,7 @@ public class Protocol {
     @Column(name = "protocol_id")
     private Long protocolId;
 
-    @Column(name = "title", nullable = false, length = 255)
+    @Column(name = "title", nullable = false)
     private String title;
 
     @Column(name = "keywords", nullable = false, columnDefinition = "TEXT")
@@ -23,7 +23,7 @@ public class Protocol {
     private String protocolAbstract;
 
     @Basic(fetch = FetchType.LAZY)
-    @Column(name="file_data", nullable = false, columnDefinition = "BYTEA")
+    @Column(name="file_data", columnDefinition = "BYTEA")
     private byte[] fileData;
 
     @Enumerated(EnumType.ORDINAL)
@@ -51,11 +51,14 @@ public class Protocol {
 
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
-        name = "protocol_director",
+        name = "director",
         joinColumns = @JoinColumn(name = "protocol_id"),
         inverseJoinColumns = @JoinColumn(name = "person_id")
     )
-    private Set<Director> directors;
+    private Set<Professor> directors;
+
+    @OneToMany(mappedBy = "protocol")
+    private Set<Sinodal> sinodals;
 
     // Getters and Setters
     public Long getProtocolId() {
@@ -126,11 +129,19 @@ public class Protocol {
         this.students = students;
     }
 
-    public Set<Director> getDirectors() {
+    public Set<Professor> getDirectors() {
         return directors;
     }
 
-    public void setDirectors(Set<Director> directors) {
+    public void setDirectors(Set<Professor> directors) {
         this.directors = directors;
+    }
+
+    public Set<Sinodal> getSinodals() {
+        return sinodals;
+    }
+
+    public void setSinodals(Set<Sinodal> sinodals) {
+        this.sinodals = sinodals;
     }
 }

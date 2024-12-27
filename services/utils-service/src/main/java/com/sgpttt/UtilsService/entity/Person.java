@@ -1,6 +1,5 @@
 package com.sgpttt.UtilsService.entity;
 
-import java.sql.Timestamp;
 import java.util.Date;
 
 import jakarta.persistence.*;
@@ -89,7 +88,7 @@ public abstract class Person {
         this.createdAt = createdAt;
     }
 
-    public boolean isActive() {
+    public boolean isSinodal() {
         return isActive;
     }
 

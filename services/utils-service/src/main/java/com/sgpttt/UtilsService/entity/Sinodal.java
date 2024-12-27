@@ -2,35 +2,53 @@ package com.sgpttt.UtilsService.entity;
 
 import jakarta.persistence.*;
 
-import java.util.Set;
-
 @Entity
-@PrimaryKeyJoinColumn(name = "person_id")
-public class Sinodal extends Professor{
-    @Column(name = "is_active")
-    private boolean isActive;
+public class Sinodal{
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
-    @ManyToMany
-    @JoinTable(
-            name = "sinodal_protocol",
-            joinColumns = @JoinColumn(name = "person_id"),
-            inverseJoinColumns = @JoinColumn(name = "protocol_id")
-    )
-    private Set<Protocol> protocols;
+    @ManyToOne
+    @JoinColumn(name = "person_id")
+    private Professor professor;
 
-    public boolean isActive() {
-        return isActive;
+    @Column(name = "is_sinodal", nullable = false, columnDefinition = "boolean default true")
+    private boolean isSinodal;
+
+    @ManyToOne
+    @JoinColumn(name = "protocol_id")
+    private Protocol protocol;
+
+
+    public boolean isSinodal() {
+        return isSinodal;
     }
 
-    public void setActive(boolean isActive) {
-        this.isActive = isActive;
+    public Professor getProfessor() {
+        return professor;
     }
 
-    public Set<Protocol> getProtocols() {
-        return protocols;
+    public void setProfessor(Professor professor) {
+        this.professor = professor;
     }
 
-    public void setProtocols(Set<Protocol> protocols) {
-        this.protocols = protocols;
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public void setSinodal(boolean isActive) {
+        this.isSinodal = isActive;
+    }
+
+    public Protocol getProtocol() {
+        return protocol;
+    }
+
+    public void setProtocol(Protocol protocol) {
+        this.protocol = protocol;
     }
 }
