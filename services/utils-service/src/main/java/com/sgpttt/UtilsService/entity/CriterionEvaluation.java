@@ -1,39 +1,29 @@
 package com.sgpttt.UtilsService.entity;
 
 import java.sql.Timestamp;
+import java.util.Date;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.Lob;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.Temporal;
-import jakarta.persistence.TemporalType;
+import com.sgpttt.UtilsService.model.Criterion;
+import jakarta.persistence.*;
 
 @Entity
 public class CriterionEvaluation {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "evaluation_id")
     private Long evaluationId;
 
-    @ManyToOne
-    @JoinColumn(name = "result_id")
-    private CriterionResult criterionResult;
+    @Column(name = "criterion_result", nullable = false, columnDefinition = "BOOLEAN DEFAULT FALSE")
+    private boolean criterionResult;
 
-    @ManyToOne
-    @JoinColumn(name = "criterion_id")
+    @Enumerated(EnumType.ORDINAL)
     private Criterion criterion;
 
-    @Lob
-    @Column(name = "criterion_comments")
+    @Column(name = "criterion_comments", columnDefinition = "TEXT", nullable = false)
     private String criterionComments;
 
     @Temporal(TemporalType.TIMESTAMP)
-    private Timestamp evaluation_date;
+    private Date evaluationDate;
 
     // Getters and Setters
     public Long getEvaluationId() {
@@ -44,10 +34,10 @@ public class CriterionEvaluation {
         this.evaluationId = evaluationId;
     }
 
-    public CriterionResult getCriterionResult() {
+    public boolean getCriterionResult() {
         return criterionResult;
     }
-    public void setCriterionResult(CriterionResult criterionResult) {
+    public void setCriterionResult(boolean criterionResult) {
         this.criterionResult = criterionResult;
     }
 
@@ -66,10 +56,10 @@ public class CriterionEvaluation {
         this.criterionComments = criterionComments;
     }
 
-    public Timestamp getEvaluation_date() {
-        return evaluation_date;
+    public Date getEvaluationDate() {
+        return evaluationDate;
     }
-    public void setEvaluation_date(Timestamp evaluation_date) {
-        this.evaluation_date = evaluation_date;
+    public void setEvaluationDate(Date evaluation_date) {
+        this.evaluationDate = evaluation_date;
     }
 }

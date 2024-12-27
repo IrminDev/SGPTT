@@ -12,7 +12,4 @@ import com.sgpttt.UtilsService.entity.Sinodal;
 @Repository
 public interface SinodalRepository extends JpaRepository<Sinodal, Long> {
 
-    @Query("SELECT p FROM Professor p WHERE p.personId IN (SELECT s.professor.personId FROM Sinodal s WHERE s.isActive = true GROUP BY s.professor.personId HAVING COUNT(s.protocol.protocolId) < 5)")
-    List<Professor> findProfessorsWithLessThanFiveProtocols();
-
 }

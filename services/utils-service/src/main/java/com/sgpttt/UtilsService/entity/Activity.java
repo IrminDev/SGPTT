@@ -1,6 +1,6 @@
 package com.sgpttt.UtilsService.entity;
 
-import java.sql.Date;
+import java.util.Date;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -13,18 +13,17 @@ import jakarta.persistence.TemporalType;
 @Entity
 public class Activity {
     @Id
-    @GeneratedValue(strategy=GenerationType.AUTO)
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
     @Column(name = "activity_id")
     private Long activityId;
 
     @Temporal(TemporalType.DATE)
-    @Column(name = "open_date")
     private Date openDate;
 
     @Temporal(TemporalType.DATE)
-    @Column(name = "close_date")
     private Date closeDate;
 
+    @Column(name = "activity", length = 255, nullable = false)
     private String activity;
 
     // Getters and Setters

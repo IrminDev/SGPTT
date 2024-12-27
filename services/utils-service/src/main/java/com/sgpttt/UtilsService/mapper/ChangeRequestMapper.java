@@ -13,13 +13,11 @@ public interface ChangeRequestMapper {
 
     @Mapping(source="requestId", target="id")
     @Mapping(source="createdAt", target="createdAt", dateFormat="yyyy-MM-dd'T'HH:mm:ss")
-    @Mapping(source="state.stateId", target="stateId")
     @Mapping(source="protocol.protocolId", target="protocolId")
     ChangeRequestDTO changeRequestToChangeRequestDTO(ChangeRequest changeRequest);
 
     @Mapping(source="requestId", target="id")
     @Mapping(source="createdAt", target="createdAt", dateFormat="yyyy-MM-dd'T'HH:mm:ss")
-    @Mapping(source="state.stateId", target="stateId")
     @Mapping(source="protocol.protocolId", target="protocolId")
     List<ChangeRequestDTO> changeRequestsToChangeRequestDTOs(List<ChangeRequest> changeRequests);
 }

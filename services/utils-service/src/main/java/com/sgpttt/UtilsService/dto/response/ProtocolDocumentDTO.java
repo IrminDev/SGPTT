@@ -42,14 +42,4 @@ public class ProtocolDocumentDTO {
         this.protocolAbstract = protocolAbstract;
     }
 
-    // Constructors
-    public ProtocolDocumentDTO() {
-    }
-
-    public ProtocolDocumentDTO(Long id, String title, String keywords, String protocolAbstract) {
-        this.id = id;
-        this.title = title;
-        this.keywords = keywords;
-        this.protocolAbstract = protocolAbstract;
-    }
 }

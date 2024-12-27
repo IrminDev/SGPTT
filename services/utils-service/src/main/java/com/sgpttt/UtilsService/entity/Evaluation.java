@@ -1,22 +1,14 @@
 package com.sgpttt.UtilsService.entity;
 
 import java.sql.Timestamp;
+import java.util.List;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.JoinColumns;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.Temporal;
-import jakarta.persistence.TemporalType;
+import jakarta.persistence.*;
 
 @Entity
 public class Evaluation {
     @Id
-    @GeneratedValue(strategy=GenerationType.AUTO)
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
     @Column(name="evaluation_id")
     private Long evaluationId;
 
@@ -35,6 +27,10 @@ public class Evaluation {
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name="evaluation_date")
     private Timestamp evaluationDate;
+
+    @OneToMany(targetEntity = CriterionEvaluation.class)
+    @JoinColumn(name = "criterion_evaluation_id", insertable = false, updatable = false)
+    private List<CriterionEvaluation> criterionEvaluations;
 
     // Getters and Setters
     public Long getEvaluationId() {
@@ -77,16 +73,11 @@ public class Evaluation {
         this.evaluationDate = evaluationDate;
     }
 
-    // Constructors
-
-    public Evaluation() {
+    public List<CriterionEvaluation> getCriterionEvaluations() {
+        return criterionEvaluations;
     }
 
-    public Evaluation(Long evaluationId, Sinodal sinodal, boolean isApproved, String evaluationComments, Timestamp evaluationDate) {
-        this.evaluationId = evaluationId;
-        this.sinodal = sinodal;
-        this.isApproved = isApproved;
-        this.evaluationComments = evaluationComments;
-        this.evaluationDate = evaluationDate;
+    public void setCriterionEvaluations(List<CriterionEvaluation> criterionEvaluations) {
+        this.criterionEvaluations = criterionEvaluations;
     }
 }

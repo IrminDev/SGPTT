@@ -41,7 +41,7 @@ public class ProtocolDocument {
         return keywords;
     }
 
-    public String getAbstractText() {
+    public String getProtocolAbstract() {
         return protocolAbstract;
     }
 
@@ -58,7 +58,7 @@ public class ProtocolDocument {
         this.keywords = keywords;
     }
 
-    public void setAbstractText(String protocolAbstract) {
+    public void setProtocolAbstract(String protocolAbstract) {
         this.protocolAbstract = protocolAbstract;
     }
 }

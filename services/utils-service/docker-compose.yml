@@ -1,22 +1,22 @@
 services:
   spring-app:
     build:
-      context: .
-      dockerfile: Dockerfile
+        context: .
+        dockerfile: Dockerfile2
     ports:
       - "8080:8080"
-    volumes:
-      - .:/app              
-      - /app/build          
     environment:
       - SPRING_DEVTOOLS_RESTART_TRIGGER_FILE=/app/src/main/resources/.trigger  
       - DATABASE_URL=jdbc:postgresql://db:5432/sgptt
       - DATABASE_USER=irmin
       - DATABASE_PASSWORD=irmin
       - ELASTICSEARCH_URL=http://elastic-search:9200
-    stdin_open: true      
-    entrypoint: ["./gradlew", "bootRun"]
+    stdin_open: true
     tty: true
+    entrypoint: ["./gradlew", "bootRun"]
+    volumes:
+      - .:/app
+      - /app/build
     depends_on:
       - db
       - elastic-search

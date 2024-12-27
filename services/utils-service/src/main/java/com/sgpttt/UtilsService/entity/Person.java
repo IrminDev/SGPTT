@@ -1,44 +1,38 @@
 package com.sgpttt.UtilsService.entity;
 
 import java.sql.Timestamp;
+import java.util.Date;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.Temporal;
-import jakarta.persistence.TemporalType;
+import jakarta.persistence.*;
 
 @Entity
-public class Person {
-
+@Inheritance(strategy = InheritanceType.JOINED)
+public abstract class Person {
     @Id
-    @GeneratedValue(strategy=GenerationType.AUTO)
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
     @Column(name="person_id")
     private Long personId;
 
+    @Column(name="name", nullable = false, length = 50)
     private String name;
 
-    @Column(name="paternal_surname")
+    @Column(name="paternal_surname", nullable = false, length = 50)
     private String paternalSurname;
 
-    @ManyToOne
-    @JoinColumn(name="role_id")
-    private Role role;
-
-    @Column(name="maternal_surname")
+    @Column(name="maternal_surname", nullable = false, length = 50)
     private String maternalSurname;
+
+    @Column(name="email", nullable = false, length = 70, unique = true)
     private String email;
+
+    @Column(name="password", nullable = false, length = 100)
     private String password;
 
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name="created_at")
-    private Timestamp createdAt;
+    private Date createdAt;
 
-    @Column(name="is_active")
+    @Column(name="is_active", nullable = false, columnDefinition = "BOOLEAN DEFAULT TRUE")
     private boolean isActive;
 
     // Getters and Setters
@@ -87,11 +81,11 @@ public class Person {
         this.password = password;
     }
 
-    public Timestamp getCreatedAt() {
+    public Date getCreatedAt() {
         return createdAt;
     }
 
-    public void setCreatedAt(Timestamp createdAt) {
+    public void setCreatedAt(Date createdAt) {
         this.createdAt = createdAt;
     }
 
@@ -100,30 +94,6 @@ public class Person {
     }
 
     public void setIsActive(boolean isActive) {
-        this.isActive = isActive;
-    }
-
-    public Role getRole() {
-        return role;
-    }
-
-    public void setRole(Role role) {
-        this.role = role;
-    }
-
-    // Constructors
-    public Person() {
-    }
-
-    public Person(Long personId, String name, String paternalSurname, Role role, String maternalSurname, String email, String password, Timestamp createdAt, boolean isActive) {
-        this.personId = personId;
-        this.name = name;
-        this.paternalSurname = paternalSurname;
-        this.role = role;
-        this.maternalSurname = maternalSurname;
-        this.email = email;
-        this.password = password;
-        this.createdAt = createdAt;
         this.isActive = isActive;
     }
 }   

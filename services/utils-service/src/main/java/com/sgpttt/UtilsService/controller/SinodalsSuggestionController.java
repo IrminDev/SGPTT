@@ -2,6 +2,7 @@ package com.sgpttt.UtilsService.controller;
 
 import java.util.List;
 
+import com.sgpttt.UtilsService.entity.Person;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -23,7 +24,7 @@ public class SinodalsSuggestionController {
     }
 
     @GetMapping("/{id}")
-    public List<ProfessorDTO> suggestSinodals(@PathVariable String id) {
+    public List<Person> suggestSinodals(@PathVariable String id) {
         return sinodalsSuggestionService.suggestSinodals(id);
     }
 }

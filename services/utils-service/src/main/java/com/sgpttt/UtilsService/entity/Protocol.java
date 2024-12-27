@@ -1,43 +1,62 @@
 package com.sgpttt.UtilsService.entity;
 
 import java.sql.Timestamp;
+import java.util.Set;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.Temporal;
-import jakarta.persistence.TemporalType;
+import com.sgpttt.UtilsService.model.State;
+import jakarta.persistence.*;
 
 @Entity
 public class Protocol {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "protocol_id")
     private Long protocolId;
 
+    @Column(name = "title", nullable = false, length = 255)
     private String title;
 
+    @Column(name = "keywords", nullable = false, columnDefinition = "TEXT")
     private String keywords;
 
-    @Column(name="abstract")
+    @Column(name="abstract", nullable = false, columnDefinition = "TEXT")
     private String protocolAbstract;
 
-    @Column(name="file_data")
+    @Basic(fetch = FetchType.LAZY)
+    @Column(name="file_data", nullable = false, columnDefinition = "BYTEA")
     private byte[] fileData;
 
-    @ManyToOne
-    @JoinColumn(name = "state_id")
-    private ProtocolState state;
+    @Enumerated(EnumType.ORDINAL)
+    private State state;
 
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "created_at")
     private Timestamp createdAt;
 
-    
+    @ManyToMany
+    @JoinTable(
+        name = "protocol_academy",
+        joinColumns = @JoinColumn(name = "protocol_id"),
+        inverseJoinColumns = @JoinColumn(name = "academy_id")
+    )
+    private Set<Academy> academies;
+
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(
+        name = "protocol_student",
+        joinColumns = @JoinColumn(name = "protocol_id"),
+        inverseJoinColumns = @JoinColumn(name = "person_id")
+    )
+    private Set<Student> students;
+
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(
+        name = "protocol_director",
+        joinColumns = @JoinColumn(name = "protocol_id"),
+        inverseJoinColumns = @JoinColumn(name = "person_id")
+    )
+    private Set<Director> directors;
+
     // Getters and Setters
     public Long getProtocolId() {
         return protocolId;
@@ -76,10 +95,10 @@ public class Protocol {
         this.fileData = fileData;
     }
 
-    public ProtocolState getState() {
+    public State getState() {
         return state;
     }
-    public void setState(ProtocolState state) {
+    public void setState(State state) {
         this.state = state;
     }
 
@@ -91,16 +110,27 @@ public class Protocol {
         this.createdAt = createdAt;
     }
 
-    public Protocol() {
+    public Set<Academy> getAcademies() {
+        return academies;
     }
 
-    public Protocol(Long protocolId, String title, String keywords, String protocolAbstract, byte[] fileData, ProtocolState state, Timestamp createdAt) {
-        this.protocolId = protocolId;
-        this.title = title;
-        this.keywords = keywords;
-        this.protocolAbstract = protocolAbstract;
-        this.fileData = fileData;
-        this.state = state;
-        this.createdAt = createdAt;
+    public void setAcademies(Set<Academy> academies) {
+        this.academies = academies;
+    }
+
+    public Set<Student> getStudents() {
+        return students;
+    }
+
+    public void setStudents(Set<Student> students) {
+        this.students = students;
+    }
+
+    public Set<Director> getDirectors() {
+        return directors;
+    }
+
+    public void setDirectors(Set<Director> directors) {
+        this.directors = directors;
     }
 }

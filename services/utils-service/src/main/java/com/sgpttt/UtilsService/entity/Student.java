@@ -1,48 +1,28 @@
 package com.sgpttt.UtilsService.entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.MapsId;
-import jakarta.persistence.OneToOne;
+import com.sgpttt.UtilsService.model.Career;
+import jakarta.persistence.*;
+
+import java.util.Set;
 
 @Entity
-public class Student {
-
-    @Id
-    @Column (name = "person_id")
-    private Long personId;
-
-    @MapsId
-    @OneToOne
-    @JoinColumn(name = "person_id")
-    private Person person;
-
-    @ManyToOne
-    @JoinColumn(name = "career_id")
+@PrimaryKeyJoinColumn(name = "person_id")
+public class Student extends Person {
+    @Enumerated(EnumType.ORDINAL)
     private Career career;
 
-    private String student_id;
+    @Column(name = "student_id", nullable = false, length = 10, unique = true)
+    private String studentId;
 
-    private boolean recursor;
+    private boolean isIrregular;
 
-    // Getters and Setters
-    public Long getPersonId() {
-        return personId;
-    }
-
-    public void setPersonId(Long personId) {
-        this.personId = personId;
-    }
-
-    public Person getPerson() {
-        return person;
-    }
-    public void setPerson(Person person) {
-        this.person = person;
-    }
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(
+            name = "protocol_person",
+            joinColumns = @JoinColumn(name = "protocol_id"),
+            inverseJoinColumns = @JoinColumn(name = "person_id")
+    )
+    private Set<Protocol> protocols;
 
     public Career getCareer() {
         return career;
@@ -51,18 +31,18 @@ public class Student {
         this.career = career;
     }
 
-    public String getStudent_id() {
-        return student_id;
+    public String getStudentId() {
+        return studentId;
     }
-    public void setStudent_id(String student_id) {
-        this.student_id = student_id;
-    }
-
-    public boolean isRecursor() {
-        return recursor;
+    public void setStudentId(String student_id) {
+        this.studentId = student_id;
     }
 
-    public void setRecursor(boolean recursor) {
-        this.recursor = recursor;
+    public boolean isIrregular() {
+        return isIrregular;
+    }
+
+    public void setIrregular(boolean isIrregular) {
+        this.isIrregular = isIrregular;
     }
 }

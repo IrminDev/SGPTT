@@ -1,16 +1,9 @@
 package com.sgpttt.UtilsService.entity;
 
-import java.sql.Timestamp;
+import java.util.Date;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.Temporal;
-import jakarta.persistence.TemporalType;
+import com.sgpttt.UtilsService.model.State;
+import jakarta.persistence.*;
 
 @Entity
 public class ChangeRequest {
@@ -19,6 +12,7 @@ public class ChangeRequest {
     @Column(name = "request_id")
     private Long requestId;
 
+    @Basic(fetch = FetchType.LAZY)
     @Column(name = "format_data")
     private byte[] formatData;
 
@@ -27,11 +21,11 @@ public class ChangeRequest {
 
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "created_at")
-    private Timestamp createdAt;
+    private Date createdAt;
 
-    @ManyToOne
-    @JoinColumn(name = "state_id")
-    private ProtocolState state;
+    @Enumerated(EnumType.ORDINAL)
+    @Column(name = "state")
+    private State state;
 
     @ManyToOne
     @JoinColumn(name = "protocol_id")
@@ -62,18 +56,18 @@ public class ChangeRequest {
         this.requestComments = requestComments;
     }
 
-    public Timestamp getCreatedAt() {
+    public Date getCreatedAt() {
         return createdAt;
     }
 
-    public void setCreatedAt(Timestamp createdAt) {
+    public void setCreatedAt(Date createdAt) {
         this.createdAt = createdAt;
     }
 
-    public ProtocolState getState() {
+    public State getState() {
         return state;
     }
-    public void setState(ProtocolState state) {
+    public void setState(State state) {
         this.state = state;
     }
 
@@ -81,19 +75,6 @@ public class ChangeRequest {
         return protocol;
     }
     public void setProtocol(Protocol protocol) {
-        this.protocol = protocol;
-    }
-
-    // Constructors
-    public ChangeRequest() {
-    }
-
-    public ChangeRequest(Long requestId, byte[] formatData, String requestComments, Timestamp createdAt, ProtocolState state, Protocol protocol) {
-        this.requestId = requestId;
-        this.formatData = formatData;
-        this.requestComments = requestComments;
-        this.createdAt = createdAt;
-        this.state = state;
         this.protocol = protocol;
     }
 }

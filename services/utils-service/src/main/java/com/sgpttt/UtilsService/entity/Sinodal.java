@@ -1,45 +1,22 @@
 package com.sgpttt.UtilsService.entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
+import jakarta.persistence.*;
+
+import java.util.Set;
 
 @Entity
-public class Sinodal {
-
-    @Id
-    @Column(name = "sinodal_id")
-    private Long sinodalId;
-
-    @ManyToOne
-    @JoinColumn(name = "professor_id", insertable = false, updatable = false)
-    private Professor professor;
-
+@PrimaryKeyJoinColumn(name = "person_id")
+public class Sinodal extends Professor{
     @Column(name = "is_active")
     private boolean isActive;
 
-    @ManyToOne
-    @JoinColumn(name = "protocol_id", insertable = false, updatable = false)
-    private Protocol protocol;
-
-    // Getters and Setters
-    public Long getSinodalId() {
-        return sinodalId;
-    }
-
-    public void setSinodalId(Long sinodalId) {
-        this.sinodalId = sinodalId;
-    }
-
-    public Professor getProfessor() {
-        return professor;
-    }
-
-    public void setProfessor(Professor professor) {
-        this.professor = professor;
-    }
+    @ManyToMany
+    @JoinTable(
+            name = "sinodal_protocol",
+            joinColumns = @JoinColumn(name = "person_id"),
+            inverseJoinColumns = @JoinColumn(name = "protocol_id")
+    )
+    private Set<Protocol> protocols;
 
     public boolean isActive() {
         return isActive;
@@ -49,22 +26,11 @@ public class Sinodal {
         this.isActive = isActive;
     }
 
-    public Protocol getProtocol() {
-        return protocol;
+    public Set<Protocol> getProtocols() {
+        return protocols;
     }
 
-    public void setProtocol(Protocol protocol) {
-        this.protocol = protocol;
-    }
-
-    // Constructors
-    public Sinodal() {
-    }
-
-    public Sinodal(Long sinodalId, Professor professor, boolean isActive, Protocol protocol) {
-        this.sinodalId = sinodalId;
-        this.professor = professor;
-        this.isActive = isActive;
-        this.protocol = protocol;
+    public void setProtocols(Set<Protocol> protocols) {
+        this.protocols = protocols;
     }
 }

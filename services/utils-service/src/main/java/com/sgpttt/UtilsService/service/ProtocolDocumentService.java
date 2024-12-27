@@ -34,6 +34,6 @@ public class ProtocolDocumentService {
 
         List<ProtocolDocument> protocolDocuments = searchHits.getSearchHits().stream().map(SearchHit::getContent).collect(Collectors.toList());
 
-        return protocolDocumentMapper.protocolsToProtocolDTOs(protocolDocuments);
+        return protocolDocumentMapper.protocolDocumentsToProtocolDTOs(protocolDocuments);
     }
 }

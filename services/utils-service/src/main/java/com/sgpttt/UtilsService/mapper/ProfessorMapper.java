@@ -17,5 +17,6 @@ public interface ProfessorMapper {
 
     @Mapping(source="personId", target="id")
     @Mapping(source="academy.academyId", target="academy")
+    @Mapping(source="professorNumber", target="professorNumber")
     List<ProfessorDTO> professorsToProfessorDTOs(List<Professor> professors);
 }

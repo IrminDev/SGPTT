@@ -1,48 +1,20 @@
 package com.sgpttt.UtilsService.entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.MapsId;
-import jakarta.persistence.OneToOne;
+import jakarta.persistence.*;
 
 @Entity
-public class Professor {
-    @Id
-    @Column(name = "person_id")
-    private Long personId;
-
-    @MapsId
-    @OneToOne
-    @JoinColumn(name = "person_id")
-    private Person person;
-
-    @Column(name = "professor_number")
+@Inheritance(strategy = InheritanceType.JOINED)
+@PrimaryKeyJoinColumn(name = "person_id")
+public class Professor extends Person {
+    @Column(name = "professor_number", nullable = false, length = 10)
     private String professorNumber;
 
-    @ManyToOne
+    @ManyToOne(targetEntity = Academy.class)
     @JoinColumn(name = "academy_id")
     private Academy academy;
 
+    @Column(name = "school", nullable = false, length = 50, columnDefinition = "VARCHAR(50) DEFAULT 'ESCOM'")
     private String school;
-
-    // Getters and Setters
-    public Long getPersonId() {
-        return personId;
-    }
-
-    public void setPersonId(Long personId) {
-        this.personId = personId;
-    }
-
-    public Person getPerson() {
-        return person;
-    }
-    public void setPerson(Person person) {
-        this.person = person;
-    }
 
     public String getProfessorNumber() {
         return professorNumber;
@@ -63,17 +35,6 @@ public class Professor {
         return school;
     }
     public void setSchool(String school) {
-        this.school = school;
-    }
-
-    public Professor() {
-    }
-
-    public Professor(Long personId, Person person, String professorNumber, Academy academy, String school) {
-        this.personId = personId;
-        this.person = person;
-        this.professorNumber = professorNumber;
-        this.academy = academy;
         this.school = school;
     }
 }

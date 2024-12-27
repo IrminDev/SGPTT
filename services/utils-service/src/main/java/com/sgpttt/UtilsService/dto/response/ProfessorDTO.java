@@ -3,11 +3,13 @@ package com.sgpttt.UtilsService.dto.response;
 public class ProfessorDTO {
     private Long id;
 
-    private String professorNumber;
+    private String professorId;
 
     private Long academy;
 
     private String school;
+
+    private String professorNumber;
 
     // Getters and Setters
     public Long getId() {
@@ -26,6 +28,14 @@ public class ProfessorDTO {
         this.professorNumber = professorNumber;
     }
 
+    public String getProfessorId() {
+        return professorId;
+    }
+
+    public void setProfessorId(String professorId) {
+        this.professorId = professorId;
+    }
+
     public Long getAcademy() {
         return academy;
     }
@@ -42,14 +52,4 @@ public class ProfessorDTO {
         this.school = school;
     }
 
-    // Constructors
-    public ProfessorDTO() {
-    }
-
-    public ProfessorDTO(Long id, String professorNumber, Long academy, String school) {
-        this.id = id;
-        this.professorNumber = professorNumber;
-        this.academy = academy;
-        this.school = school;
-    }
 }

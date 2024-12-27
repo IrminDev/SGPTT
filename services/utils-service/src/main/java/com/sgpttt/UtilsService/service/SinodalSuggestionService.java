@@ -4,6 +4,9 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import com.sgpttt.UtilsService.entity.Person;
+import com.sgpttt.UtilsService.repository.PersonRepository;
+import com.sgpttt.UtilsService.repository.ProfessorRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -22,29 +25,25 @@ public class SinodalSuggestionService {
 
     private final ProfessorMapper professorMapper;
 
+    private final ProfessorRepository professorRepository;
+
+    private final PersonRepository personRepository;
+
     @Autowired
-    public SinodalSuggestionService(SinodalRepository sinodalRepository, ProtocolRepository protocolRepository, ProfessorMapper professorMapper) {
+    public SinodalSuggestionService(SinodalRepository sinodalRepository, ProtocolRepository protocolRepository, ProfessorMapper professorMapper, ProfessorRepository professorRepository, PersonRepository personRepository) {
         this.sinodalRepository = sinodalRepository;
         this.protocolRepository = protocolRepository;
         this.professorMapper = professorMapper;
+        this.professorRepository = professorRepository;
+        this.personRepository = personRepository;
     }
     
     /** 
      * This method search for professors that has the same area of expertise as the protocol and are available for the protocol (less than 5 protocols as sinodal)
-     * @param Protocol the protocol that we want to suggest sinodals for
+     * @param id the protocol that we want to suggest sinodals for
      * @return a list of professors that are available for the protocol
      */
-    public List<ProfessorDTO> suggestSinodals(String id) {
-        List<Professor> professors = sinodalRepository.findProfessorsWithLessThanFiveProtocols();
-
-        List<Academy> academies = protocolRepository.findAcademyByProtocolId(Long.valueOf(id));
-
-        // Parse the academies to a Set
-        Set<Academy> academySet = new HashSet<>(academies);
-
-        // Filter the professors that are in the same academy as the protocol
-        professors = professors.stream().filter(professor -> academySet.contains(professor.getAcademy())).toList();
-
-        return professorMapper.professorsToProfessorDTOs(professors);
+    public List<Person> suggestSinodals(String id) {
+        return personRepository.findAll();
     }
 }

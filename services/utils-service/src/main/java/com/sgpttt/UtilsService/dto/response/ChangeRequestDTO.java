@@ -1,5 +1,7 @@
 package com.sgpttt.UtilsService.dto.response;
 
+import com.sgpttt.UtilsService.model.State;
+
 public class ChangeRequestDTO {
     private Long id;
 
@@ -9,7 +11,7 @@ public class ChangeRequestDTO {
 
     private String createdAt;
 
-    private Long stateId;
+    private State state;
 
     private Long protocolId;
 
@@ -46,12 +48,12 @@ public class ChangeRequestDTO {
         this.createdAt = createdAt;
     }
 
-    public Long getStateId() {
-        return stateId;
+    public State getState() {
+        return state;
     }
 
-    public void setStateId(Long stateId) {
-        this.stateId = stateId;
+    public void setState(State state) {
+        this.state = state;
     }
 
     public Long getProtocolId() {
@@ -59,19 +61,6 @@ public class ChangeRequestDTO {
     }
 
     public void setProtocolId(Long protocolId) {
-        this.protocolId = protocolId;
-    }
-
-    // Constructors
-    public ChangeRequestDTO() {
-    }
-
-    public ChangeRequestDTO(Long id, byte[] formatData, String requestComments, String createdAt, Long stateId, Long protocolId) {
-        this.id = id;
-        this.formatData = formatData;
-        this.requestComments = requestComments;
-        this.createdAt = createdAt;
-        this.stateId = stateId;
         this.protocolId = protocolId;
     }
 }
