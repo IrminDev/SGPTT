@@ -1,45 +1,46 @@
 package com.sgpttt.authservice.repository.entity
 
-import com.sgpttt.authservice.model.domain.PersonDTO
-import com.sgpttt.authservice.repository.DomainDTO
+import com.sgpttt.authservice.model.domain.Career
 import jakarta.persistence.Column
 import jakarta.persistence.Entity
-import jakarta.persistence.Id
+import jakarta.persistence.EnumType
+import jakarta.persistence.Enumerated
+import jakarta.persistence.FetchType
 import jakarta.persistence.JoinColumn
-import jakarta.persistence.ManyToOne
-import jakarta.persistence.MapsId
-import jakarta.persistence.OneToOne
+import jakarta.persistence.JoinTable
+import jakarta.persistence.ManyToMany
+import jakarta.persistence.PrimaryKeyJoinColumn
+import java.util.Date
 
 @Entity
-data class Student(
-	@Id
-	@Column(name = "person_id")
-	val personId: Long,
+@PrimaryKeyJoinColumn(name = "person_id")
+class Student(
 	
-	@MapsId
-	@OneToOne
-	@JoinColumn(name = "person_id")
-	val person: Person,
-	
-	@ManyToOne
-	@JoinColumn(name = "career_id")
+	@Enumerated(EnumType.ORDINAL)
+	@Column(name = "career", nullable = false)
 	val career: Career,
 	
-	@Column(name = "student_number")
+	@Column(name = "student_id", nullable = false, length = 10, unique = true)
 	val studentNumber: String,
 	
-	@Column(name = "recursor")
-	val recursor: Boolean
-
-) : DomainDTO<PersonDTO> {
+	@Column(name = "is_irregular", nullable = false)
+	val isIrregular: Boolean,
 	
-	override fun toDomain(): PersonDTO.Student {
-		return PersonDTO.Student(
-			career = enumValueOf<com.sgpttt.authservice.model.domain.Career>(career.name),
-			recursor = recursor,
-			name = "${person.name} ${person.paternalSurname} ${person.maternalSurname}",
-			number = studentNumber,
-			isActive = person.isActive
-		)
-	}
-}
+	@ManyToMany(fetch = FetchType.LAZY)
+	@JoinTable(
+		name = "protocol_person",
+		joinColumns = [JoinColumn(name = "protocol_id")],
+		inverseJoinColumns = [JoinColumn(name = "person_id")]
+	)
+	val protocols: Set<Protocol>,
+	
+	personId: Long,
+	name: String,
+	paternalSurname: String,
+	maternalSurname: String,
+	email: String,
+	password: String,
+	createdAt: Date,
+	isActive: Boolean
+
+) : Person(personId, name, paternalSurname, maternalSurname, email, password, createdAt, isActive)

@@ -1,5 +1,6 @@
 package com.sgpttt.authservice.controller
 
+import com.sgpttt.authservice.model.domain.PersonRole
 import com.sgpttt.authservice.model.request.LoginRequest
 import com.sgpttt.authservice.model.response.InactiveResponse
 import com.sgpttt.authservice.model.response.LoginResponse
@@ -7,7 +8,6 @@ import com.sgpttt.authservice.model.response.NotFound
 import com.sgpttt.authservice.model.response.PayloadResponse
 import com.sgpttt.authservice.model.response.Success
 import com.sgpttt.authservice.model.response.WrongPassword
-import com.sgpttt.authservice.repository.model.Role
 import com.sgpttt.authservice.service.LoginService
 import jakarta.servlet.http.HttpServletRequest
 import org.springframework.http.HttpStatus
@@ -22,7 +22,13 @@ import org.springframework.web.bind.annotation.RestController
 @RestController
 @RequestMapping("/api/auth")
 class LoginController(private val loginService: LoginService) {
-	
+	/**
+	 * Endpoint to make login into the system
+	 * @param loginRequest is the object that you must send to this endpoint with POST method
+	 * @return An object that extends of LoginResponse, it contains a Person DTO object and a message about the result
+	 * @see LoginRequest
+	 * @see LoginResponse
+	 */
 	@PostMapping("/login")
 	fun login(@RequestBody loginRequest: LoginRequest): ResponseEntity<LoginResponse> {
 		val (email, password) = loginRequest
@@ -38,17 +44,8 @@ class LoginController(private val loginService: LoginService) {
 	
 	@GetMapping("/authorize/{role}")
 	fun isAuthorized(
-		request: HttpServletRequest, @PathVariable role: String
+		request: HttpServletRequest, @PathVariable role: PersonRole
 	): ResponseEntity<PayloadResponse> {
-		
-		val roleEnum = try {
-			Role.valueOf(role)
-		} catch (e: IllegalArgumentException) {
-			return ResponseEntity(PayloadResponse(
-				isAuthorized = false,
-				personId = -1L
-			), HttpStatus.BAD_REQUEST)
-		}
 		
 		val token =
 			request.getHeader("Authorization")?.substring(7)
@@ -57,7 +54,7 @@ class LoginController(private val loginService: LoginService) {
 					personId = -1,
 				), HttpStatus.UNAUTHORIZED)
 		
-		return with(loginService.isAuthorized(token, roleEnum)) {
+		return with(loginService.isAuthorized(token, role)) {
 			ResponseEntity(
 				this,
 				when (this.isAuthorized) {
