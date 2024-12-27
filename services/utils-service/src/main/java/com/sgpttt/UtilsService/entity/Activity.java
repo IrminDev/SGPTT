@@ -2,13 +2,8 @@ package com.sgpttt.UtilsService.entity;
 
 import java.util.Date;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Temporal;
-import jakarta.persistence.TemporalType;
+import com.sgpttt.UtilsService.model.ActivityName;
+import jakarta.persistence.*;
 
 @Entity
 public class Activity {
@@ -23,8 +18,8 @@ public class Activity {
     @Temporal(TemporalType.DATE)
     private Date closeDate;
 
-    @Column(name = "activity", length = 255, nullable = false)
-    private String activity;
+    @Enumerated(EnumType.ORDINAL)
+    private ActivityName activity;
 
     // Getters and Setters
 
@@ -52,11 +47,11 @@ public class Activity {
         this.closeDate = closeDate;
     }
 
-    public String getActivity() {
+    public ActivityName getActivity() {
         return activity;
     }
 
-    public void setActivity(String activity) {
+    public void setActivity(ActivityName activity) {
         this.activity = activity;
     }
 }
