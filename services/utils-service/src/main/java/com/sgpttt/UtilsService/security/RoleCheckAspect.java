@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.*;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.HttpClientErrorException;
+import org.springframework.web.client.RestClient;
 import org.springframework.web.client.RestTemplate;
 
 @Aspect
@@ -17,12 +18,12 @@ public class RoleCheckAspect {
     @Value("${env.data.auth.url}")
     private String authServiceUrl;
 
-    private final RestTemplate restTemplate;
+    private final RestClient.Builder restClientBuilder;
     private final HttpServletRequest request;
 
     @Autowired
-    public RoleCheckAspect(RestTemplate restTemplate, HttpServletRequest request) {
-        this.restTemplate = restTemplate;
+    public RoleCheckAspect(RestClient.Builder restClientBuilder, HttpServletRequest request) {
+        this.restClientBuilder = restClientBuilder;
         this.request = request;
     }
 
@@ -34,13 +35,14 @@ public class RoleCheckAspect {
             throw new SecurityException("Token not found");
         }
 
-        HttpHeaders headers = new HttpHeaders();
-        headers.add("Authorization", token);
-
         ResponseEntity<AuthDTO> response;
 
+        RestClient request = restClientBuilder.baseUrl(authServiceUrl).build();
+
         try {
-            response = restTemplate.exchange(authServiceUrl + "/api/auth/authorize/me", HttpMethod.GET, new HttpEntity<String>(headers), AuthDTO.class);
+            response = request.get().uri("/api/auth/authorize/me").headers(headers -> {
+                headers.add("Authorization", token);
+            }).retrieve().toEntity(AuthDTO.class);
         } catch (HttpClientErrorException e) {
             if (e.getStatusCode() == HttpStatus.UNAUTHORIZED) {
                 throw new SecurityException("Unauthorized: Invalid token");

@@ -36,7 +36,7 @@ public class ChangeRequestController {
     }
 
     @PutMapping("/{id}")
-    @RequiresRole({"CATT"})
+    @RequiresRole({"Catt"})
     public ResponseEntity<ChangeRequestDTO> updateChangeRequest(@ModelAttribute UpdateChangeRequestDTO updateChangeRequestDTO) {
         try{
             ChangeRequestDTO changeRequestDTO = changeRequestService.changeRequestState(
