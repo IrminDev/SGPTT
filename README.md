@@ -87,8 +87,7 @@ The api responses for every use case.
    "person": {
       "career": "ISC",
       "name": "Juan Pérez García",
-      "number": "2021601366",
-      "isActive": true
+      "number": "2021601366"
    },
    "token": "eyJhbGciOiJIUzI1NiJ9.eyJwZXJzb25JZCI6Miwicm9sZSI6IkVzdHVkaWFudGUiLCJpYXQiOjE3MzM2MTY5NTEsImV4cCI6MTczMzYxODc1MX0.vrfJLZCM-3UY3KIkCHc4qpE10g9ErlOE3FFd6E7faRU",
    "result": "Success"
@@ -103,8 +102,7 @@ The api responses for every use case.
         "school": "ESCOM",
         "academy": "Sistemas computacionales",
         "name": "María López Martínez",
-        "number": "9275018326",
-        "isActive": true
+        "number": "9275018326"
     },
     "token": "eyJhbGciOiJIUzI1NiJ9.eyJwZXJzb25JZCI6Mywicm9sZSI6IlByb2Zlc29yIiwiaWF0IjoxNzMzNjIxNzQ3LCJleHAiOjE3MzM2MjM1NDd9.zoTxmXUcwoCTxf93fOF4YVXd29Er6M9-MVRV5RTlpww",
     "result": "Success"
@@ -118,8 +116,7 @@ The api responses for every use case.
     "person": {
         "name": "Carlos Sánchez Fernández",
         "number": "7521840395",
-        "role": "Secretary",
-        "isActive": true
+        "role": "SECRETARY"
     },
     "token": "eyJhbGciOiJIUzI1NiJ9.eyJwZXJzb25JZCI6NCwicm9sZSI6IkNBVFQiLCJpYXQiOjE3MzM2MjE4MjYsImV4cCI6MTczMzYyMzYyNn0.nDOJ-rOYmyNqd_yw__3GSwPcRERudS3iHn9OUZtqQ1s",
     "result": "Success"
@@ -138,8 +135,7 @@ The api responses for every use case.
 {
    "person": {
       "name": "Juan Pérez García",
-      "number": null,
-      "isActive": true
+      "number": null
    },
    "result": "Wrong password"
 }
@@ -172,8 +168,7 @@ The api responses for every use case.
 {
    "person": {
       "name": "Eduardo Martínez García",
-      "number": "2023121314",
-      "isActive": false
+      "number": "2023121314"
    },
    "result": "Inactive person"
 }   
@@ -187,13 +182,33 @@ The Token contains in its payload personId, their roles and iat and exp, it look
 ```json
 {
   "personId": 2,
-  "role": "Estudiante",
+  "role": "Student",
   "iat": 1733616951,
   "exp": 1733618751
 }
 ```
 > [!NOTE] 
 > The sceret key is base64 encoded, that means the code get the environment variable JWT_SECRET and encodes it on Base 64, after it is signed, for getting more details see [this](https://github.com/jwtk/jjwt)
+
+There's another endpoint called /me
+| Route | Type | 
+|-------|----------------|
+| /api/auth/authorize/me | Get |
+
+It just returns a token payload, the token payload **must** be present in the Authorization header as always it's been
+response looks like
+```json
+{
+    "role": "Student",
+    "personId": 1
+}
+```
+retuns null as body when the token has expired.
+| Use case                 | Status code |
+|------------------------  | ----------  |
+| The token is not present | 401         |
+| The token has expired    | 403         |
+| Token is valid           | 200         |
 
 ## Technologies Used
 |   Name      | Version       | Icon |
