@@ -1,7 +1,0 @@
-FROM postgres:15.9-alpine
-ARG path=/home/
-COPY red_de_escom.pdf ${path}red_de_escom.pdf
-COPY Signal_conditioner_for_capacitive_and_inductive_sensors.pdf ${path}Signal_conditioner_for_capacitive_and_inductive_sensors.pdf
-COPY Uso_de_cartas_ASM.pdf ${path}Uso_de_cartas_ASM.pdf
-COPY Uso_de_maquinas_de_estado_contadores_y_memorias.pdf ${path}Uso_de_maquinas_de_estado_contadores_y_memorias.pdf
-COPY Techniques_to_linearise_resistive_sensors.pdf ${path}Techniques_to_linearise_resistive_sensors.pdf
