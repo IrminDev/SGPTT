@@ -1,9 +1,10 @@
-package sgptt.adminsvc.repository.entity;
+package sgptt.adminsvc.entity;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import sgptt.adminsvc.model.ActivityName;
 
 import java.util.Date;
 
@@ -13,17 +14,16 @@ import java.util.Date;
 @NoArgsConstructor
 public class Activity {
     @Id
-    @GeneratedValue(strategy= GenerationType.IDENTITY)
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
     @Column(name = "activity_id")
     private Long activityId;
 
     @Temporal(TemporalType.DATE)
-    @Column(name = "open_date")
     private Date openDate;
 
     @Temporal(TemporalType.DATE)
-    @Column(name = "close_date")
     private Date closeDate;
 
-    private String activity;
+    @Enumerated(EnumType.ORDINAL)
+    private ActivityName activity;
 }

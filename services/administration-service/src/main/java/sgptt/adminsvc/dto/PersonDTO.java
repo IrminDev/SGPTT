@@ -1,11 +1,13 @@
-package sgptt.adminsvc.model.domain;
+package sgptt.adminsvc.dto;
 
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+import sgptt.adminsvc.model.Career;
 
 @Data
 @AllArgsConstructor
@@ -18,23 +20,26 @@ import lombok.NoArgsConstructor;
 public sealed class PersonDTO permits PersonDTO.Student, PersonDTO.Professor {
 
     private String name;
-    private String lastName;
-    private String surname;
+    private String paternalSurname;
+    private String maternalSurname;
     private String number;
 
+    @EqualsAndHashCode(callSuper = true)
     @Data
     @AllArgsConstructor
     @JsonTypeName("person")
     public static final class Student extends PersonDTO {
         private final Career career;
+        private final Boolean isIrregular;
     }
 
+    @EqualsAndHashCode(callSuper = true)
     @Data
     @AllArgsConstructor
     @JsonTypeName("person")
     public static final class Professor extends PersonDTO {
         private final String school;
-        private final Area area;
+        private final String academyName;
     }
 
 }

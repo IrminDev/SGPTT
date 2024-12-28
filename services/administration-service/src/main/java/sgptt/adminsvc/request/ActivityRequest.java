@@ -3,7 +3,7 @@ package sgptt.adminsvc.request;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import sgptt.adminsvc.model.domain.Activity;
+import sgptt.adminsvc.model.ActivityName;
 
 import java.util.Date;
 
@@ -12,7 +12,7 @@ import java.util.Date;
 @NoArgsConstructor
 public class ActivityRequest {
 
-    private Activity activity;
+    private ActivityName activity;
     private Date startDate;
     private Date endDate;
 

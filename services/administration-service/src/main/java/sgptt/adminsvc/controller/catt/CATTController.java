@@ -22,13 +22,13 @@ public class CATTController {
         this.openActivityService = openActivityService;
     }
 
-    @PostMapping("/register")
+    @PutMapping("/register")
     @ResponseStatus(HttpStatus.CREATED)
     private void registerNewUser(@RequestBody RegisterRequest registerRequest) {
-        registerService.insertNewUser(registerRequest.getPerson(), registerRequest.getEmail(), registerRequest.getPassword());
+        registerService.insertNewUser(registerRequest);
     }
 
-    @PostMapping("/openActivity")
+    @PutMapping("/openActivity")
     @ResponseStatus(HttpStatus.CREATED)
     private void openActivity(@RequestBody ActivityRequest activity) {
         openActivityService.openActivity(activity);

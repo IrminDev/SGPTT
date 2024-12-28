@@ -3,7 +3,7 @@ package sgptt.adminsvc.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import sgptt.adminsvc.repository.ActivityRepository;
-import sgptt.adminsvc.repository.entity.Activity;
+import sgptt.adminsvc.entity.Activity;
 import sgptt.adminsvc.request.ActivityRequest;
 
 @Service
@@ -20,7 +20,7 @@ public class OpenActivityService {
         Activity activity = new Activity();
         activity.setOpenDate(activityRequest.getStartDate());
         activity.setCloseDate(activityRequest.getEndDate());
-        activity.setActivity(activityRequest.getActivity().name());
+        activity.setActivity(activityRequest.getActivity());
         activityRepository.save(activity);
     }
 }

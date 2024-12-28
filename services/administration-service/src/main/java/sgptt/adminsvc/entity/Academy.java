@@ -1,13 +1,11 @@
-package sgptt.adminsvc.repository.entity;
+package sgptt.adminsvc.entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.util.Set;
 
 @Data
 @AllArgsConstructor
@@ -18,5 +16,10 @@ public class Academy {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "academy_id")
     private Long academyId;
+
+    @Column(name = "name", nullable = false, length = 50)
     private String name;
+
+    @ManyToMany(fetch = FetchType.LAZY)
+    private Set<Protocol> protocols;
 }

@@ -1,11 +1,9 @@
 package sgptt.adminsvc.request;
 
-import java.sql.Timestamp;
-
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import sgptt.adminsvc.model.domain.PersonDTO;
+import sgptt.adminsvc.dto.PersonDTO;
 
 @Data
 @AllArgsConstructor

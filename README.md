@@ -55,10 +55,11 @@ where PersonDTO can be of type Student or Professor
   "person": {
     "type": "student",
     "name": "Emiliano",
-    "lasName": "Díaz",
-    "surname": "Hernandez",
+    "paternalSurname": "Diaz",
+    "maternalSurname": "Hernandez",
     "number": "2023630884",
-    "career": "ISC"
+    "career": "ISC",
+    "isIrregular": false
   },
   "email": "ediazh1900@alumno.ipn.mx",
   "password": "emiliano123"
@@ -84,20 +85,12 @@ Otherwise, it will return an exception
     "surname": "Martinez",
     "number": "2021601366",
     "school": "ESCOM",
-    "area": "SOFTWARE_ENGINEER"
+    "academy": "SOFTWARE_ENGINEER"
   },
   "email": "dmorenom2002@alumno.ipn.mx",
   "password": "diego123"
 }
 ```
-
-The **area** field is an enum, and the values it can receive are
-
-- SOFTWARE_ENGINEER
-- DIGITAL_SYSTEMS
-- COMPUTER_SCIENCE
-
-Otherwise, it will return an exception
 
 ### 2. Open Activity
 
@@ -116,10 +109,9 @@ Otherwise, it will return an exception
 The **activity** field is an enum, and the values it can receive are
 
 - UPLOAD_PROTOCOL_FOR_REGULAR_STUDENTS
-- UPLOAD_PROTOCOL_FOR_FAILED_STUDENTS
-- REGISTER_SINODAL_TO_PROTOCOLS
-- FORCE_PROFESSORS_BECOME_TO_BE_SINODAL
-- PROTOCOL_EVALUATION
+- UPLOAD_PROTOCOLS_IRREGULAR_STUDENTS
+- REVIEW_PROTOCOLS
+- ASSESSMENT_PROTOCOLS
 
 Otherwise, it will return an exception
 
@@ -134,22 +126,22 @@ The password is encrypted using the PostgreSQL **crypt** function with the MD5 a
 
 - #### Person table
 
-| person_id | name     | paternal_surname | maternal_surname | email                      | password                             | created_at                  | is_active | role_id |
-|-----------|----------|------------------|------------------|----------------------------|--------------------------------------|-----------------------------|-----------|---------|
-| 1         | Emiliano | Díaz             | Hernandez        | ediazh1900@alumno.ipn.mx   | \$1\$vJCpe.Px$ZrnjuPQer7CPcgH1CglcQ0 | 2024-12-07 18:00: 18.257000 | true      | 1       |
-| 2         | Diego    | Moreno           | Martinez         | dmorenom2002@alumno.ipn.mx | \$1\$hsGxTiiR$2IeKy0QyXvgCiOKU4c3MU0 | 2024-12-07 20:44:37.077000  | true      | 2       |
+| person_id | name     | paternal_surname | maternal_surname | email                      | password                             | created_at                  | is_active |
+|-----------|----------|------------------|------------------|----------------------------|--------------------------------------|-----------------------------|-----------|
+| 1         | Emiliano | Díaz             | Hernandez        | ediazh1900@alumno.ipn.mx   | \$1\$vJCpe.Px$ZrnjuPQer7CPcgH1CglcQ0 | 2024-12-07 18:00: 18.257000 | true      |
+| 2         | Diego    | Moreno           | Martinez         | dmorenom2002@alumno.ipn.mx | \$1\$hsGxTiiR$2IeKy0QyXvgCiOKU4c3MU0 | 2024-12-07 20:44:37.077000  | true      |
 
 - #### Student table
 
-| person_id | stuednt_number | career_id |
-|-----------|----------------|-----------|
-| 1         | 2023630884     | ISC       |
+| person_id | student_id | career | is_irregular |
+|-----------|------------|--------|--------------|
+| 1         | 2023630884 | 0      | false        |
 
 - #### Professor table
 
 | person_id | professor_id | academy_id | school |
 |-----------|--------------|------------|--------|
-| 2         | 2021601366   | 3          | ESCOM  |
+| 2         | 2021601366   | 1          | ESCOM  |
 
 ### 2. Open Activity
 
