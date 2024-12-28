@@ -2,6 +2,7 @@ package com.sgpttt.UtilsService.controller;
 
 import java.util.List;
 
+import com.sgpttt.UtilsService.security.RequiresRole;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,10 +17,15 @@ import com.sgpttt.UtilsService.service.SinodalSuggestionService;
 @RestController
 @RequestMapping("/api/utils/suggestions")
 public class SinodalsSuggestionController {
+    private final SinodalSuggestionService sinodalsSuggestionService;
+
     @Autowired
-    private SinodalSuggestionService sinodalsSuggestionService;
+    public SinodalsSuggestionController(SinodalSuggestionService sinodalsSuggestionService) {
+        this.sinodalsSuggestionService = sinodalsSuggestionService;
+    }
 
     @GetMapping("/{id}")
+    @RequiresRole({"Catt"})
     public ResponseEntity<List<ProfessorDTO>> suggestSinodals(@PathVariable String id) {
         try {
             List<ProfessorDTO> professors = sinodalsSuggestionService.suggestSinodals(id);

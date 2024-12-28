@@ -2,6 +2,7 @@ package com.sgpttt.UtilsService.controller;
 
 import java.util.List;
 
+import com.sgpttt.UtilsService.security.RequiresRole;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,10 +17,15 @@ import com.sgpttt.UtilsService.service.ProtocolDocumentService;
 @RestController
 @RequestMapping("/api/utils")
 public class ProtocolController {
+    private final ProtocolDocumentService protocolDocumentService;
+
     @Autowired
-    private ProtocolDocumentService protocolDocumentService;
+    public ProtocolController(ProtocolDocumentService protocolDocumentService) {
+        this.protocolDocumentService = protocolDocumentService;
+    }
 
     @GetMapping("/similar/{id}")
+    @RequiresRole({"Catt"})
     public ResponseEntity<List<ProtocolDocumentDTO>> findSimilarDocuments(@PathVariable String id) {
         try {
             List<ProtocolDocumentDTO> protocols = protocolDocumentService.findSimilarDocuments(id);

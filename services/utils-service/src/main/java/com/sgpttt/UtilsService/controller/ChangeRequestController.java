@@ -3,6 +3,7 @@ package com.sgpttt.UtilsService.controller;
 import com.sgpttt.UtilsService.dto.request.CreateChangeRequestDTO;
 import com.sgpttt.UtilsService.dto.request.UpdateChangeRequestDTO;
 import com.sgpttt.UtilsService.dto.response.ChangeRequestDTO;
+import com.sgpttt.UtilsService.security.RequiresRole;
 import com.sgpttt.UtilsService.service.ChangeRequestService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -12,10 +13,15 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("api/utils/change-request")
 public class ChangeRequestController {
+    private final ChangeRequestService changeRequestService;
+
     @Autowired
-    private ChangeRequestService changeRequestService;
+    public ChangeRequestController(ChangeRequestService changeRequestService) {
+        this.changeRequestService = changeRequestService;
+    }
 
     @PostMapping
+    @RequiresRole({"Student", "Catt"})
     public ResponseEntity<ChangeRequestDTO> createChangeRequest(@ModelAttribute CreateChangeRequestDTO createChangeRequestDTO) {
         try{
             ChangeRequestDTO changeRequestDTO = changeRequestService.createChangeRequest(
@@ -30,6 +36,7 @@ public class ChangeRequestController {
     }
 
     @PutMapping("/{id}")
+    @RequiresRole({"CATT"})
     public ResponseEntity<ChangeRequestDTO> updateChangeRequest(@ModelAttribute UpdateChangeRequestDTO updateChangeRequestDTO) {
         try{
             ChangeRequestDTO changeRequestDTO = changeRequestService.changeRequestState(

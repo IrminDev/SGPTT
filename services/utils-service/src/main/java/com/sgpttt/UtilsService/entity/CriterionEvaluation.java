@@ -22,9 +22,6 @@ public class CriterionEvaluation {
     @Column(name = "criterion_comments", columnDefinition = "TEXT", nullable = false)
     private String criterionComments;
 
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date evaluationDate;
-
     // Getters and Setters
     public Long getEvaluationId() {
         return evaluationId;
@@ -56,10 +53,4 @@ public class CriterionEvaluation {
         this.criterionComments = criterionComments;
     }
 
-    public Date getEvaluationDate() {
-        return evaluationDate;
-    }
-    public void setEvaluationDate(Date evaluation_date) {
-        this.evaluationDate = evaluation_date;
-    }
 }

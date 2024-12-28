@@ -1,16 +1,16 @@
 services:
-  spring-app:
+  utils-service:
     build:
         context: .
         dockerfile: Dockerfile2
     ports:
       - "8080:8080"
     environment:
-      - SPRING_DEVTOOLS_RESTART_TRIGGER_FILE=/app/src/main/resources/.trigger  
       - DATABASE_URL=jdbc:postgresql://db:5432/sgptt
       - DATABASE_USER=irmin
       - DATABASE_PASSWORD=irmin
       - ELASTICSEARCH_URL=http://elastic-search:9200
+      - DATA_AUTH_URL=http://auth-service:8090
     stdin_open: true
     tty: true
     entrypoint: ["./gradlew", "bootRun"]
@@ -20,6 +20,7 @@ services:
     depends_on:
       - db
       - elastic-search
+      - auth-service
 
   db:
     image: postgres:15.9-alpine
@@ -57,6 +58,19 @@ services:
     mem_reservation: 2g
     volumes:
       - es_data:/usr/share/elasticsearch/data
+
+  auth-service:
+    image: diegoxze35/auth-service:v1
+    ports:
+      - "8090:8090"
+    environment:
+      - DATABASE_URL=jdbc:postgresql://db:5432/sgptt
+      - DATABASE_USER=irmin
+      - DATABASE_PASSWORD=irmin
+      - JWT_SECRET=mySuperSecureSecretKeyThatContainsAtLeast32Bits
+    depends_on:
+      - db
+
     
 volumes:
   pgdata:

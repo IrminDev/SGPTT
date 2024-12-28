@@ -1,11 +1,12 @@
+CREATE EXTENSION IF NOT EXISTS pgcrypto;
 -- Insert sample data into the Person table
 INSERT INTO Person (name, paternal_surname, maternal_surname, email, password, created_at)
 VALUES 
-('John', 'Doe', 'Smith', 'john.doe@example.com', 'password', now()),
-('Jane', 'Doe', 'Smith', 'jane.doe@example.com', 'password', now()),
-('Alice', 'Johnson', 'Brown', 'alice.johnson@example.com', 'password', now()),
-('Bob', 'Williams', 'Davis', 'bob.williams@example.com', 'password', now()),
-('Charlie', 'Brown', 'Wilson', 'charlie.brown@example.com', 'password', now());
+('John', 'Doe', 'Smith', 'john.doe@example.com', crypt('password', gen_salt('md5')), now()),
+('Jane', 'Doe', 'Smith', 'jane.doe@example.com', crypt('password', gen_salt('md5')), now()),
+('Alice', 'Johnson', 'Brown', 'alice.johnson@example.com', crypt('password', gen_salt('md5')), now()),
+('Bob', 'Williams', 'Davis', 'bob.williams@example.com', crypt('password', gen_salt('md5')), now()),
+('Charlie', 'Brown', 'Wilson', 'charlie.brown@example.com', crypt('password', gen_salt('md5')), now());
 
 -- Insert sample data into the Academy table
 INSERT INTO Academy (name) VALUES ('Computer Science'), ('Mathematics'), ('Physics');
