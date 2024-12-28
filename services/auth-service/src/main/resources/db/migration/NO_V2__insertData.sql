@@ -144,7 +144,7 @@ procesadores y microcontroladores. El diseño y la implementación
 adecuada de estos componentes es crucial para garantizar el
 correcto funcionamiento y el rendimiento de los sistemas digitales',
  pg_read_binary_file('/home/Uso_de_maquinas_de_estado_contadores_y_memorias.pdf'),
- 2);
+ 2) on conflict(protocol_id) do nothing;
 
 insert into activity (activity_id, open_date, close_date, activity)
 values

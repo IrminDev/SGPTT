@@ -2,7 +2,6 @@ package com.sgpttt.authservice.service
 
 import com.sgpttt.authservice.extension.toDomain
 import com.sgpttt.authservice.model.domain.PersonDTO
-import com.sgpttt.authservice.model.domain.PersonRole
 import com.sgpttt.authservice.model.response.InactiveResponse
 import com.sgpttt.authservice.model.response.LoginResponse
 import com.sgpttt.authservice.model.response.NotFound
@@ -50,7 +49,7 @@ class LoginService(
 		
 	}
 	
-	fun isAuthorized(token: String, role: PersonRole): PayloadResponse =
-		tokenManager.getPayloadIfTokenIsNonExpiredAndHasRole(token, role)
+	fun getTokenPayload(token: String): PayloadResponse? =
+		tokenManager.getPayloadIfTokenIsNonExpired(token)
 	
 }

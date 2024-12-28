@@ -25,11 +25,11 @@ class TokenManager {
 		.signWith(SECRET_KEY, Jwts.SIG.HS256)
 		.compact()
 	
-	fun getPayloadIfTokenIsNonExpiredAndHasRole(token: String, role: PersonRole): PayloadResponse {
+	fun getPayloadIfTokenIsNonExpired(token: String): PayloadResponse? {
 		val claims = try {
 			Jwts.parser().verifyWith(SECRET_KEY).build().parseSignedClaims(token)
 		} catch (e: JwtException) {
-			return PayloadResponse(isAuthorized = false, personId = -1)
+			return null
 		}
 		val (roleInPayload, personIdInPayload) = with(claims.payload) {
 			PersonRole.valueOf(this["role"] as String) to this["personId"] as Number
@@ -37,11 +37,9 @@ class TokenManager {
 		val timeExpired = claims.payload["exp"] as Long
 		val dateExpire = Date(timeExpired * 1000L)
 		val currentDate = Date(System.currentTimeMillis())
-		return PayloadResponse(
-			isAuthorized = roleInPayload == role && currentDate.before(dateExpire),
-			personId = personIdInPayload.toLong()
-		)
-		
+		return if (currentDate.before(dateExpire)) {
+			PayloadResponse(role = roleInPayload, personId = personIdInPayload.toLong())
+		} else null
 	}
 	
 }
