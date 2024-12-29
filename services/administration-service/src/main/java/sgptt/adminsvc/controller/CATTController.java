@@ -1,6 +1,5 @@
 package sgptt.adminsvc.controller;
 
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -26,14 +25,14 @@ public class CATTController {
     @PutMapping("/register")
     @ResponseStatus(HttpStatus.CREATED)
     @RequiresRole({"Catt"})
-    private void registerNewUser(@RequestBody RegisterRequest registerRequest) {
+    public void registerNewUser(@RequestBody RegisterRequest registerRequest) {
         registerService.insertNewUser(registerRequest);
     }
 
     @PutMapping("/openActivity")
     @ResponseStatus(HttpStatus.CREATED)
     @RequiresRole({"Catt"})
-    private void openActivity(@RequestBody ActivityRequest activity) {
+    public void openActivity(@RequestBody ActivityRequest activity) {
         openActivityService.openActivity(activity);
     }
 }
