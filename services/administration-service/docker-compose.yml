@@ -12,6 +12,8 @@ services:
       - DATABASE_URL=jdbc:postgresql://db:5432/sgptt
       - DATABASE_USER=irmin
       - DATABASE_PASSWORD=irmin
+      - PORT=8080
+      - DATA_AUTH_URL=http://auth-service:8090
     stdin_open: true
     entrypoint: [ "./gradlew", "bootRun" ]
     tty: true
@@ -34,6 +36,19 @@ services:
       timeout: 5s
       retries: 10
       start_period: 15s
+
+  auth-service:
+    image: diegoxze35/auth-service:v1
+    ports:
+      - "8090:8090"
+    environment:
+      - DATABASE_URL=jdbc:postgresql://db:5432/sgptt
+      - DATABASE_USER=irmin
+      - DATABASE_PASSWORD=irmin
+      - JWT_SECRET=mySuperSecureSecretKeyThatContainsAtLeast32Bits
+      - PORT=8090
+    depends_on:
+      - db
 
 volumes:
   pgdata:
