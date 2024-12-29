@@ -45,6 +45,7 @@ services:
       - DATABASE_USER=irmin
       - DATABASE_PASSWORD=irmin
       - JWT_SECRET=mySuperSecureSecretKeyThatContainsAtLeast32Bits
+      - PORT=8090
     depends_on:
       - db
 

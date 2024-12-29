@@ -1,6 +1,7 @@
 package com.sgpttt.UtilsService.dto.response;
 
 import com.sgpttt.UtilsService.model.State;
+import org.springframework.web.multipart.MultipartFile;
 
 public class ChangeRequestDTO {
     private Long id;
@@ -12,6 +13,8 @@ public class ChangeRequestDTO {
     private State state;
 
     private Long protocolId;
+
+    private MultipartFile file;
 
     // Getters and Setters
     public Long getId() {
@@ -52,5 +55,13 @@ public class ChangeRequestDTO {
 
     public void setProtocolId(Long protocolId) {
         this.protocolId = protocolId;
+    }
+
+    public MultipartFile getFile() {
+        return file;
+    }
+
+    public void setFile(MultipartFile file) {
+        this.file = file;
     }
 }

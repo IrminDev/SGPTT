@@ -10,6 +10,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("api/utils/change-request")
 public class ChangeRequestController {
@@ -44,6 +46,39 @@ public class ChangeRequestController {
                     updateChangeRequestDTO.getState()
             );
             return ResponseEntity.status(HttpStatus.OK).body(changeRequestDTO);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body(null);
+        }
+    }
+
+    @GetMapping("/{id}")
+    @RequiresRole({"Student", "Catt"})
+    public ResponseEntity<ChangeRequestDTO> getChangeRequest(@PathVariable String id) {
+        try{
+            ChangeRequestDTO changeRequestDTO = changeRequestService.getChangeRequest(Long.parseLong(id));
+            return ResponseEntity.status(HttpStatus.OK).body(changeRequestDTO);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body(null);
+        }
+    }
+
+    @GetMapping("/")
+    @RequiresRole({"Catt"})
+    public ResponseEntity<List<ChangeRequestDTO>> getChangeRequests() {
+        try{
+            List<ChangeRequestDTO> changeRequestDTOs = changeRequestService.getChangeRequests();
+            return ResponseEntity.status(HttpStatus.OK).body(changeRequestDTOs);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body(null);
+        }
+    }
+
+    @GetMapping("/protocol/{protocolId}")
+    @RequiresRole({"Student", "Catt"})
+    public ResponseEntity<List<ChangeRequestDTO>> getChangeRequestsByProtocolId(@PathVariable String protocolId) {
+        try{
+            List<ChangeRequestDTO> changeRequestDTOs = changeRequestService.getChangeRequestsByProtocolId(Long.parseLong(protocolId));
+            return ResponseEntity.status(HttpStatus.OK).body(changeRequestDTOs);
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).body(null);
         }

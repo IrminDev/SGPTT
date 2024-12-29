@@ -4,6 +4,7 @@ import java.sql.Timestamp;
 import java.util.List;
 
 import com.sgpttt.UtilsService.model.State;
+import com.sgpttt.UtilsService.util.MultipartFileConverter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -57,5 +58,18 @@ public class ChangeRequestService {
 
     public List<ChangeRequestDTO> getChangeRequests() {
         return changeRequestMapper.changeRequestsToChangeRequestDTOs(changeRequestRepository.findAll());
+    }
+
+    public ChangeRequestDTO getChangeRequest(Long id) {
+        ChangeRequest changeRequest = changeRequestRepository.findById(id).orElseThrow(() -> new RuntimeException("ChangeRequest not found"));
+        ChangeRequestDTO changeRequestDTO = changeRequestMapper.changeRequestToChangeRequestDTO(changeRequest);
+
+        changeRequestDTO.setFile(MultipartFileConverter.convert(changeRequest.getFormatData(), changeRequest.getRequestId() + ".pdf"));
+
+        return changeRequestDTO;
+    }
+
+    public List<ChangeRequestDTO> getChangeRequestsByProtocolId(Long protocolId) {
+        return changeRequestMapper.changeRequestsToChangeRequestDTOs(changeRequestRepository.findChangeRequestByProtocol_ProtocolId(protocolId));
     }
 }
