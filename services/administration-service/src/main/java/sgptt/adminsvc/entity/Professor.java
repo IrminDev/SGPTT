@@ -4,7 +4,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.util.Date;
-
+import java.util.Set;
 
 @Data
 @AllArgsConstructor
@@ -24,6 +24,17 @@ public class Professor extends Person {
 
     @Column(name = "school", nullable = false, length = 50, columnDefinition = "VARCHAR(50) DEFAULT 'ESCOM'")
     private String school;
+
+    @OneToMany(mappedBy = "professor")
+    private Set<Sinodal> sinodals;
+
+    @ManyToMany
+    @JoinTable(
+            name = "director",
+            joinColumns = @JoinColumn(name = "person_id"),
+            inverseJoinColumns = @JoinColumn(name = "protocol_id")
+    )
+    private Set<Protocol> protocols;
 
     @Builder
     public Professor(String name, String paternalSurname, String maternalSurname, String email, String pass, Date createdAt, String professorNumber, Academy academy, String school ) {
