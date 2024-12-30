@@ -1,8 +1,8 @@
 package com.sgpttt.UtilsService.controller;
 
-import java.util.List;
-
+import com.sgpttt.UtilsService.dto.response.ProfessorDTO;
 import com.sgpttt.UtilsService.security.RequiresRole;
+import com.sgpttt.UtilsService.service.SinodalSuggestionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -11,8 +11,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.sgpttt.UtilsService.dto.response.ProfessorDTO;
-import com.sgpttt.UtilsService.service.SinodalSuggestionService;
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/utils/suggestions")

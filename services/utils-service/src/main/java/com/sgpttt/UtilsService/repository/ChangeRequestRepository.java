@@ -1,9 +1,8 @@
 package com.sgpttt.UtilsService.repository;
 
+import com.sgpttt.UtilsService.entity.ChangeRequest;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
-
-import com.sgpttt.UtilsService.entity.ChangeRequest;
 
 import java.util.List;
 

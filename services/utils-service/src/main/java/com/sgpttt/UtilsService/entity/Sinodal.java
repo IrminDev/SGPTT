@@ -19,7 +19,6 @@ public class Sinodal{
     @JoinColumn(name = "protocol_id")
     private Protocol protocol;
 
-
     public boolean isSinodal() {
         return isSinodal;
     }

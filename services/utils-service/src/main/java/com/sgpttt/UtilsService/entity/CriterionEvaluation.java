@@ -1,8 +1,5 @@
 package com.sgpttt.UtilsService.entity;
 
-import java.sql.Timestamp;
-import java.util.Date;
-
 import com.sgpttt.UtilsService.model.Criterion;
 import jakarta.persistence.*;
 

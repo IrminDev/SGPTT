@@ -1,8 +1,7 @@
 package com.sgpttt.UtilsService.repository;
 
-import org.springframework.data.elasticsearch.repository.ElasticsearchRepository;
-
 import com.sgpttt.UtilsService.entity.ProtocolDocument;
+import org.springframework.data.elasticsearch.repository.ElasticsearchRepository;
 
 public interface ProtocolSearchRepository extends ElasticsearchRepository<ProtocolDocument, Long> {
     

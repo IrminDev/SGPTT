@@ -1,15 +1,11 @@
 package com.sgpttt.UtilsService.mapper;
 
-import java.util.List;
-
-import jdk.jfr.Name;
+import com.sgpttt.UtilsService.dto.response.ChangeRequestDTO;
+import com.sgpttt.UtilsService.entity.ChangeRequest;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
-import com.sgpttt.UtilsService.dto.response.ChangeRequestDTO;
-import com.sgpttt.UtilsService.entity.ChangeRequest;
-import org.mapstruct.Named;
-import org.springframework.web.multipart.MultipartFile;
+import java.util.List;
 
 @Mapper(componentModel = "spring")
 public interface ChangeRequestMapper {

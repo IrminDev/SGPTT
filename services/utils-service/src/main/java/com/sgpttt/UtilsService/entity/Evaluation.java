@@ -1,9 +1,9 @@
 package com.sgpttt.UtilsService.entity;
 
+import jakarta.persistence.*;
+
 import java.sql.Timestamp;
 import java.util.List;
-
-import jakarta.persistence.*;
 
 @Entity
 public class Evaluation {

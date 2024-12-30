@@ -1,10 +1,10 @@
 package com.sgpttt.UtilsService.entity;
 
-import java.sql.Timestamp;
-import java.util.Set;
-
 import com.sgpttt.UtilsService.model.State;
 import jakarta.persistence.*;
+
+import java.sql.Timestamp;
+import java.util.Set;
 
 @Entity
 public class Protocol {

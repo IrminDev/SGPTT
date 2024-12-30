@@ -1,12 +1,11 @@
 package com.sgpttt.UtilsService.mapper;
 
-import java.util.List;
-
+import com.sgpttt.UtilsService.dto.response.ProfessorDTO;
+import com.sgpttt.UtilsService.entity.Professor;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
-import com.sgpttt.UtilsService.dto.response.ProfessorDTO;
-import com.sgpttt.UtilsService.entity.Professor;
+import java.util.List;
 
 @Mapper(componentModel = "spring")
 public interface ProfessorMapper {

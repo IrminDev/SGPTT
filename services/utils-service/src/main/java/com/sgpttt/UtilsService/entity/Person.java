@@ -1,8 +1,8 @@
 package com.sgpttt.UtilsService.entity;
 
-import java.util.Date;
-
 import jakarta.persistence.*;
+
+import java.util.Date;
 
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)

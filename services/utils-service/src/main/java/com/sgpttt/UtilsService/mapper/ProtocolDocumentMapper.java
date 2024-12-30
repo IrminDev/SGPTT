@@ -1,12 +1,11 @@
 package com.sgpttt.UtilsService.mapper;
 
-import java.util.List;
-
-import org.mapstruct.Mapper;
-
 import com.sgpttt.UtilsService.dto.response.ProtocolDocumentDTO;
 import com.sgpttt.UtilsService.entity.ProtocolDocument;
+import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
+
+import java.util.List;
 
 @Mapper(componentModel = "spring")
 public interface ProtocolDocumentMapper {

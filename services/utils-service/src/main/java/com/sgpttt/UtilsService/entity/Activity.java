@@ -1,9 +1,9 @@
 package com.sgpttt.UtilsService.entity;
 
-import java.util.Date;
-
 import com.sgpttt.UtilsService.model.ActivityName;
 import jakarta.persistence.*;
+
+import java.util.Date;
 
 @Entity
 public class Activity {

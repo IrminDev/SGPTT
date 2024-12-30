@@ -1,18 +1,15 @@
 package com.sgpttt.UtilsService.service;
 
-import java.util.List;
-
+import com.sgpttt.UtilsService.dto.response.ProfessorDTO;
+import com.sgpttt.UtilsService.entity.Professor;
 import com.sgpttt.UtilsService.entity.Protocol;
-import com.sgpttt.UtilsService.repository.PersonRepository;
+import com.sgpttt.UtilsService.mapper.ProfessorMapper;
 import com.sgpttt.UtilsService.repository.ProfessorRepository;
+import com.sgpttt.UtilsService.repository.ProtocolRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.sgpttt.UtilsService.dto.response.ProfessorDTO;
-import com.sgpttt.UtilsService.entity.Professor;
-import com.sgpttt.UtilsService.mapper.ProfessorMapper;
-import com.sgpttt.UtilsService.repository.ProtocolRepository;
-import com.sgpttt.UtilsService.repository.SinodalRepository;
+import java.util.List;
 
 @Service
 public class SinodalSuggestionService {
