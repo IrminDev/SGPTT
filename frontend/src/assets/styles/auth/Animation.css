@@ -1,0 +1,60 @@
+/* Texto Escribiendo */
+.revalia-regular {
+  font-family: "Revalia", sans-serif;
+}
+
+/* Imágenes Flotantes */
+/* Contenedor para imágenes flotantes */
+.img-container {
+  position: relative;
+  display: flex;
+  width: 100%;
+  justify-content: center; /* Centra horizontalmente */
+  align-items: center; /* Centra verticalmente */
+  overflow: visible;
+}
+
+/* Imagen principal (fondo) */
+.image1 {
+  position: relative; /* Base para la imagen secundaria */
+  width: 70%; /* Ajusta tamaño de la imagen */
+  animation: float 5s infinite ease-in-out;
+}
+
+/* Imagen secundaria (encima) */
+.image2 {
+  position: absolute; /* Posiciona encima de la imagen principal */
+  bottom: -5%; /* Ajusta hacia abajo respecto a la imagen principal */
+  right: -5%; /* Ajusta horizontalmente */
+  width: 50%; /* Tamaño más pequeño */
+  animation: float 5s infinite ease-in-out;
+}
+
+.animate-shake {
+  animation: shake 0.2s;
+}
+
+
+/* Keyframes para el efecto 'shake' */
+@keyframes shake {
+  0%, 100% {
+    transform: translateX(0);
+  }
+  25%, 75% {
+    transform: translateX(-5px);
+  }
+  50% {
+    transform: translateX(5px);
+  }
+}
+
+/* Keyframes para el efecto flotante */
+@keyframes float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-15px);
+  }
+}
