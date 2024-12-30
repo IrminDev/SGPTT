@@ -1,4 +1,4 @@
-package com.sgptt.protocolsservice.entension
+package com.sgptt.protocolsservice.extension
 
 import com.sgptt.protocolsservice.model.dto.ProtocolDTO
 import com.sgptt.protocolsservice.model.dto.ProtocolWithFileDTO
@@ -9,10 +9,10 @@ fun Protocol.toDomain(withFile: Boolean = false): ProtocolDTO {
 	val protocolWithoutFile = ProtocolWithoutFileDTO(
 		id = this.id,
 		title = this.title,
-		keywords = this.keyword.split(','),
-		abstract = this.abstract,
-		state = this.protocolState.state,
-		uploadAt = this.uploadAt
+		keywords = this.keywords.split(','),
+		abstract = this.protocolAbstract,
+		state = this.state,
+		createdAt = this.createdAt
 	)
 	return if (withFile) ProtocolWithFileDTO(
 		other = protocolWithoutFile,

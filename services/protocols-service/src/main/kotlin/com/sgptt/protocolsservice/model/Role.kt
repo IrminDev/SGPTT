@@ -1,7 +1,5 @@
 package com.sgptt.protocolsservice.model
 
 enum class Role {
-	Estudiante,
-	Profesor,
-	CATT
+	COORDINATOR, ASSISTANT, ADMINISTRATOR, SECRETARY
 }

@@ -12,12 +12,14 @@ services:
       - DATABASE_URL=jdbc:postgresql://db:5432/sgptt
       - DATABASE_USER=irmin
       - DATABASE_PASSWORD=irmin
+      - DATA_AUTH_URL=http://auth-service:8090
+      - PORT=8081
     container_name: protocols-service
     networks:
       - services-net
     stdin_open: true
-    entrypoint: [ "./gradlew", "bootRun" ]
     tty: true
+    entrypoint: [ "./gradlew", "bootRun" ]
 
 networks:
   services-net:

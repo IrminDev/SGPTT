@@ -1,6 +1,6 @@
 package com.sgptt.protocolsservice.model.dto
 
-import com.sgptt.protocolsservice.model.ProtocolState
+import com.sgptt.protocolsservice.model.State
 import java.sql.Timestamp
 
 interface ProtocolDTO {
@@ -8,6 +8,6 @@ interface ProtocolDTO {
 	val title: String
 	val keywords: List<String>
 	val abstract: String
-	val state: ProtocolState
-	val uploadAt: Timestamp
+	val state: State
+	val createdAt: Timestamp
 }

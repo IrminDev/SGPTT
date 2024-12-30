@@ -1,36 +1,46 @@
 package com.sgptt.protocolsservice.repository.entity
 
+import com.sgptt.protocolsservice.model.Career
 import jakarta.persistence.Column
 import jakarta.persistence.Entity
+import jakarta.persistence.EnumType
+import jakarta.persistence.Enumerated
 import jakarta.persistence.FetchType
-import jakarta.persistence.GeneratedValue
-import jakarta.persistence.GenerationType
-import jakarta.persistence.Id
 import jakarta.persistence.JoinColumn
-import jakarta.persistence.ManyToOne
-import jakarta.persistence.OneToOne
-import jakarta.persistence.Table
+import jakarta.persistence.JoinTable
+import jakarta.persistence.ManyToMany
+import jakarta.persistence.PrimaryKeyJoinColumn
+import java.util.*
 
 @Entity
-@Table(name = "student")
-data class Student(
+@PrimaryKeyJoinColumn(name = "person_id")
+class Student(
 	
-	@Id @GeneratedValue(strategy = GenerationType.AUTO)
-	@Column(name = "person_id")
-	val id: Long,
-	
-	@OneToOne(fetch = FetchType.EAGER, targetEntity = Person::class)
-	@JoinColumn(name = "person_id")
-	val person: Person,
-	
-	@Column(name = "student_number", length = 20, unique = true)
-	val studentNumber: String,
-	
-	@ManyToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name = "career_id")
+	@Enumerated(EnumType.ORDINAL)
+	@Column(name = "career", nullable = false)
 	val career: Career,
 	
-	@Column(name = "recursor", columnDefinition = "boolean default false")
-	val recursor: Boolean
+	@Column(name = "student_id", nullable = false, length = 10, unique = true)
+	val studentNumber: String,
 	
-)
+	@Column(name = "is_irregular", nullable = false)
+	val isIrregular: Boolean,
+	
+	@ManyToMany(fetch = FetchType.LAZY)
+	@JoinTable(
+		name = "protocol_person",
+		joinColumns = [JoinColumn(name = "protocol_id")],
+		inverseJoinColumns = [JoinColumn(name = "person_id")]
+	)
+	val protocols: MutableSet<Protocol>,
+	
+	personId: Long,
+	name: String,
+	paternalSurname: String,
+	maternalSurname: String,
+	email: String,
+	password: String,
+	createdAt: Date,
+	isActive: Boolean
+
+) : Person(personId, name, paternalSurname, maternalSurname, email, password, createdAt, isActive)
