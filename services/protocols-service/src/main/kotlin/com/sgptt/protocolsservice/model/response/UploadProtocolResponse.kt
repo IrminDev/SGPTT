@@ -1,5 +1,6 @@
 package com.sgptt.protocolsservice.model.response
 
+import com.sgptt.protocolsservice.model.Career
 import com.sgptt.protocolsservice.model.dto.ProtocolDTO
 import com.sgptt.protocolsservice.model.exception.EntityNotFoundException
 import com.sgptt.protocolsservice.model.exception.WrongUploadDateException
@@ -38,5 +39,9 @@ sealed class UploadProtocolResponse(open val message: String) {
 	data class FieldError(override val message: String) : UploadProtocolResponse(message)
 	data object BadFileType : UploadProtocolResponse("Your file must be a PDF file")
 	class WrongUploadDateResponse(e: WrongUploadDateException) : UploadProtocolResponse(e.message)
+	data class NotSameCareerResponse(
+		override val message: String,
+		val students: Map<String, Career>
+	) : UploadProtocolResponse(message)
 	
 }

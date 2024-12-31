@@ -2,6 +2,7 @@ package com.sgptt.protocolsservice.repository.entity
 
 import com.sgptt.protocolsservice.model.State
 import jakarta.persistence.Basic
+import jakarta.persistence.CascadeType
 import jakarta.persistence.Column
 import jakarta.persistence.Entity
 import jakarta.persistence.EnumType
@@ -26,17 +27,17 @@ data class Protocol(
 	val id: Long = 0L,
 	
 	@Column(name = "title", nullable = false)
-	val title: String,
+	var title: String,
 	
 	@Column(name = "keywords", nullable = false, columnDefinition = "TEXT")
-	val keywords: String,
+	var keywords: String,
 	
 	@Column(name = "abstract", nullable = false, columnDefinition = "TEXT")
-	val protocolAbstract: String,
+	var protocolAbstract: String,
 	
 	@Basic(fetch = FetchType.LAZY)
 	@Column(name = "file_data", columnDefinition = "BYTEA")
-	val fileData : ByteArray,
+	var fileData : ByteArray,
 	
 	@Enumerated(EnumType.ORDINAL)
 	val state: State,
@@ -53,21 +54,21 @@ data class Protocol(
 	)
 	val academies: Set<Academy>,
 	
-	@ManyToMany(fetch = FetchType.LAZY)
+	@ManyToMany(fetch = FetchType.LAZY, cascade = [CascadeType.REFRESH])
     @JoinTable(
         name = "protocol_student",
         joinColumns = [JoinColumn(name = "protocol_id")],
         inverseJoinColumns = [JoinColumn(name = "person_id")]
     )
-    val students: Set<Student>,
+    val students: MutableSet<Student>,
 
-    @ManyToMany(fetch = FetchType.LAZY)
+    @ManyToMany(fetch = FetchType.LAZY, cascade = [CascadeType.REFRESH])
     @JoinTable(
         name = "director",
         joinColumns = [JoinColumn(name = "protocol_id")],
         inverseJoinColumns = [JoinColumn(name = "person_id")]
     )
-    val directors: Set<Professor>,
+    val directors: MutableSet<Professor>,
 
     @OneToMany(mappedBy = "protocol", fetch = FetchType.LAZY)
     val sinodals: Set<Sinodal>

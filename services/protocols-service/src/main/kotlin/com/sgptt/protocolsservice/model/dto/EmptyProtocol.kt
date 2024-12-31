@@ -14,7 +14,7 @@ object EmptyProtocol : Protocol(
 	state = State.FINISHED,
 	createdAt = Timestamp.valueOf(LocalDateTime.now()),
 	academies = emptySet(),
-	students = emptySet(),
-	directors = emptySet(),
+	students = mutableSetOf(),
+	directors = mutableSetOf(),
 	sinodals = emptySet()
 )

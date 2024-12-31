@@ -6,8 +6,10 @@ import com.sgptt.protocolsservice.model.ProtocolPage
 import com.sgptt.protocolsservice.model.State
 import com.sgptt.protocolsservice.model.dto.EmptyProtocol
 import com.sgptt.protocolsservice.model.dto.ProtocolDTO
+import com.sgptt.protocolsservice.model.exception.DifferentCareerException
 import com.sgptt.protocolsservice.model.exception.EntityNotFoundException
 import com.sgptt.protocolsservice.model.exception.ProfessorNotFoundException
+import com.sgptt.protocolsservice.model.exception.ProtocolNotFoundException
 import com.sgptt.protocolsservice.model.exception.StudentNotFoundException
 import com.sgptt.protocolsservice.model.exception.WrongUploadDateException
 import com.sgptt.protocolsservice.repository.ActivityRepository
@@ -23,6 +25,8 @@ import org.springframework.web.multipart.MultipartFile
 import java.sql.Timestamp
 import java.time.LocalDateTime
 import java.util.*
+import kotlin.contracts.ExperimentalContracts
+import kotlin.contracts.contract
 
 @Service
 class ProtocolService(
@@ -45,7 +49,13 @@ class ProtocolService(
 	fun findById(id: Long): ProtocolDTO =
 		protocolRepository.findById(id).orElse(EmptyProtocol).toDomain(withFile = true)
 	
-	@Throws(EntityNotFoundException::class, WrongUploadDateException::class)
+	fun findAllByStudentId(id: Long): List<ProtocolDTO> =
+		protocolRepository.findAllByStudentId(id).map { it.toDomain(withFile = true) }
+	
+	fun findAllByProfessorId(id: Long): List<ProtocolDTO> =
+		protocolRepository.findAllByProfessorId(id).map { it.toDomain(withFile = true) }
+	
+	@Throws(EntityNotFoundException::class, WrongUploadDateException::class, DifferentCareerException::class)
 	fun registryProtocol(
 		file: MultipartFile,
 		studentId: Long,
@@ -64,7 +74,7 @@ class ProtocolService(
 			ActivityName.UPLOAD_PROTOCOLS_IRREGULAR_STUDENTS
 		else
 			ActivityName.UPLOAD_PROTOCOLS_REGULAR_STUDENTS
-			
+		
 		val activity = activityRepository.findByActivity(activityName)
 		
 		val today = Date()
@@ -82,21 +92,18 @@ class ProtocolService(
 		}
 		
 		val allStudents: Set<Student> = buildSet {
+			add(whoIsUploadingProtocol)
 			workMates.forEach { studentId ->
-				add(whoIsUploadingProtocol)
 				if (!studentRepository.existsStudentByStudentNumber(studentId))
 					throw StudentNotFoundException("Student with enrollment $studentId not found")
-				add(studentRepository.findByStudentNumber(studentId))
+				val mate = studentRepository.findByStudentNumber(studentId)
+				if (whoIsUploadingProtocol.career != mate.career)
+					throwDifferentSameCareerException(whoIsUploadingProtocol, mate)
+				add(mate)
 			}
 		}
 		
-		val allDirectors: Set<Professor> = buildSet {
-			directors.forEach { employerNumber ->
-				if (!professorRepository.existsProfessorByProfessorNumber(employerNumber))
-					throw ProfessorNotFoundException("Professor with number $employerNumber not found")
-				add(professorRepository.findByProfessorNumber(employerNumber))
-			}
-		}
+		val allDirectors: Set<Professor> = getAllDirectorsFromEmployerNumbers(directors)!!
 		
 		val protocol = Protocol(
 			title = protocolTitle,
@@ -106,8 +113,8 @@ class ProtocolService(
 			state = State.PENDING,
 			createdAt = Timestamp.valueOf(LocalDateTime.now()),
 			academies = emptySet(),
-			students = allStudents,
-			directors = allDirectors,
+			students = allStudents.toMutableSet(),
+			directors = allDirectors.toMutableSet(),
 			sinodals = emptySet()
 		)
 		
@@ -119,5 +126,83 @@ class ProtocolService(
 		}
 		
 		return newProtocol.toDomain()
+	}
+	
+	@Throws(EntityNotFoundException::class, DifferentCareerException::class)
+	fun updateProtocol(
+		protocolId: Long,
+		file: MultipartFile?,
+		title: String?,
+		keywords: List<String>?,
+		abstract: String?,
+		workMates: List<String>?,
+		directors: List<String>?,
+	): ProtocolDTO {
+		val protocolToUpdate = protocolRepository.findById(protocolId).orElseThrow {
+			ProtocolNotFoundException("Protocol with id $protocolId wasn't found in the database")
+		}
+		
+		val allStudents: Set<Student>? = workMates?.let {
+			lateinit var firstStudent: Student
+			buildSet {
+				it.forEachIndexed { index, studentId ->
+					if (!studentRepository.existsStudentByStudentNumber(studentId))
+						throw StudentNotFoundException("Student with enrollment $studentId not found")
+					if (index == 0) {
+						firstStudent = studentRepository.findByStudentNumber(studentId)
+						add(firstStudent)
+					} else {
+						val student = studentRepository.findByStudentNumber(studentId)
+						if (firstStudent.career != student.career)
+							throwDifferentSameCareerException(firstStudent, student)
+						add(student)
+					}
+				}
+			}
+		}
+		
+		val allDirectors: Set<Professor>? = getAllDirectorsFromEmployerNumbers(directors)
+		
+		protocolToUpdate.apply {
+			title?.let { this.title = it }
+			file?.let { this.fileData = it.bytes }
+			keywords?.let { this.keywords = it.joinToString(separator = ",") }
+			abstract?.let { this.protocolAbstract = it }
+			allStudents?.let { this.students.clear(); this.students.addAll(it) }
+			allDirectors?.let { this.directors.clear(); this.directors.addAll(it) }
+		}
+		
+		return protocolRepository.save(protocolToUpdate).toDomain()
+	}
+	
+	private fun throwDifferentSameCareerException(s1: Student, s2: Student): Nothing {
+		val message = buildMap {
+			with(s1) {
+				put("$name $paternalSurname $maternalSurname", career)
+			}
+			with(s2) {
+				put("$name $paternalSurname $maternalSurname", career)
+			}
+		}
+		throw DifferentCareerException("$message")
+	}
+	
+	
+	@OptIn(ExperimentalContracts::class)
+	private fun getAllDirectorsFromEmployerNumbers(numbers: List<String>?): Set<Professor>? {
+		contract {
+			returnsNotNull() implies (numbers != null)
+			returns(null) implies (numbers == null)
+		}
+		
+		return numbers?.let { directors ->
+			buildSet {
+				directors.forEach { employerNumber ->
+					if (!professorRepository.existsProfessorByProfessorNumber(employerNumber))
+						throw ProfessorNotFoundException("Professor with number $employerNumber not found")
+					add(professorRepository.findByProfessorNumber(employerNumber))
+				}
+			}
+		}
 	}
 }

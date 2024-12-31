@@ -1,7 +1,9 @@
 package com.sgptt.protocolsservice.controller
 
+import com.sgptt.protocolsservice.extension.buildErrorMessage
 import com.sgptt.protocolsservice.model.ProtocolPage
 import com.sgptt.protocolsservice.model.dto.ProtocolDTO
+import com.sgptt.protocolsservice.model.request.UpdateProtocolRequest
 import com.sgptt.protocolsservice.model.request.UploadProtocolRequest
 import com.sgptt.protocolsservice.model.response.UploadProtocolResponse
 import com.sgptt.protocolsservice.security.RequiresRole
@@ -14,9 +16,7 @@ import org.springframework.http.MediaType
 import org.springframework.http.ResponseEntity
 import org.springframework.validation.BindingResult
 import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PutMapping
-import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RequestPart
@@ -37,14 +37,33 @@ class ProtocolController(private val service: ProtocolService) {
 		return ResponseEntity(service.getPageOfProtocols(pageable), HttpStatus.OK)
 	}
 	
-	@GetMapping("/{id}")
-	@RequiresRole(roles = ["Catt"])
-	fun getProtocolById(@PathVariable id: Long): ProtocolDTO = service.findById(id)
+	@GetMapping("/get")
+	@RequiresRole(roles = ["Catt", "Student", "Professor"])
+	fun getProtocolById(
+		@RequestParam("protocolId", required = false) id: Long?,
+		@RequestParam("studentId", required = false) studentId: Long?,
+		@RequestParam("professorId", required = false) professorId: Long?
+	): List<ProtocolDTO> {
+		id?.let { return listOf(service.findById(it)) }
+		professorId?.let { return service.findAllByProfessorId(it) }
+		studentId?.let { return service.findAllByStudentId(it) }
+		return emptyList()
+	}
 	
-	@PutMapping("/update/{id}")
+	@PutMapping("/update")
 	@RequiresRole(roles = ["Catt"])
-	fun updateProtocolById(@PathVariable id: Long, @RequestBody uploadProtocolRequest: UploadProtocolRequest) {
-		//TODO(Not implement yet)
+	fun updateProtocol(
+		@RequestParam(required = true) protocolId: Long,
+		@RequestPart("file", required = false) file: MultipartFile?,
+		@RequestPart("updateRequest") uploadRequest: UpdateProtocolRequest,
+		result: BindingResult
+	): ResponseEntity<UploadProtocolResponse> {
+		if (result.hasFieldErrors()) {
+			return ResponseEntity(UploadProtocolResponse.FieldError(result.buildErrorMessage()), HttpStatus.BAD_REQUEST)
+		}
+		val (title, keywords, abstract, workMates, directors) = uploadRequest
+		val updated = service.updateProtocol(protocolId, file, title, keywords, abstract, workMates, directors)
+		return ResponseEntity(UploadProtocolResponse.UploadSuccess(updated), HttpStatus.CREATED)
 	}
 	
 	@PutMapping(
@@ -66,13 +85,7 @@ class ProtocolController(private val service: ProtocolService) {
 		* }
 		* */
 		if (result.hasFieldErrors()) {
-			val message = buildString {
-				result.fieldErrors.forEach { error ->
-					append("${error.field}: ${error.defaultMessage} ")
-					append('\n')
-				}
-			}
-			return ResponseEntity(UploadProtocolResponse.FieldError(message), HttpStatus.BAD_REQUEST)
+			return ResponseEntity(UploadProtocolResponse.FieldError(result.buildErrorMessage()), HttpStatus.BAD_REQUEST)
 		}
 		if (file.contentType != MediaType.APPLICATION_PDF_VALUE) return ResponseEntity(
 			UploadProtocolResponse.BadFileType,

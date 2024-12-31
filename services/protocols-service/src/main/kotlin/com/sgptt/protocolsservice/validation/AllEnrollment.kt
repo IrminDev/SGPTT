@@ -4,6 +4,13 @@ import jakarta.validation.Constraint
 import jakarta.validation.Payload
 import kotlin.reflect.KClass
 
+/**
+ * This annotation is used to validate a List<String>
+ * all elements in that list must be length 10 and
+ * they must be numeric
+ *
+ * null list is considered valid
+ */
 @Retention(AnnotationRetention.RUNTIME)
 @Target(AnnotationTarget.FIELD, AnnotationTarget.FUNCTION)
 @Constraint(validatedBy = [EnrollmentValidator::class])

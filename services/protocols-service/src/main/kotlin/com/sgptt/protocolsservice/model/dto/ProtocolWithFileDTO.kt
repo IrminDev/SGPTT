@@ -13,9 +13,17 @@ data class ProtocolWithFileDTO(
 	override val state: State,
 	override val createdAt: Timestamp,
 	val fileDataBase64: String,
-) : ProtocolDTO {
+	val students: List<String>,
+	val directors: List<String>,
+	
+	) : ProtocolDTO {
 	@OptIn(ExperimentalEncodingApi::class)
-	constructor(other: ProtocolWithoutFileDTO, fileData: ByteArray) : this(
+	constructor(
+		other: ProtocolWithoutFileDTO,
+		fileData: ByteArray,
+		students: List<String>,
+		directors: List<String>,
+	) : this(
 		id = other.id,
 		title = other.title,
 		keywords = other.keywords,
@@ -23,5 +31,7 @@ data class ProtocolWithFileDTO(
 		state = other.state,
 		createdAt = other.createdAt,
 		fileDataBase64 = Base64.encode(fileData),
+		students,
+		directors
 	)
 }
