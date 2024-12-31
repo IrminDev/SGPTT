@@ -22,14 +22,14 @@ public class ProtocolController {
         this.assignProtocolService = assignProtocolService;
     }
 
-    @PostMapping("/evaluate")
+    @PutMapping("/evaluate")
     @ResponseStatus(HttpStatus.ACCEPTED)
     @RequiresRole({"Professor"})
     public void evaluateProtocol(@RequestBody ProtocolAssessmentRequest protocolAssessmentRequest) {
         protocolAssessmentService.evaluate(protocolAssessmentRequest);
     }
 
-    @PostMapping("/assign")
+    @PutMapping("/assign")
     @ResponseStatus(HttpStatus.ACCEPTED)
     @RequiresRole({"Catt"})
     public void assignProtocol(@RequestBody AssignProtocolRequest assignProtocolRequest) {

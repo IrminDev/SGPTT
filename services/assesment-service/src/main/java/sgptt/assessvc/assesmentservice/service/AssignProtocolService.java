@@ -24,7 +24,7 @@ public class AssignProtocolService {
     public void assign(AssignProtocolRequest assignProtocolRequest) {
         Protocol protocol = protocolRepository.findById(assignProtocolRequest.getProtocolId()).orElseThrow(() -> new RuntimeException("Protocol not found"));
 
-        protocol.setAcademies(new HashSet<>(academyRepository.findAllById(assignProtocolRequest.getAcademies())));
+        protocol.setAcademies(new HashSet<>(academyRepository.findAllById(assignProtocolRequest.getAcademiesId())));
 
         protocolRepository.save(protocol);
     }

@@ -11,6 +11,6 @@ import java.util.Set;
 public class AssignProtocolRequest {
 
     private Integer protocolId;
-    private Set<Long> academies;
+    private Set<Long> academiesId;
 
 }
