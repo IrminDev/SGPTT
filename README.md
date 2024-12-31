@@ -303,3 +303,45 @@ The following rules are valited by the endpoint betore to regist the protocol
     "message": "Successfully uploaded the new protocol"
 }
 ```
+
+|  Endpoint              |  Type     | Allowed roles             |
+|------------------------|-----------|---------------------------|
+| /api/protocols/update  | PUT       | Catt                      |
+
+> [!important]
+> This is another multipart request
+
+And its definition is this
+```kotlin
+	@PutMapping("/update")
+	@RequiresRole(roles = ["Catt"])
+	fun updateProtocol(
+		@RequestParam(required = true) protocolId: Long,
+		@RequestPart("file", required = false) file: MultipartFile?,
+		@RequestPart("updateRequest") uploadRequest: UpdateProtocolRequest,
+		result: BindingResult
+	)
+```
+
+Now you **must** send a protocol id in path variable to update the protocol <br>
+similar to another endpoint, it requires a two files (the PDF file is optional, only if it requires update) <br>
+the uploadRequest param could look like this <br>
+
+<h2>update.json</h2>
+
+```json
+{
+    "title" : null,
+    "keywords" : null,
+    "abstract" : null,
+    "workMates" : null,
+    "directors" : ["9275018326", "4839201574"]
+}
+```
+
+> [!important]
+> Please note the parameter studentId is missing in this request, so it means you must provide the student enrollment number in the "workmates" field of who uploaded the protocol at the beginning.
+> For example, if any student with ID 1 was the one who uploaded the protocol and it has an enrollment number "1234567890," you must add this number to the workmates list.
+
+If a field requires a change, put a non null value in it, otherwise put a null in it
+
