@@ -199,6 +199,18 @@ If you don't provide any parameter, a empty list is returned
 > [!IMPORTANT]
 > This is a multipart request, you must send a protocol PDF file and a JSON file that contains request information.
 
+The controller method was defined like this:
+```kotlin
+
+@RequiresRole(roles = ["Student"])
+	fun uploadProtocol(
+		@RequestPart("file") file: MultipartFile,
+		@Valid @RequestPart("uploadRequest") uploadRequest: UploadProtocolRequest,
+		result: BindingResult,
+	)
+
+```
+
 **Example of structure JSON file** <br>
 <h2> sample.json </h2>
 
