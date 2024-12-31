@@ -254,7 +254,7 @@ The following rules are valited by the endpoint betore to regist the protocol
 }
 ```
 
-<h2>If the student is trying to upload its protocol out of the allowed dates a json response like this is returned with 503 not found status code</h2>
+<h2>If the student is trying to upload its protocol out of the allowed dates a json response like this is returned with 503 Service unavailable status code</h2>
 
 ```json
 {
