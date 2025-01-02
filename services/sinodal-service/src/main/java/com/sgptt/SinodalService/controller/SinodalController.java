@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
+@RequestMapping("/api/sinodal")
 public class SinodalController {
     private final SinodalService sinodalService;
 
@@ -53,7 +54,7 @@ public class SinodalController {
         }
     }
 
-    @GetMapping()
+    @GetMapping("/")
     @RequiresRole({"Catt"})
     public ResponseEntity<List<SinodalDTO>> getAllSinodals() {
         try {

@@ -2,6 +2,8 @@ package com.sgptt.SinodalService.service;
 
 import com.sgptt.SinodalService.dto.request.SinodalRequestDTO;
 import com.sgptt.SinodalService.dto.response.SinodalDTO;
+import com.sgptt.SinodalService.entity.Professor;
+import com.sgptt.SinodalService.entity.Protocol;
 import com.sgptt.SinodalService.entity.Sinodal;
 import com.sgptt.SinodalService.mapper.SinodalMapper;
 import com.sgptt.SinodalService.repository.ProfessorRepository;
@@ -11,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class SinodalService {
@@ -29,15 +32,25 @@ public class SinodalService {
 
     public SinodalDTO createSinodal(SinodalRequestDTO sinodalRequestDTO) {
         Sinodal sinodal = new Sinodal();
-        sinodal.setProfessor(professorRepository.findById(sinodalRequestDTO.getProfessorId()).get());
-        sinodal.setProtocol(protocolRepository.findById(sinodalRequestDTO.getProtocolId()).get());
-        sinodalRepository.save(sinodal);
-
-        return sinodalMapper.sinodalToSinodalDTO(sinodal);
+        Optional<Professor> professor = professorRepository.findById(sinodalRequestDTO.getProfessorId());
+        if(professor.isPresent()){
+            sinodal.setProfessor(professor.get());
+            Optional<Protocol> protocol = protocolRepository.findById(sinodalRequestDTO.getProtocolId());
+            if(protocol.isPresent()){
+                sinodal.setProtocol(protocol.get());
+                sinodalRepository.save(sinodal);
+                return sinodalMapper.sinodalToSinodalDTO(sinodal);
+            } else {
+                throw new IllegalArgumentException("Protocol not found");
+            }
+        } else {
+            throw new IllegalArgumentException("Professor not found");
+        }
     }
 
     public SinodalDTO getSinodal(Long id) {
-        return sinodalMapper.sinodalToSinodalDTO(sinodalRepository.findById(id).get());
+        Sinodal sinodal = sinodalRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Sinodal not found"));
+        return sinodalMapper.sinodalToSinodalDTO(sinodal);
     }
 
     public List<SinodalDTO> getAllSinodals() {
