@@ -14,9 +14,6 @@ services:
       - DATABASE_PASSWORD=irmin
       - PORT=8080
       - DATA_AUTH_URL=http://auth-service:8090
-    stdin_open: true
-    entrypoint: [ "./gradlew", "bootRun" ]
-    tty: true
     depends_on:
       - db
 
