@@ -17,9 +17,9 @@ public class ChangeRequestDocumentService {
     }
 
     public byte[] getChangeRequestDocument(Long changeRequestId) {
-        Optional<ChangeRequest> changeRequest = changeRequestRepository.findById(changeRequestId);
-        if (changeRequest.isPresent()) {
-            return changeRequest.get().getFormatData();
+        byte[] changeRequest = changeRequestRepository.getFormatDataByRequestId(changeRequestId);
+        if (changeRequest != null) {
+            return changeRequest;
         } else {
             throw new IllegalArgumentException("ChangeRequest not found");
         }

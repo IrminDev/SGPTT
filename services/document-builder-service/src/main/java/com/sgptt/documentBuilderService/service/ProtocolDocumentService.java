@@ -17,9 +17,9 @@ public class ProtocolDocumentService {
     }
 
     public byte[] getProtocolDocument(Long protocolId) {
-        Optional<Protocol> protocol = protocolRepository.findById(protocolId);
-        if (protocol.isPresent()) {
-            return protocol.get().getFileData();
+        byte[] protocol = protocolRepository.getFileDataByProtocolId(protocolId);
+        if (protocol != null) {
+            return protocol;
         } else {
             throw new IllegalArgumentException("Protocol not found");
         }
