@@ -1,6 +1,8 @@
 package com.sgpttt.authservice.extension
 
+import com.sgpttt.authservice.model.domain.ActivityDTO
 import com.sgpttt.authservice.model.domain.PersonDTO
+import com.sgpttt.authservice.repository.entity.Activity
 import com.sgpttt.authservice.repository.entity.Catt
 import com.sgpttt.authservice.repository.entity.Person
 import com.sgpttt.authservice.repository.entity.Professor
@@ -29,3 +31,8 @@ fun Person.toDomain(): PersonDTO = when (this) {
 	
 	else -> throw IllegalArgumentException("Unknown person type")
 }
+
+fun Activity.toDomain(): ActivityDTO = ActivityDTO(
+	name = activity.name,
+	closeDate = closeDate
+)

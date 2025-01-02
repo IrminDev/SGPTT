@@ -1,5 +1,6 @@
 package com.sgpttt.authservice.controller
 
+import com.sgpttt.authservice.model.domain.ActivityDTO
 import com.sgpttt.authservice.model.domain.PersonRole
 import com.sgpttt.authservice.model.request.LoginRequest
 import com.sgpttt.authservice.model.response.InactiveResponse
@@ -8,6 +9,7 @@ import com.sgpttt.authservice.model.response.NotFound
 import com.sgpttt.authservice.model.response.PayloadResponse
 import com.sgpttt.authservice.model.response.Success
 import com.sgpttt.authservice.model.response.WrongPassword
+import com.sgpttt.authservice.service.ActivityService
 import com.sgpttt.authservice.service.LoginService
 import jakarta.servlet.http.HttpServletRequest
 import org.springframework.http.HttpStatus
@@ -20,7 +22,10 @@ import org.springframework.web.bind.annotation.RestController
 
 @RestController
 @RequestMapping("/api/auth")
-class LoginController(private val loginService: LoginService) {
+class LoginController(
+	private val loginService: LoginService,
+	private val activityService: ActivityService
+) {
 	/**
 	 * Endpoint to make login into the system
 	 * @param loginRequest is the object that you must send to this endpoint with POST method
@@ -64,5 +69,14 @@ class LoginController(private val loginService: LoginService) {
 				}
 			)
 		}
+	}
+	
+	/**
+	 * Endpoint to get current all available activities
+	 * @return A list of all open activities today
+	 */
+	@GetMapping("/allOpenActivities")
+	fun getAllOpenActivities(): ResponseEntity<List<ActivityDTO>> {
+		return ResponseEntity(activityService.allOpenDates, HttpStatus.OK)
 	}
 }

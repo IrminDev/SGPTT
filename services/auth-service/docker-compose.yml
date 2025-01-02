@@ -26,7 +26,6 @@ services:
     build:
       context: ./dockerdb
       dockerfile: Dockerfile
-    #image: postgres:15.9-alpine
     ports:
       - "5432:5432"
     environment:
