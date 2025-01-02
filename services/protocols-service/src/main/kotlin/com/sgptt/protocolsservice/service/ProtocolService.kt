@@ -15,18 +15,20 @@ import com.sgptt.protocolsservice.model.exception.WrongUploadDateException
 import com.sgptt.protocolsservice.repository.ActivityRepository
 import com.sgptt.protocolsservice.repository.ProfessorRepository
 import com.sgptt.protocolsservice.repository.ProtocolRepository
+import com.sgptt.protocolsservice.repository.ProtocolSearchRepository
 import com.sgptt.protocolsservice.repository.StudentRepository
 import com.sgptt.protocolsservice.repository.entity.Professor
 import com.sgptt.protocolsservice.repository.entity.Protocol
+import com.sgptt.protocolsservice.repository.entity.ProtocolDocument
 import com.sgptt.protocolsservice.repository.entity.Student
+import java.sql.Timestamp
+import java.time.LocalDateTime
+import java.util.Date
+import kotlin.contracts.ExperimentalContracts
+import kotlin.contracts.contract
 import org.springframework.data.domain.Pageable
 import org.springframework.stereotype.Service
 import org.springframework.web.multipart.MultipartFile
-import java.sql.Timestamp
-import java.time.LocalDateTime
-import java.util.*
-import kotlin.contracts.ExperimentalContracts
-import kotlin.contracts.contract
 
 @Service
 class ProtocolService(
@@ -34,6 +36,7 @@ class ProtocolService(
 	private val studentRepository: StudentRepository,
 	private val professorRepository: ProfessorRepository,
 	private val activityRepository: ActivityRepository,
+	private val documentRepository: ProtocolSearchRepository
 ) {
 	
 	fun getPageOfProtocols(pageable: Pageable): ProtocolPage {
@@ -47,13 +50,13 @@ class ProtocolService(
 	}
 	
 	fun findById(id: Long): ProtocolDTO =
-		protocolRepository.findById(id).orElse(EmptyProtocol).toDomain(withFile = true)
+		protocolRepository.findById(id).orElse(EmptyProtocol).toDomain()
 	
 	fun findAllByStudentId(id: Long): List<ProtocolDTO> =
-		protocolRepository.findAllByStudentId(id).map { it.toDomain(withFile = true) }
+		protocolRepository.findAllByStudentId(id).map { it.toDomain() }
 	
 	fun findAllByProfessorId(id: Long): List<ProtocolDTO> =
-		protocolRepository.findAllByProfessorId(id).map { it.toDomain(withFile = true) }
+		protocolRepository.findAllByProfessorId(id).map { it.toDomain() }
 	
 	@Throws(EntityNotFoundException::class, WrongUploadDateException::class, DifferentCareerException::class)
 	fun registryProtocol(
@@ -83,7 +86,7 @@ class ProtocolService(
 			val message = buildString {
 				append("This service is temporally unavailable")
 				append('\n')
-				append("you can upload your protocol between the following dates")
+				append(" you can upload your protocol between the following dates ")
 				append(activity.openDate)
 				append(" and ")
 				append(activity.closeDate)
@@ -124,6 +127,14 @@ class ProtocolService(
 			it.protocols.add(newProtocol)
 			studentRepository.save(it)
 		}
+		
+		val protocolDocument = ProtocolDocument(
+			title = newProtocol.title,
+			keywords = newProtocol.keywords,
+			protocolAbstract = newProtocol.protocolAbstract,
+		)
+		
+		documentRepository.save(protocolDocument)
 		
 		return newProtocol.toDomain()
 	}

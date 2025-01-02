@@ -66,6 +66,18 @@ class ProtocolController(private val service: ProtocolService) {
 		return ResponseEntity(UploadProtocolResponse.UploadSuccess(updated), HttpStatus.CREATED)
 	}
 	
+	/**
+	 * Handles the upload of a new protocol for a student. The protocol file and associated metadata must be submitted.
+	 * The file upload adheres to specific requirements, such as being non-empty and in PDF format.
+	 * Additional checks validate field-level integrity and cross-entity relationships.
+	 *
+	 * @param file The uploaded file, which represents the protocol document. It must not be empty and must be in PDF format.
+	 * @param uploadRequest An object containing metadata about the protocol, such as title, abstract, keywords, student ID, workmates, and directors.
+	 * @param result Contains information about validation failures for the upload request.
+	 * @return A response entity containing the upload result. Returns success if the protocol is valid and uploaded correctly.
+	 *         In case of failure, returns an error message indicating the reason, such as invalid fields, wrong file type, empty file,
+	 *         or other validation issues.
+	 */
 	@PutMapping(
 		"/upload",
 		consumes = [MediaType.MULTIPART_FORM_DATA_VALUE, MediaType.APPLICATION_PDF_VALUE],
