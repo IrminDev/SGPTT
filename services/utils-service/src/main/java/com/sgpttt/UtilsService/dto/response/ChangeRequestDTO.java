@@ -14,7 +14,7 @@ public class ChangeRequestDTO {
 
     private Long protocolId;
 
-    private MultipartFile file;
+    private String filePath;
 
     // Getters and Setters
     public Long getId() {
@@ -57,11 +57,11 @@ public class ChangeRequestDTO {
         this.protocolId = protocolId;
     }
 
-    public MultipartFile getFile() {
-        return file;
+    public String getFilePath() {
+        return filePath;
     }
 
-    public void setFile(MultipartFile file) {
-        this.file = file;
+    public void setFilePath(String filePath) {
+        this.filePath = filePath;
     }
 }

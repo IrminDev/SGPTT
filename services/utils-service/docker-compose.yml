@@ -1,6 +1,7 @@
 services:
   db:
     image: postgres:15.9-alpine
+    container_name: db
     ports:
       - "5432:5432"
     environment:
@@ -38,6 +39,7 @@ services:
 
   auth-service:
     image: diegoxze35/auth-service:v1
+    container_name: auth-service
     ports:
       - "8090:8090"
     environment:
@@ -49,6 +51,16 @@ services:
     depends_on:
       - db
 
+  document-builder-service:
+    image: irmindev/document-builder-service:1.0
+    container_name: document-builder-service
+    ports:
+      - "8070:8070"
+    environment:
+      - DATABASE_URL=jdbc:postgresql://db:5432/sgptt
+      - DATABASE_USER=irmin
+      - DATABASE_PASSWORD=irmin
+      - PORT=8070
     
 volumes:
   pgdata:

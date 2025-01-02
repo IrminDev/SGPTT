@@ -8,6 +8,7 @@ import com.sgpttt.UtilsService.repository.ChangeRequestRepository;
 import com.sgpttt.UtilsService.repository.ProtocolRepository;
 import com.sgpttt.UtilsService.util.MultipartFileConverter;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.sql.Timestamp;
@@ -15,6 +16,8 @@ import java.util.List;
 
 @Service
 public class ChangeRequestService {
+    @Value("${env.document.builder.url}")
+    private String documentBuilderUrl;
     
     @Autowired
     public ChangeRequestService(ChangeRequestRepository changeRequestRepository, ProtocolRepository protocolRepository, ChangeRequestMapper changeRequestMapper) {
@@ -39,7 +42,7 @@ public class ChangeRequestService {
         // Save the ChangeRequest
         changeRequestRepository.save(changeRequest);
 
-        return changeRequestMapper.changeRequestToChangeRequestDTO(changeRequest);
+        return changeRequestMapper.changeRequestToChangeRequestDTO(changeRequest, documentBuilderUrl);
     }
 
     public ChangeRequestDTO changeRequestState(Long requestId, State state) {
@@ -52,23 +55,19 @@ public class ChangeRequestService {
         // Save the ChangeRequest
         changeRequestRepository.save(changeRequest);
 
-        return changeRequestMapper.changeRequestToChangeRequestDTO(changeRequest);
+        return changeRequestMapper.changeRequestToChangeRequestDTO(changeRequest, documentBuilderUrl);
     }
 
     public List<ChangeRequestDTO> getChangeRequests() {
-        return changeRequestMapper.changeRequestsToChangeRequestDTOs(changeRequestRepository.findAll());
+        return changeRequestMapper.changeRequestsToChangeRequestDTOs(changeRequestRepository.findAll(), documentBuilderUrl);
     }
 
     public ChangeRequestDTO getChangeRequest(Long id) {
         ChangeRequest changeRequest = changeRequestRepository.findById(id).orElseThrow(() -> new RuntimeException("ChangeRequest not found"));
-        ChangeRequestDTO changeRequestDTO = changeRequestMapper.changeRequestToChangeRequestDTO(changeRequest);
-
-        changeRequestDTO.setFile(MultipartFileConverter.convert(changeRequest.getFormatData(), changeRequest.getRequestId() + ".pdf"));
-
-        return changeRequestDTO;
+        return changeRequestMapper.changeRequestToChangeRequestDTO(changeRequest, documentBuilderUrl);
     }
 
     public List<ChangeRequestDTO> getChangeRequestsByProtocolId(Long protocolId) {
-        return changeRequestMapper.changeRequestsToChangeRequestDTOs(changeRequestRepository.findChangeRequestByProtocol_ProtocolId(protocolId));
+        return changeRequestMapper.changeRequestsToChangeRequestDTOs(changeRequestRepository.findChangeRequestByProtocol_ProtocolId(protocolId), documentBuilderUrl);
     }
 }
