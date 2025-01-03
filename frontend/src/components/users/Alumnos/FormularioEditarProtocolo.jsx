@@ -25,7 +25,10 @@ export default function FormularioEditarProtocolo() {
       protocolId: 1
     }
 
-    changeRequestService.createChangeRequest(data).then((response) => {
+    const token = localStorage.getItem("token")
+    console.log(token)
+
+    changeRequestService.createChangeRequest(token, data).then((response) => {
       console.log(response)
     }).catch((error) => {
       console.log(error)

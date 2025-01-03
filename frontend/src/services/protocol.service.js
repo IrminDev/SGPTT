@@ -54,7 +54,6 @@ const uploadProtocol = async (token, data) => {
     const response = await axios.put(`${API_URL}/api/protocols/upload`, data, {
         headers: {
             'Authorization': `Bearer ${token}`,
-            'Content-Type': 'multipart/form-data'
         }
     });
 
