@@ -33,6 +33,7 @@ public class ChangeRequestController {
             );
             return ResponseEntity.status(HttpStatus.CREATED).body(changeRequestDTO);
         } catch (Exception e) {
+            System.out.println(e.getMessage());
             return ResponseEntity.status(HttpStatus.FORBIDDEN).body(null);
         }
     }
@@ -47,6 +48,7 @@ public class ChangeRequestController {
             );
             return ResponseEntity.status(HttpStatus.OK).body(changeRequestDTO);
         } catch (Exception e) {
+            System.out.println(e.getMessage());
             return ResponseEntity.status(HttpStatus.FORBIDDEN).body(null);
         }
     }
@@ -58,6 +60,7 @@ public class ChangeRequestController {
             ChangeRequestDTO changeRequestDTO = changeRequestService.getChangeRequest(Long.parseLong(id));
             return ResponseEntity.status(HttpStatus.OK).body(changeRequestDTO);
         } catch (Exception e) {
+            System.out.println(e.getMessage());
             return ResponseEntity.status(HttpStatus.FORBIDDEN).body(null);
         }
     }
@@ -69,6 +72,7 @@ public class ChangeRequestController {
             List<ChangeRequestDTO> changeRequestDTOs = changeRequestService.getChangeRequests();
             return ResponseEntity.status(HttpStatus.OK).body(changeRequestDTOs);
         } catch (Exception e) {
+            System.out.println(e.getMessage());
             return ResponseEntity.status(HttpStatus.FORBIDDEN).body(null);
         }
     }
@@ -80,6 +84,7 @@ public class ChangeRequestController {
             List<ChangeRequestDTO> changeRequestDTOs = changeRequestService.getChangeRequestsByProtocolId(Long.parseLong(protocolId));
             return ResponseEntity.status(HttpStatus.OK).body(changeRequestDTOs);
         } catch (Exception e) {
+            System.out.println(e.getMessage());
             return ResponseEntity.status(HttpStatus.FORBIDDEN).body(null);
         }
     }
