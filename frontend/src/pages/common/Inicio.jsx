@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Card from "../../components/main/Card";
 import TittleSection from "../../components/common/TittleSection";
 
@@ -12,6 +12,11 @@ function Inicio() {
         { name: "Garcia Garcia Aram Jesua", image: Student },
         { name: "Hernandez Diaz Angel Roberto", image: Student },
     ];
+
+    useEffect(() => {
+        const person = JSON.parse(localStorage.getItem("person"));
+        console.log(person);
+    }, []);
 
     return (
         <div className="bg-gray-800 min-h-screen flex flex-col">

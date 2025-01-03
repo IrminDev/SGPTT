@@ -109,7 +109,6 @@ export default function App() {
           element={
             <Dashboard
               typeUser="CATT"
-              userName="Nombre del usuario CATT"
               userImageSidebar={AdminB}
               userImageHeader={AdminW}
               sidebarItems={cattItemsInfo}
@@ -124,7 +123,6 @@ export default function App() {
           element={
             <Dashboard
               typeUser="Alumno"
-              userName="Nombre del usuario Alumno"
               userImageSidebar={StudentB}
               userImageHeader={StudentW}
               sidebarItems={alumnoItemsInfo}
@@ -139,7 +137,6 @@ export default function App() {
           element={
             <Dashboard
               typeUser="Profesor"
-              userName="Nombre del usuario Profesor"
               userImageSidebar={TeacherB}
               userImageHeader={TeacherW}
               sidebarItems={profesorItemsInfo}

@@ -1,8 +1,10 @@
 import "../../assets/styles/auth/Animation.css"
 
-function InputAuth({ id, type, placeholder, error=false }) {
+function InputAuth({ id, type, placeholder, error, value, handleChange }) {
     return (
         <input
+            value={value}
+            onChange={handleChange}
             type={type}
             id={id}
             placeholder={placeholder}
