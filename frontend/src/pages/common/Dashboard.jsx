@@ -9,28 +9,26 @@ import { useNavigate } from "react-router-dom";
 const Dashboard = ({ typeUser, userImageSidebar, userImageHeader, sidebarItems, routes }) => {
   const navigate = useNavigate();
 
-  const [person, setPerson] = useState({
-    name: ''
-  });
+  const [person, setPerson] = useState(JSON.parse(localStorage.getItem("person")));
 
   useEffect(() => {
     const token = localStorage.getItem("token");
-    const personStorage = JSON.parse(localStorage.getItem("person"));
-    setPerson(personStorage);
-
     if (!token) {
       navigate("/");
     }
 
-    if(!personStorage?.personId){
+    if(!person.personId){
       authService.me(token).then((response) => {
         if (response) {
-          setPerson({
-            ...personStorage,
+          localStorage.setItem("person", JSON.stringify({
+            ...person,
             personId: response.personId,
-          });
-  
-          localStorage.setItem("person", JSON.stringify(person));
+          }));
+
+          setPerson({
+            ...person,
+            personId: response.personId,
+          })
         } else {
           localStorage.removeItem("token");
           localStorage.removeItem("person");

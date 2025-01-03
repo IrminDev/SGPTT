@@ -5,6 +5,7 @@ const createChangeRequest = async (token, data) => {
     const response = await axios.post(`${API_URL}/api/utils/change-request`, data, {
         headers: {
             'Authorization': `Bearer ${token}`,
+            'Content-Type': 'multipart/form-data'
         }
     });
 

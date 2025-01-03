@@ -13,10 +13,6 @@ function Inicio() {
         { name: "Hernandez Diaz Angel Roberto", image: Student },
     ];
 
-    useEffect(() => {
-        const person = JSON.parse(localStorage.getItem("person"));
-        console.log(person);
-    }, []);
 
     return (
         <div className="bg-gray-800 min-h-screen flex flex-col">

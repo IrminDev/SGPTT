@@ -11,12 +11,8 @@ const FormularioSubirProtocolo = ({ tipoProtocolo }) => {
     const [protocolTitle, setProtocolTitle] = useState('');
     const [abstract, setAbstract] = useState('');
     const [pdfFile, setPdfFile] = useState('');
-    const [person, setPerson] = useState({});
+    const [person, setPerson] = useState(JSON.parse(localStorage.getItem("person")));
 
-    useEffect(() => {
-        const personStored = JSON.parse(localStorage.getItem("person"));
-        setPerson(personStored);
-    }, []);
 
     const handleWorkMates = (e) => {
         e.preventDefault();
@@ -71,38 +67,27 @@ const FormularioSubirProtocolo = ({ tipoProtocolo }) => {
     const handleSubmit = (e) => {
         e.preventDefault();
 
-        
         const form = {
             workMates,
             directors,
             keywords,
             protocolTitle,
             abstract,
-            studentId: person.personId
+            studentId: person.personId,
         }
         
-        const blob = new Blob([JSON.stringify(form)], { type: 'application/json' });
-
-        const pdf = new Blob([pdfFile], { type: 'application/pdf' });
 
         const formData = new FormData();
-        formData.append('uploadRequest', blob);
-        formData.append('file', pdf);
+        formData.append('uploadRequest', new Blob([JSON.stringify(form)], { type: 'application/json' }));
+        formData.append('file', pdfFile);
 
-        protocolService.uploadProtocol(formData).then((response) => {
+        const token = localStorage.getItem("token");
+
+        protocolService.uploadProtocol(token, formData).then((response) => {
             console.log(response);
         }).catch((error) => {
             console.log(error);
         })
-        
-        console.log({
-            workMates,
-            directors,
-            keywords,
-            protocolTitle,
-            abstract,
-            pdfFile
-        });
     }
 
     return (
