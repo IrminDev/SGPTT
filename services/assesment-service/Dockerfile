@@ -5,14 +5,13 @@ WORKDIR /app
 RUN microdnf install findutils
 
 COPY build.gradle settings.gradle gradlew /app/
-
 COPY gradle /app/gradle
 
 RUN ./gradlew dependencies --no-daemon || true
 
 COPY src /app/src
 
-RUN ./gradlew build -x test --no-daemon
+RUN ./gradlew build --no-daemon
 
 FROM eclipse-temurin:23-jre-alpine
 
