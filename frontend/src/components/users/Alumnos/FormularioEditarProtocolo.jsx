@@ -21,14 +21,17 @@ export default function FormularioEditarProtocolo() {
     e.preventDefault()
     const data = {
       requestComments: comments,
-      file: formData,
       protocolId: 1
     }
+
+    const form = new FormData()
+    form.append("file", formData)
+    form.append("data", new Blob([JSON.stringify(data)], { type: "application/json" }))
 
     const token = localStorage.getItem("token")
     console.log(token)
 
-    changeRequestService.createChangeRequest(token, data).then((response) => {
+    changeRequestService.createChangeRequest(token, form).then((response) => {
       console.log(response)
     }).catch((error) => {
       console.log(error)
