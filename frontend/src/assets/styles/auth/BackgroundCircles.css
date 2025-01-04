@@ -1,0 +1,16 @@
+.background-container {
+    position: absolute;
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+    background-color: #ffffff; /* Fondo blanco */
+    z-index: -1;
+  }
+  
+  .circle {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(2px); /* Opcional: suaviza los bordes */
+    transition: all 2s ease-in-out;
+  }
+  
