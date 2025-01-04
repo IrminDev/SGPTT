@@ -1,0 +1,100 @@
+services:
+  spring-app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8081:8081"
+    volumes:
+      - .:/app
+      - /app/build
+    environment:
+      - DATABASE_URL=jdbc:postgresql://db:5432/sgptt
+      - DATABASE_USER=irmin
+      - DATABASE_PASSWORD=irmin
+      - DATA_AUTH_URL=http://auth-service:8090
+      - PORT=8081
+      - MAX_FILE_SIZE=4MB
+      - MAX_MULTIPART_SIZE=5MB
+      - VIEW_PROTOCOL_URL=http://view-document:8050/api/document/protocol/
+      - ELASTIC_SEARCH_URL=http://elastic-search:9200
+    container_name: protocols-service
+    stdin_open: true
+    tty: true
+    entrypoint: [ "./gradlew", "bootRun" ]
+    depends_on:
+      - db
+      - auth-service
+      - protocols
+      - elastic-search
+
+  elastic-search:
+    image: docker.elastic.co/elasticsearch/elasticsearch:8.16.0
+    container_name: elastic-search
+    environment:
+      - discovery.type=single-node
+      - xpack.security.enabled=false
+      - xpack.security.enrollment.enabled=false
+      - xpack.security.http.ssl.enabled=false
+    ports:
+      - "9200:9200"
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+    mem_limit: 4g
+    mem_reservation: 2g
+    volumes:
+      - es_data:/usr/share/elasticsearch/data
+
+  db:
+    build:
+      context: ./dockerdb
+      dockerfile: Dockerfile
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_USER=irmin
+      - POSTGRES_PASSWORD=irmin
+      - POSTGRES_DB=sgptt
+    container_name: postgresdb
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U irmin -d sgptt" ]
+      interval: 1s
+      timeout: 5s
+      retries: 10
+      start_period: 15s
+
+  auth-service:
+    image: diegoxze35/auth-service:v1
+    ports:
+      - "8090:8090"
+    container_name: auth-service-spring
+    environment:
+      - DATABASE_URL=jdbc:postgresql://db:5432/sgptt
+      - DATABASE_USER=irmin
+      - DATABASE_PASSWORD=irmin
+      - JWT_SECRET=mySuperSecureSecretKeyThatContainsAtLeast32Bits
+      - PORT=8090
+    depends_on:
+      - db
+
+  protocols:
+    image: irmindev/document-builder-service:1.0
+    ports:
+      - "8050:8050"
+    container_name: view-document
+    environment:
+      - DATABASE_URL=jdbc:postgresql://db:5432/sgptt
+      - DATABASE_USER=irmin
+      - DATABASE_PASSWORD=irmin
+      - PORT=8050
+    depends_on:
+      - db
+
+volumes:
+  pgdata:
+  es_data:
+    driver: local
