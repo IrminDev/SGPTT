@@ -83,6 +83,7 @@ const FormularioSubirProtocolo = ({ tipoProtocolo }) => {
 
         const token = localStorage.getItem("token");
 
+        console.log("Formulario: ", form);
         protocolService.uploadProtocol(token, formData).then((response) => {
             console.log(response);
         }).catch((error) => {

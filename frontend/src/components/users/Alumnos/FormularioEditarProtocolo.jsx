@@ -29,7 +29,6 @@ export default function FormularioEditarProtocolo() {
     form.append("data", new Blob([JSON.stringify(data)], { type: "application/json" }))
 
     const token = localStorage.getItem("token")
-    console.log(token)
 
     changeRequestService.createChangeRequest(token, form).then((response) => {
       console.log(response)
