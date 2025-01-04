@@ -26,7 +26,7 @@ spec:
             service:
               name: auth-service
               port:
-                number: 8082
+                number: 8090
         - path: /api/assessment
           pathType: Prefix
           backend:

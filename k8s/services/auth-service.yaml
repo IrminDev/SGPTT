@@ -9,5 +9,5 @@ spec:
     service: auth
   ports:
     - protocol: TCP
-      port: 8082
-      targetPort: 8082
+      port: 8090
+      targetPort: 8090

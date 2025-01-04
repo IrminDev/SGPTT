@@ -21,7 +21,7 @@ spec:
         - name: auth-service
           image: diegoxze35/auth-service:v1.1
           ports:
-            - containerPort: 8082
+            - containerPort: 8090
           resources:
             requests:
               memory: "512Mi"  # Increase the memory request
@@ -39,4 +39,4 @@ spec:
             - name: JWT_SECRET
               value: "mySuperSecureSecretKeyThatContainsAtLeast32Bits"
             - name: PORT
-              value: "8082"
+              value: "8090"
