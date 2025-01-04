@@ -1,27 +1,27 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: utils-deployment
+  name: administration-deployment
   labels:
     app: sgptt
-    service: utils
+    service: administration
 spec:
   replicas: 1
   selector:
     matchLabels:
       app: sgptt
-      service: utils
+      service: administration
   template:
     metadata:
       labels:
         app: sgptt
-        service: utils
+        service: administration
     spec:
       containers:
-        - name: utils-service
-          image: irmindev/utils-service:1.3
+        - name: administration-service
+          image: ediazh1900/administration-service:v1
           ports:
-            - containerPort: 8080
+            - containerPort: 8084
           resources:
             limits:
               memory: "256Mi"
@@ -43,4 +43,4 @@ spec:
             - name: DOCUMENT_BUILDER_URL
               value: "http://document-builder-service:8086"
             - name: PORT
-              value: "8080"
+              value: "8084"

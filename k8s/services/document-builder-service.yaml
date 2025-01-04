@@ -6,6 +6,7 @@ spec:
   type: ClusterIP
   selector:
     app: sgptt
+    service: document-builder
   ports:
     - protocol: TCP
       port: 8086

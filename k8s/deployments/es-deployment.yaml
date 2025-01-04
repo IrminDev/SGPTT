@@ -38,9 +38,11 @@ spec:
               hard: -1
           resources:
             limits:
-              memory: 4Gi
+              memory: "2Gi"
+              cpu: "250m"
             requests:
-              memory: 2Gi
+              memory: "1Gi"
+              cpu: "125m"
           volumeMounts:
             - name: es_data
               mountPath: /usr/share/elasticsearch/data

@@ -1,0 +1,77 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: db-backup-cronjob
+spec:
+  schedule: "0 * * * *" # Runs every hour
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+            - name: db-backup
+              image: postgres:15.9-alpine
+              command: ["/bin/sh", "-c", "/scripts/backup.sh"]
+              env:
+                - name: PGUSER
+                  value: "irmin"
+                - name: PGPASSWORD
+                  value: "irmin"
+                - name: PGDATABASE
+                  value: "sgptt"
+                - name: PGHOST
+                  value: "db-service"
+              volumeMounts:
+                - name: backup-scripts
+                  mountPath: /scripts
+                - name: backup-storage
+                  mountPath: /backups
+          restartPolicy: OnFailure
+          volumes:
+            - name: backup-scripts
+              configMap:
+                name: backup-scripts
+            - name: backup-storage
+              persistentVolumeClaim:
+                claimName: backup-pvc
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: backup-scripts
+data:
+  backup.sh: |
+    #!/bin/bash
+
+    # Set the environment variables
+    PGUSER=irmin
+    PGPASSWORD=irmin
+    PGDATABASE=sgptt
+    PGHOST=db-service
+    BACKUP_DIR=/backups
+
+    # Create the backup directory if it doesn't exist
+    mkdir -p $BACKUP_DIR
+
+    # Create a timestamped backup file
+    BACKUP_FILE=$BACKUP_DIR/backup_$(date +%Y%m%d%H%M%S).sql
+
+    # Perform the backup
+    pg_dump -U $PGUSER -h $PGHOST -d $PGDATABASE > $BACKUP_FILE
+
+    # Print a message indicating the backup is complete
+    echo "Backup completed: $BACKUP_FILE"
+
+    # Clean up backups older than 7 days
+    find $BACKUP_DIR -type f -mtime +7 -exec rm {} \;
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: backup-pvc
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi

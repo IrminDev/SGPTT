@@ -7,8 +7,10 @@ import com.sgpttt.UtilsService.security.RequiresRole;
 import com.sgpttt.UtilsService.service.ChangeRequestService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -22,12 +24,13 @@ public class ChangeRequestController {
         this.changeRequestService = changeRequestService;
     }
 
-    @PostMapping
+    @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     @RequiresRole({"Student", "Catt"})
-    public ResponseEntity<ChangeRequestDTO> createChangeRequest(@ModelAttribute CreateChangeRequestDTO createChangeRequestDTO) {
+    public ResponseEntity<ChangeRequestDTO> createChangeRequest(@RequestPart("data") CreateChangeRequestDTO createChangeRequestDTO,
+                                                                @RequestPart("file") MultipartFile file) {
         try{
             ChangeRequestDTO changeRequestDTO = changeRequestService.createChangeRequest(
-                    createChangeRequestDTO.getFile().getBytes(),
+                    file.getBytes(),
                     createChangeRequestDTO.getRequestComments(),
                     createChangeRequestDTO.getProtocolId()
             );
@@ -40,7 +43,7 @@ public class ChangeRequestController {
 
     @PutMapping("/{id}")
     @RequiresRole({"Catt"})
-    public ResponseEntity<ChangeRequestDTO> updateChangeRequest(@ModelAttribute UpdateChangeRequestDTO updateChangeRequestDTO) {
+    public ResponseEntity<ChangeRequestDTO> updateChangeRequest(@RequestBody UpdateChangeRequestDTO updateChangeRequestDTO) {
         try{
             ChangeRequestDTO changeRequestDTO = changeRequestService.changeRequestState(
                     updateChangeRequestDTO.getId(),

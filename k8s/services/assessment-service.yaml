@@ -6,6 +6,7 @@ spec:
   type: ClusterIP
   selector:
     app: sgptt
+    service: assessment
   ports:
     - protocol: TCP
       port: 8083

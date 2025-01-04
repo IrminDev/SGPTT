@@ -6,7 +6,8 @@ spec:
   type: ClusterIP
   selector:
     app: sgptt
+    service: protocol
   ports:
     - protocol: TCP
-      port: 8080
+      port: 8081
       targetPort: 8081

@@ -6,6 +6,7 @@ spec:
   type: ClusterIP
   selector:
     app: sgptt
+    service: sinodal
   ports:
     - protocol: TCP
       port: 8085

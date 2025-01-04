@@ -6,20 +6,55 @@ metadata:
     nginx.ingress.kubernetes.io/rewrite-target: /
 spec:
   rules:
-    - host: sgptt.local
+    - host: sgptt.com
       http:
         paths:
-        - path: api/utils
+        - path: /api/utils
           pathType: Prefix
           backend:
             service:
               name: utils-service
               port:
                 number: 8080
-        - path: /
+        - path: /api/protocols
           pathType: Prefix
           backend:
-            service: # Application service
-              name: utils-service
+            service:
+              name: protocols-service
               port:
-                number: 8080
+                number: 8081
+        - path: /api/auth
+          pathType: Prefix
+          backend:
+            service:
+              name: auth-service
+              port:
+                number: 8082
+        - path: /api/assessment
+          pathType: Prefix
+          backend:
+            service:
+              name: assessment-service
+              port:
+                number: 8083
+        - path: /api/administration
+          pathType: Prefix
+          backend:
+            service:
+              name: administration-service
+              port:
+                number: 8084
+        - path: /api/sinodal
+          pathType: Prefix
+          backend:
+            service:
+              name: sinodal-service
+              port:
+                number: 8085
+        - path: /api/document
+          pathType: Prefix
+          backend:
+            service:
+              name: document-builder-service
+              port:
+                number: 8086

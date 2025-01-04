@@ -3,18 +3,8 @@ package com.sgpttt.UtilsService.dto.request;
 import org.springframework.web.multipart.MultipartFile;
 
 public class CreateChangeRequestDTO {
-    private MultipartFile file;
     private String requestComments;
     private Long protocolId;
-
-    // Getters and Setters
-    public MultipartFile getFile() {
-        return file;
-    }
-
-    public void setFile(MultipartFile file) {
-        this.file = file;
-    }
 
     public String getRequestComments() {
         return requestComments;
@@ -36,8 +26,7 @@ public class CreateChangeRequestDTO {
     public CreateChangeRequestDTO() {
     }
 
-    public CreateChangeRequestDTO(MultipartFile file, String requestComments, Long protocolId) {
-        this.file = file;
+    public CreateChangeRequestDTO(String requestComments, Long protocolId) {
         this.requestComments = requestComments;
         this.protocolId = protocolId;
     }
