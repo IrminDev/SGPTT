@@ -23,12 +23,12 @@ spec:
           ports:
             - containerPort: 8082
           resources:
-            limits:
-              memory: "256Mi"
-              cpu: "250m"
             requests:
-              memory: "128Mi"
-              cpu: "125m"
+              memory: "512Mi"  # Increase the memory request
+              cpu: "250m"
+            limits:
+              memory: "1Gi"    # Increase the memory limit
+              cpu: "500m"
           env:
             - name: DATABASE_URL
               value: "jdbc:postgresql://db-service:5432/sgptt"

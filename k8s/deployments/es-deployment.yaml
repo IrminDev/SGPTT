@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: database-deployment
+  name: elasticsearch-deployment
   labels:
     app: sgptt
     service: es
@@ -18,7 +18,7 @@ spec:
         service: es
     spec:
       containers:
-        - name: elastic-search
+        - name: elasticsearch
           image: docker.elastic.co/elasticsearch/elasticsearch:8.16.0
           ports:
             - containerPort: 9200
@@ -32,20 +32,28 @@ spec:
               value: "false"
             - name: xpack.security.http.ssl.enabled
               value: "false"
-          ulimits:
-            memlock:
-              soft: -1
-              hard: -1
           resources:
             limits:
               memory: "2Gi"
-              cpu: "250m"
+              cpu: "500m"
             requests:
               memory: "1Gi"
-              cpu: "125m"
+              cpu: "250m"
           volumeMounts:
-            - name: es_data
+            - name: es-data
               mountPath: /usr/share/elasticsearch/data
       volumes:
-        - name: es_data
-          emptyDir: {}
+        - name: es-data
+          persistentVolumeClaim:
+            claimName: es-data-pvc
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: es-data-pvc
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 2Gi

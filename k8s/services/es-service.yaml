@@ -8,9 +8,11 @@ spec:
     app: sgptt
     service: es
   ports:
-    - protocol: TCP
+    - name: http
+      protocol: TCP
       port: 9200
       targetPort: 9200
-    - protocol: TCP
+    - name: transport
+      protocol: TCP
       port: 9300
       targetPort: 9300
