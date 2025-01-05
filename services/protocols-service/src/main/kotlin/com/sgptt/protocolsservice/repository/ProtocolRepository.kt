@@ -1,5 +1,6 @@
 package com.sgptt.protocolsservice.repository
 
+import com.sgptt.protocolsservice.model.State
 import com.sgptt.protocolsservice.repository.entity.Protocol
 import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.data.jpa.repository.Query
@@ -7,6 +8,8 @@ import org.springframework.data.repository.PagingAndSortingRepository
 import org.springframework.data.repository.query.Param
 
 interface ProtocolRepository : PagingAndSortingRepository<Protocol, Long>, JpaRepository<Protocol, Long> {
+	
+	fun findAllByState(state: State): List<Protocol>
 	
 	@Query(
 		nativeQuery = true,

@@ -40,7 +40,7 @@ data class Protocol(
 	var fileData: ByteArray,
 	
 	@Enumerated(EnumType.ORDINAL)
-	val state: State,
+	var state: State,
 	
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "created_at")

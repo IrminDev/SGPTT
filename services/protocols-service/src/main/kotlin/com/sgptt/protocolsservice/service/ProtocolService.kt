@@ -60,6 +60,8 @@ class ProtocolService(
 	
 	fun findBySynodalId(id: Long): List<ProtocolDTO> = protocolRepository.findBySynodalId(id).map { it.toDomain() }
 	
+	fun findAllByState(state: State): List<ProtocolDTO> = protocolRepository.findAllByState(state).map { it.toDomain() }
+	
 	val allProtocolsMissingSynodals: List<ProtocolDTO>
 		get() = protocolRepository.findAllBySinodalsCountIsLessThan3().map { it.toDomain() }
 	
@@ -232,4 +234,28 @@ class ProtocolService(
 			}
 		}
 	}
+	
+	@Throws(EntityNotFoundException::class)
+	fun updateProtocolState(protocolId: Long, state: State): ProtocolDTO {
+		val protocol = protocolRepository.findById(protocolId).orElseThrow {
+			ProtocolNotFoundException("Protocol with id $protocolId wasn't found in the database")
+		}
+		protocol.state = state
+		return protocolRepository.save(protocol).toDomain()
+	}
+	
+	@Throws(EntityNotFoundException::class, IllegalStateException::class)
+	fun updateProtocolFile(protocolId: Long, file: MultipartFile): ProtocolDTO {
+		val protocol = protocolRepository.findById(protocolId).orElseThrow {
+			ProtocolNotFoundException("Protocol with id $protocolId wasn't found in the database")
+		}
+		
+		if (protocol.state != State.CORRECTIONS)
+			throw IllegalStateException("Your protocol ${protocol.title} must be in the 'Corrections'" +
+					" state to be corrected")
+		
+		protocol.fileData = file.bytes
+		return protocolRepository.save(protocol).toDomain()
+	}
+	
 }

@@ -2,6 +2,7 @@ package com.sgptt.protocolsservice.controller
 
 import com.sgptt.protocolsservice.extension.buildErrorMessage
 import com.sgptt.protocolsservice.model.ProtocolPage
+import com.sgptt.protocolsservice.model.State
 import com.sgptt.protocolsservice.model.dto.ProtocolDTO
 import com.sgptt.protocolsservice.model.request.UpdateProtocolRequest
 import com.sgptt.protocolsservice.model.request.UploadProtocolRequest
@@ -41,7 +42,16 @@ class ProtocolController(private val service: ProtocolService) {
 	@GetMapping("/professor/suggestions/{professorId}")
 	@RequiresRole(roles = ["Professor", "Catt"])
 	fun getAllSuggestionByProfessorAcademy(@PathVariable professorId: Long) =
-			service.findAllSuggestionByProfessorAcademy(professorId)
+		service.findAllSuggestionByProfessorAcademy(professorId)
+	
+	@GetMapping("/all/state")
+	@RequiresRole(roles = ["Catt"])
+	fun getAllByState(
+		@RequestParam(
+			required = true,
+			defaultValue = "PENDING"
+		) state: State
+	): ResponseEntity<List<ProtocolDTO>> = ResponseEntity(service.findAllByState(state), HttpStatus.OK)
 	
 	@GetMapping("/all/missingSynodals")
 	@RequiresRole(roles = ["Catt"])
@@ -65,6 +75,10 @@ class ProtocolController(private val service: ProtocolService) {
 		return emptyList()
 	}
 	
+	/*
+	* PUT METHODS
+	* */
+	
 	@PutMapping("/update")
 	@RequiresRole(roles = ["Catt"])
 	fun updateProtocol(
@@ -80,6 +94,28 @@ class ProtocolController(private val service: ProtocolService) {
 		val updated = service.updateProtocol(protocolId, file, title, keywords, abstract, workMates, directors)
 		return ResponseEntity(UploadProtocolResponse.UploadSuccess(updated), HttpStatus.CREATED)
 	}
+	
+	@PutMapping("/update/file")
+	@RequiresRole(roles = ["Catt", "Student"])
+	fun updateProtocolFile(
+		@RequestParam(required = true) protocolId: Long,
+		@RequestPart("file") file: MultipartFile,
+	): ResponseEntity<UploadProtocolResponse> {
+		if (file.contentType != MediaType.APPLICATION_PDF_VALUE) return ResponseEntity(
+			UploadProtocolResponse.BadFileType,
+			HttpStatus.UNSUPPORTED_MEDIA_TYPE
+		)
+		if (file.isEmpty) return ResponseEntity(UploadProtocolResponse.EmptyFile, HttpStatus.LENGTH_REQUIRED)
+		val new = service.updateProtocolFile(protocolId, file)
+		return ResponseEntity(UploadProtocolResponse.UploadSuccess(new), HttpStatus.CREATED)
+	}
+	
+	@PutMapping("/state")
+	@RequiresRole(roles = ["Catt"])
+	fun updateStatus(
+		@RequestParam(required = true) protocolId: Long,
+		@RequestParam(required = true) state: State
+	): ResponseEntity<ProtocolDTO> = ResponseEntity(service.updateProtocolState(protocolId, state), HttpStatus.CREATED)
 	
 	/**
 	 * Handles the upload of a new protocol for a student. The protocol file and associated metadata must be submitted.
