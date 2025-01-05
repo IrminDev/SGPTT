@@ -37,6 +37,6 @@ spec:
             - name: DATABASE_PASSWORD
               value: "irmin"
             - name: DATA_AUTH_URL
-              value: "http://auth-service:8082"
+              value: "http://auth-service:8090"
             - name: PORT
               value: "8083"

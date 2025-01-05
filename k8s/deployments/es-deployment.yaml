@@ -46,14 +46,3 @@ spec:
         - name: es-data
           persistentVolumeClaim:
             claimName: es-data-pvc
----
-apiVersion: v1
-kind: PersistentVolumeClaim
-metadata:
-  name: es-data-pvc
-spec:
-  accessModes:
-    - ReadWriteOnce
-  resources:
-    requests:
-      storage: 2Gi

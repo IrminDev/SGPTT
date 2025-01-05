@@ -39,9 +39,9 @@ spec:
             - name: ELASTIC_SEARCH_URL
               value: "http://es-service:9200"
             - name: DATA_AUTH_URL
-              value: "http://auth-service:8082"
-            - name: VIEW_PROTOCOL_URL
-              value: "http://document-builder-service:8086/api/document/protocol/"
+              value: "http://auth-service:8090"
+            - name: DATA_PROTOCOL_URL
+              value: "http://localhost:8081/api/document/protocol/"
             - name: PORT
               value: "8081"
             - name: MAX_FILE_SIZE

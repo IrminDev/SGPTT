@@ -39,8 +39,8 @@ spec:
             - name: ELASTICSEARCH_URL
               value: "http://es-service:9200"
             - name: DATA_AUTH_URL
-              value: "http://auth-service:8082"
+              value: "http://auth-service:8090"
             - name: DOCUMENT_BUILDER_URL
-              value: "http://document-builder-service:8086"
+              value: "http://localhost:8081"
             - name: PORT
               value: "8080"

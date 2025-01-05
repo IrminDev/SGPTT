@@ -8,12 +8,11 @@ const MiProtocolo = () => {
 
   useEffect(() => {
     const person = JSON.parse(localStorage.getItem("person"));
-    console.log(person);
-    const token = localStorage.getItem("token");
-    protocolService.getStudentProtocols(token, person.personId).then((response) => {
+    protocolService.getStudentProtocols(person.personId).then((response) => {
+      setProtocol(response);
       console.log(response);
     })
-  });
+  }, []);
 
   return (
     <div className="bg-gray-800 min-h-screen flex flex-col">
@@ -21,7 +20,7 @@ const MiProtocolo = () => {
         <TittleSection tittle="Mis Protocolos" />
       </div>
       <div className="p-8 bg-gray-800 rounded-lg shadow-md w-full max-w-4xl mx-auto">
-        {protocol.map((protocolo, index) => (
+        {protocol?.map((protocolo, index) => (
           <ProtocoloInfoCard key={index} protocolo={protocolo} />
         ))}
       </div>

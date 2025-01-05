@@ -19,7 +19,7 @@ spec:
     spec:
       containers:
         - name: document-builder-service
-          image: irmindev/document-builder-service:1.0
+          image: irmindev/document-builder-service:1.2
           ports:
             - containerPort: 8086
           resources:

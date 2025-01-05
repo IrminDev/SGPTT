@@ -4,8 +4,7 @@ import Button from '../../common/Button';
 import changeRequestService from '../../../services/changeRequest.service';
 
 
-export default function FormularioEditarProtocolo() {
-  const [person, setPerson] = useState(JSON.parse(localStorage.getItem("person")))
+export default function FormularioEditarProtocolo({protocol}) {
   const [formData, setFormData] = useState()
   const [comments, setComments] = useState()
 
@@ -21,16 +20,16 @@ export default function FormularioEditarProtocolo() {
     e.preventDefault()
     const data = {
       requestComments: comments,
-      protocolId: 1
+      protocolId: protocol
     }
+
+    console.log(protocol)
 
     const form = new FormData()
     form.append("file", formData)
     form.append("data", new Blob([JSON.stringify(data)], { type: "application/json" }))
 
-    const token = localStorage.getItem("token")
-
-    changeRequestService.createChangeRequest(token, form).then((response) => {
+    changeRequestService.createChangeRequest(form).then((response) => {
       console.log(response)
     }).catch((error) => {
       console.log(error)

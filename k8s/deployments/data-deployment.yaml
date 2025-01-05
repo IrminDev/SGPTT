@@ -63,14 +63,3 @@ spec:
         - name: pgdata
           persistentVolumeClaim:
             claimName: pgdata-pvc
----
-apiVersion: v1
-kind: PersistentVolumeClaim
-metadata:
-  name: pgdata-pvc
-spec:
-  accessModes:
-    - ReadWriteOnce
-  resources:
-    requests:
-      storage: 1Gi

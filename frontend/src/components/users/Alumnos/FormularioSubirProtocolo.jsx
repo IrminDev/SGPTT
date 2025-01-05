@@ -13,7 +13,6 @@ const FormularioSubirProtocolo = ({ tipoProtocolo }) => {
     const [pdfFile, setPdfFile] = useState('');
     const [person, setPerson] = useState(JSON.parse(localStorage.getItem("person")));
 
-
     const handleWorkMates = (e) => {
         e.preventDefault();
         if(workMates.length <= 3){
@@ -80,11 +79,14 @@ const FormularioSubirProtocolo = ({ tipoProtocolo }) => {
         const formData = new FormData();
         formData.append('uploadRequest', new Blob([JSON.stringify(form)], { type: 'application/json' }));
         formData.append('file', pdfFile);
+        console.log(JSON.stringify(form));
 
         const token = localStorage.getItem("token");
 
+        console.log("Token: ", token);
+
         console.log("Formulario: ", form);
-        protocolService.uploadProtocol(token, formData).then((response) => {
+        protocolService.uploadProtocol(formData).then((response) => {
             console.log(response);
         }).catch((error) => {
             console.log(error);

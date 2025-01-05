@@ -39,4 +39,4 @@ spec:
             - name: PORT
               value: "8085"
             - name: DATA_AUTH_URL
-              value: "http://auth-service:8082"
+              value: "http://auth-service:8090"
