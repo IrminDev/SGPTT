@@ -15,7 +15,7 @@ public class ProtocolDTO {
 
     private State state;
 
-    private Date createdAt;
+    private String createdAt;
 
     public Long getProtocolId() {
         return protocolId;
@@ -57,11 +57,11 @@ public class ProtocolDTO {
         this.state = state;
     }
 
-    public Date getCreatedAt() {
+    public String getCreatedAt() {
         return createdAt;
     }
 
-    public void setCreatedAt(Date createdAt) {
+    public void setCreatedAt(String createdAt) {
         this.createdAt = createdAt;
     }
 }

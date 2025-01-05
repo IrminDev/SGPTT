@@ -60,4 +60,8 @@ public class SinodalService {
     public List<SinodalDTO> getSinodalsByProfessor(Long professorId) {
         return sinodalMapper.sinodalToSinodalDTO(sinodalRepository.findByProfessor_PersonId(professorId));
     }
+
+    public List<SinodalDTO> getSinodalsByProtocol(Long protocolId) {
+        return sinodalMapper.sinodalToSinodalDTO(sinodalRepository.findByProtocol_ProtocolId(protocolId));
+    }
 }

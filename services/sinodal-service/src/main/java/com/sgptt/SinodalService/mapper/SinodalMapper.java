@@ -7,14 +7,13 @@ import org.mapstruct.Mapping;
 
 import java.util.List;
 
-@Mapper(componentModel = "spring", uses = {ProtocolMapper.class})
+@Mapper(componentModel = "spring", uses = {ProtocolMapper.class, ProfessorMapper.class})
 public interface SinodalMapper {
 
-    @Mapping(target = "professorId", source = "professor.personId")
     @Mapping(target = "protocol", source = "protocol")
+    @Mapping(source = "protocol.createdAt", target = "protocol.createdAt", dateFormat = "dd-MM-yyyy")
     SinodalDTO sinodalToSinodalDTO(Sinodal sinodal);
 
-    @Mapping(target = "professor.personId", source = "professorId")
     @Mapping(target = "protocol.protocolId", source = "protocolId")
     List<SinodalDTO> sinodalToSinodalDTO(List<Sinodal> sinodal);
 }

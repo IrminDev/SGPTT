@@ -10,4 +10,6 @@ import java.util.List;
 @Repository
 public interface SinodalRepository extends JpaRepository<Sinodal, Long> {
     List<Sinodal> findByProfessor_PersonId(Long professorPersonId);
+
+    List<Sinodal> findByProtocol_ProtocolId(Long protocolId);
 }

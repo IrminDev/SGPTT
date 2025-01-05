@@ -3,7 +3,7 @@ package com.sgptt.SinodalService.dto.response;
 public class SinodalDTO {
     private Long id;
 
-    private Long professorId;
+    private ProfessorDTO professor;
 
     private ProtocolDTO protocol;
 
@@ -15,12 +15,12 @@ public class SinodalDTO {
         this.id = id;
     }
 
-    public Long getProfessorId() {
-        return professorId;
+    public ProfessorDTO getProfessor() {
+        return professor;
     }
 
-    public void setProfessorId(Long professorId) {
-        this.professorId = professorId;
+    public void setProfessor(ProfessorDTO professor) {
+        this.professor = professor;
     }
 
     public ProtocolDTO getProtocol() {

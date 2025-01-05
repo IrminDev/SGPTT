@@ -28,6 +28,7 @@ public class SinodalController {
             SinodalDTO sinodalDTO = sinodalService.createSinodal(sinodalRequestDTO);
             return ResponseEntity.status(HttpStatus.CREATED).body(sinodalDTO);
         } catch (Exception e) {
+            System.out.println(e);
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
         }
     }
@@ -39,6 +40,7 @@ public class SinodalController {
             SinodalDTO sinodalDTO = sinodalService.getSinodal(id);
             return ResponseEntity.status(HttpStatus.OK).body(sinodalDTO);
         } catch (Exception e) {
+            System.out.println(e);
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
         }
     }
@@ -50,6 +52,7 @@ public class SinodalController {
             List<SinodalDTO> sinodalDTOs = sinodalService.getSinodalsByProfessor(professorId);
             return ResponseEntity.status(HttpStatus.OK).body(sinodalDTOs);
         } catch (Exception e) {
+            System.out.println(e);
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
         }
     }
@@ -61,6 +64,19 @@ public class SinodalController {
             List<SinodalDTO> sinodalDTOs = sinodalService.getAllSinodals();
             return ResponseEntity.status(HttpStatus.OK).body(sinodalDTOs);
         } catch (Exception e) {
+            System.out.println(e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+        }
+    }
+
+    @GetMapping("/protocol/{protocolId}")
+    @RequiresRole({"Catt", "Professor", "Student"})
+    public ResponseEntity<List<SinodalDTO>> getSinodalsByProtocol(@RequestParam Long protocolId) {
+        try {
+            List<SinodalDTO> sinodalDTOs = sinodalService.getSinodalsByProtocol(protocolId);
+            return ResponseEntity.status(HttpStatus.OK).body(sinodalDTOs);
+        } catch (Exception e) {
+            System.out.println(e);
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
         }
     }
