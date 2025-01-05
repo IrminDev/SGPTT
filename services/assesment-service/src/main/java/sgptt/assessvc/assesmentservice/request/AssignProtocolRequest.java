@@ -10,7 +10,7 @@ import java.util.Set;
 @AllArgsConstructor
 public class AssignProtocolRequest {
 
-    private Integer protocolId;
+    private Long protocolId;
     private Set<Long> academiesId;
 
 }

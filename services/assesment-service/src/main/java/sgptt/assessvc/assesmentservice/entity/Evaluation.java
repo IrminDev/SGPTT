@@ -34,7 +34,7 @@ public class Evaluation {
     @Column(name = "evaluation_date")
     private Timestamp evaluationDate;
 
-    @OneToMany(targetEntity = CriterionEvaluation.class, cascade = CascadeType.PERSIST)
+    @OneToMany(targetEntity = CriterionEvaluation.class, cascade = CascadeType.ALL)
     @JoinColumn(name = "criterion_evaluation_id", updatable = false, nullable = false)
     private List<CriterionEvaluation> criterionEvaluations;
 }

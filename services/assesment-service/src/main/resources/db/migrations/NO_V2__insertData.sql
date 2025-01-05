@@ -1,5 +1,5 @@
 create
-extension if not exists pgcrypto;
+    extension if not exists pgcrypto;
 --Personas
 INSERT INTO Person (person_id, name, paternal_surname, maternal_surname, email, password, created_at)
 VALUES (1, 'Juan', 'Pérez', 'García', 'juan.perez@example.com',
@@ -11,27 +11,32 @@ VALUES (1, 'Juan', 'Pérez', 'García', 'juan.perez@example.com',
        (4, 'Ana', 'Gómez', 'Rodríguez', 'ana.gomez@example.com',
         crypt('password4', gen_salt('md5')), current_timestamp),
        (5, 'Pedro', 'Martín', 'Hernández', 'pedro.martin@example.com',
-        crypt('password5', gen_salt('md5')), current_timestamp) on conflict (person_id) do nothing;
+        crypt('password5', gen_salt('md5')), current_timestamp)
+on conflict (person_id) do nothing;
 
 --Estudiantes
 insert into student(person_id, student_id, career, is_irregular)
 values (1, '2022475477', 0, false),
        (2, '2021601366', 0, true),
-       (5, '2023401526', 2, false) on conflict(person_id) do nothing;
+       (5, '2023401526', 2, false)
+on conflict(person_id) do nothing;
 
 --Academy
 insert into academy (academy_id, name)
 values (1, 'Sistemas computacionales'),
-       (2, 'Sistemas digitales') on conflict (academy_id) do nothing;
+       (2, 'Sistemas digitales')
+on conflict (academy_id) do nothing;
 
 --Profesores
 insert into professor (person_id, professor_number, academy_id)
 values (3, '9275018326', 1),
-       (4, '4839201574', 2) on conflict (person_id) do nothing;
+       (4, '4839201574', 2)
+on conflict (person_id) do nothing;
 
 --catt
 insert into catt (person_id, catt_id, role)
-values (5, '7521840395', 3) on conflict (person_id) do nothing;
+values (5, '7521840395', 3)
+on conflict (person_id) do nothing;
 
 --Protocol
 
@@ -67,7 +72,8 @@ requeridos en cada área de la escuela. Finalmente, se plantean
 configuraciones de red que incorporan VLANs y enrutamiento
 entre ellas, con el fin de mejorar la gestión del tráfico y asegurar
 una infraestructura escalable',
-        pg_read_binary_file('/home/red_de_escom.pdf'), 0) on conflict (protocol_id) do nothing;
+        pg_read_binary_file('/home/red_de_escom.pdf'), 0)
+on conflict (protocol_id) do nothing;
 
 insert into protocol (protocol_id, title, keywords, abstract, file_data, state)
 VALUES (2, 'Signal_conditioner_for_capacitive_and_inductive_sensors', 'Blumlein bridge,Reactance,Sensor',
@@ -139,24 +145,27 @@ VALUES (2, 'Signal_conditioner_for_capacitive_and_inductive_sensors', 'Blumlein 
        adecuada de estos componentes es crucial para garantizar el
        correcto funcionamiento y el rendimiento de los sistemas digitales',
         pg_read_binary_file('/home/Uso_de_maquinas_de_estado_contadores_y_memorias.pdf'),
-        2) on conflict(protocol_id) do nothing;
+        2)
+on conflict(protocol_id) do nothing;
 
 insert into activity (activity_id, open_date, close_date, activity)
 values (1, current_date, '2025-01-09 11:59:59',
         0),
        (2, '2024-12-19 00:00:00', '2025-01-09 11:59:59',
         1),
-       (3, '2025-01-10 00:00:00', '2025-01-17 11:59:59',
+       (3, '2025-01-01 00:00:00', '2025-01-17 11:59:59',
         2),
        (4, '2025-01-17 00:00:00', '2025-01-24 11:59:59',
-        3) on conflict (activity_id) do nothing;
+        3)
+on conflict (activity_id) do nothing;
 
 insert into academy (academy_id, name)
 values (1, 'Sistemas computacionales'),
        (2, 'Sistemas digitales'),
        (3, 'Ingenieria de software'),
        (4, 'Sistemas de control'),
-       (5, 'Ciencias sociales') on conflict (academy_id) do nothing;
+       (5, 'Ciencias sociales')
+on conflict (academy_id) do nothing;
 
 insert into protocol_academy (academy_id, protocol_id)
 values (1, 1),
@@ -170,4 +179,5 @@ values (1, 1),
 
 insert into sinodal (id, protocol_id, person_id)
 values (1, 1, 3),
-       (2, 5, 4) on conflict (id) do nothing;
+       (2, 5, 4)
+on conflict (id) do nothing;

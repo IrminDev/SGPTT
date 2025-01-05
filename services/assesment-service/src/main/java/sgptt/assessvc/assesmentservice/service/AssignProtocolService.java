@@ -4,7 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import sgptt.assessvc.assesmentservice.entity.Protocol;
 import sgptt.assessvc.assesmentservice.repository.AcademyRepository;
-import sgptt.assessvc.assesmentservice.repository.ProtocolRespository;
+import sgptt.assessvc.assesmentservice.repository.ProtocolRepository;
 import sgptt.assessvc.assesmentservice.request.AssignProtocolRequest;
 
 import java.util.HashSet;
@@ -12,11 +12,11 @@ import java.util.HashSet;
 @Service
 public class AssignProtocolService {
 
-    public final ProtocolRespository protocolRepository;
+    public final ProtocolRepository protocolRepository;
     public final AcademyRepository academyRepository;
 
     @Autowired
-    public AssignProtocolService(ProtocolRespository protocolRepository, AcademyRepository academyRepository) {
+    public AssignProtocolService(ProtocolRepository protocolRepository, AcademyRepository academyRepository) {
         this.protocolRepository = protocolRepository;
         this.academyRepository = academyRepository;
     }

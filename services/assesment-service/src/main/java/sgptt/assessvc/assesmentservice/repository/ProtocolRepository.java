@@ -5,5 +5,5 @@ import org.springframework.stereotype.Repository;
 import sgptt.assessvc.assesmentservice.entity.Protocol;
 
 @Repository
-public interface ProtocolRespository extends JpaRepository<Protocol, Integer> {
+public interface ProtocolRepository extends JpaRepository<Protocol, Long> {
 }

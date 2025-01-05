@@ -10,7 +10,7 @@ import sgptt.assessvc.assesmentservice.dto.EvaluationDTO;
 @NoArgsConstructor
 public class ProtocolAssessmentRequest {
 
-    private Integer protocolId;
+    private Long protocolId;
     private EvaluationDTO evaluationDTO;
 
 }
