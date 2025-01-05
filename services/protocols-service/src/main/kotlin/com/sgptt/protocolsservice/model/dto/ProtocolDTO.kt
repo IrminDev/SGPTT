@@ -11,4 +11,7 @@ data class ProtocolDTO(
 	val state: State,
 	val createdAt: Timestamp,
 	val fileUrl: String,
+	val students: List<String>,
+	val directors: List<String>,
+	val synodales: List<String>
 )

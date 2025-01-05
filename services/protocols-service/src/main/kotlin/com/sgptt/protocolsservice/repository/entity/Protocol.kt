@@ -37,7 +37,7 @@ data class Protocol(
 	
 	@Basic(fetch = FetchType.LAZY)
 	@Column(name = "file_data", columnDefinition = "BYTEA")
-	var fileData : ByteArray,
+	var fileData: ByteArray,
 	
 	@Enumerated(EnumType.ORDINAL)
 	val state: State,
@@ -55,23 +55,29 @@ data class Protocol(
 	val academies: Set<Academy>,
 	
 	@ManyToMany(fetch = FetchType.LAZY, cascade = [CascadeType.REFRESH])
-    @JoinTable(
-        name = "protocol_student",
-        joinColumns = [JoinColumn(name = "protocol_id")],
-        inverseJoinColumns = [JoinColumn(name = "person_id")]
-    )
-    val students: MutableSet<Student>,
-
-    @ManyToMany(fetch = FetchType.LAZY, cascade = [CascadeType.REFRESH])
-    @JoinTable(
-        name = "director",
-        joinColumns = [JoinColumn(name = "protocol_id")],
-        inverseJoinColumns = [JoinColumn(name = "person_id")]
-    )
-    val directors: MutableSet<Professor>,
-
-    @OneToMany(mappedBy = "protocol", fetch = FetchType.LAZY)
-    val sinodals: Set<Sinodal>
+	@JoinTable(
+		name = "protocol_student",
+		joinColumns = [JoinColumn(name = "protocol_id")],
+		inverseJoinColumns = [JoinColumn(name = "person_id")]
+	)
+	val students: MutableSet<Student>,
+	
+	@ManyToMany(fetch = FetchType.LAZY, cascade = [CascadeType.REFRESH])
+	@JoinTable(
+		name = "director",
+		joinColumns = [JoinColumn(name = "protocol_id")],
+		inverseJoinColumns = [JoinColumn(name = "person_id")]
+	)
+	val directors: MutableSet<Professor>,
+	
+	@OneToMany(
+		orphanRemoval = true,
+		targetEntity = Sinodal::class,
+		fetch = FetchType.LAZY,
+		cascade = [CascadeType.MERGE, CascadeType.DETACH]
+	)
+	@JoinColumn(name = "protocol_id")
+	val sinodals: Set<Sinodal>
 ) {
 	override fun equals(other: Any?): Boolean {
 		if (this === other) return true

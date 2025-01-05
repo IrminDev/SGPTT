@@ -26,4 +26,4 @@ COPY --from=builder /app/build/libs/protocols-service-0.0.1-SNAPSHOT.jar /app/ja
 
 EXPOSE 8081
 
-CMD ["java", "-jar", "app.jar"]
+CMD ["java", "-jar", "./jar/app.jar"]

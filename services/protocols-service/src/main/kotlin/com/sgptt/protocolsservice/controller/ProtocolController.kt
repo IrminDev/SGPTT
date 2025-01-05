@@ -28,7 +28,7 @@ import org.springframework.web.multipart.MultipartFile
 class ProtocolController(private val service: ProtocolService) {
 	
 	@GetMapping("/all")
-	@RequiresRole(roles = ["Catt"])
+	//@RequiresRole(roles = ["Catt"])
 	fun getPageOfProtocols(
 		@RequestParam(defaultValue = "0") page: Int,
 		@RequestParam(defaultValue = "5") size: Int,
@@ -42,10 +42,11 @@ class ProtocolController(private val service: ProtocolService) {
 	fun getProtocolById(
 		@RequestParam("protocolId", required = false) id: Long?,
 		@RequestParam("studentId", required = false) studentId: Long?,
+		@RequestParam("isSynodal", required = false, defaultValue = "false") isSynodal: Boolean,
 		@RequestParam("professorId", required = false) professorId: Long?
 	): List<ProtocolDTO> {
 		id?.let { return listOf(service.findById(it)) }
-		professorId?.let { return service.findAllByProfessorId(it) }
+		professorId?.let { return if (!isSynodal) service.findAllByProfessorId(it) else service.findBySynodalId(it) }
 		studentId?.let { return service.findAllByStudentId(it) }
 		return emptyList()
 	}

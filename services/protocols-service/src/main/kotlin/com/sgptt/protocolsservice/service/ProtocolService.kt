@@ -58,6 +58,9 @@ class ProtocolService(
 	fun findAllByProfessorId(id: Long): List<ProtocolDTO> =
 		protocolRepository.findAllByProfessorId(id).map { it.toDomain() }
 	
+	fun findBySynodalId(id: Long): List<ProtocolDTO>
+		= protocolRepository.findBySynodalId(id).map { it.toDomain() }
+	
 	@Throws(EntityNotFoundException::class, WrongUploadDateException::class, DifferentCareerException::class)
 	fun registryProtocol(
 		file: MultipartFile,

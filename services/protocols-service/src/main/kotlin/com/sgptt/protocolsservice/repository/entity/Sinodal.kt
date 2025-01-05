@@ -2,6 +2,7 @@ package com.sgptt.protocolsservice.repository.entity
 
 import jakarta.persistence.Column
 import jakarta.persistence.Entity
+import jakarta.persistence.FetchType
 import jakarta.persistence.GeneratedValue
 import jakarta.persistence.GenerationType
 import jakarta.persistence.Id
@@ -14,14 +15,14 @@ data class Sinodal(
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	val id: Long,
 	
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "person_id")
 	val professor: Professor,
 	
 	@Column(name = "is_sinodal", nullable = false, columnDefinition = "boolean default true")
 	val isSinodal: Boolean,
 	
-	@ManyToOne
+	/*@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "protocol_id")
-	val protocol: Protocol
+	val protocol: Protocol*/
 )

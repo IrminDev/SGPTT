@@ -1,7 +1,9 @@
 package com.sgptt.protocolsservice.extension
 
 import com.sgptt.protocolsservice.model.dto.ProtocolDTO
+import com.sgptt.protocolsservice.repository.entity.Person
 import com.sgptt.protocolsservice.repository.entity.Protocol
+import com.sgptt.protocolsservice.repository.entity.Sinodal
 import org.springframework.validation.BindingResult
 
 private val protocolUrl = System.getenv("DATA_PROTOCOL_URL")
@@ -14,7 +16,25 @@ fun Protocol.toDomain(): ProtocolDTO {
 		abstract = this.protocolAbstract,
 		state = this.state,
 		createdAt = this.createdAt,
-		fileUrl = "${protocolUrl}${this.id}"
+		fileUrl = "${protocolUrl}${this.id}",
+		students = buildList {
+			val iter = this@toDomain.students.iterator()
+			while (iter.hasNext()) {
+				add(iter.next().fullName)
+			}
+		},
+		directors = buildList {
+			val iter = this@toDomain.directors.iterator()
+			while (iter.hasNext()) {
+				add(iter.next().fullName)
+			}
+		},
+		synodales = buildList {
+			val iter = this@toDomain.sinodals.iterator()
+			while (iter.hasNext()) {
+				add(iter.next().fullName)
+			}
+		}
 	)
 }
 
@@ -24,3 +44,9 @@ fun BindingResult.buildErrorMessage() = buildString {
 		append('\n')
 	}
 }
+
+internal val Person.fullName: String
+	get() = "$name $paternalSurname $maternalSurname"
+
+internal val Sinodal.fullName: String
+	get() = professor.fullName

@@ -23,4 +23,12 @@ interface ProtocolRepository : PagingAndSortingRepository<Protocol, Long>, JpaRe
 				" where d.person_id = :professor_id"
 	)
 	fun findAllByProfessorId(@Param("professor_id") professorId: Long): List<Protocol>
+	
+	@Query(
+		nativeQuery = true,
+		value = "select p.protocol_id, p.created_at, p.file_data, p.keywords, p.abstract, p.state, p.title" +
+				" from protocol p left join sinodal s on p.protocol_id = s.protocol_id" +
+				" where s.person_id = :synodal_id and s.is_sinodal"
+	)
+	fun findBySynodalId(@Param("synodal_id") id: Long): List<Protocol>
 }
