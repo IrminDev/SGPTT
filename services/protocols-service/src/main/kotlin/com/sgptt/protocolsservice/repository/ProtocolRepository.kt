@@ -31,4 +31,32 @@ interface ProtocolRepository : PagingAndSortingRepository<Protocol, Long>, JpaRe
 				" where s.person_id = :synodal_id and s.is_sinodal"
 	)
 	fun findBySynodalId(@Param("synodal_id") id: Long): List<Protocol>
+	
+	@Query(
+		nativeQuery = true,
+		value = "select p.protocol_id, p.created_at, p.file_data, p.keywords, p.abstract, p.state, p.title" +
+				" from protocol p inner join protocol_academy on p.protocol_id = protocol_academy.protocol_id" +
+				" left join academy a on protocol_academy.academy_id = a.academy_id" +
+				" left join sinodal on p.protocol_id = sinodal.protocol_id" +
+				" where a.name = :academy group by a.name, p.protocol_id having count(sinodal.id) < 3;"
+	)
+	fun findAllSuggestionByProfessorAcademy(@Param("academy") academy: String): List<Protocol>
+	
+	@Query(
+		nativeQuery = true,
+		value = "select p.protocol_id, p.created_at, p.file_data, p.keywords, p.abstract, p.state, p.title" +
+			" from protocol p left join sinodal on p.protocol_id = sinodal.protocol_id" +
+			" group by p.protocol_id, p.created_at, p.file_data, p.keywords, p.abstract, p.state, p.title" +
+				" having count(sinodal.protocol_id) < 3;"
+	)
+	fun findAllBySinodalsCountIsLessThan3(): List<Protocol>
+	
+	@Query(
+		nativeQuery = true,
+		value = "select p.protocol_id, p.created_at, p.file_data, p.keywords, p.abstract, p.state, p.title" +
+			" from protocol p left join sinodal on p.protocol_id = sinodal.protocol_id" +
+			" group by p.protocol_id, p.created_at, p.file_data, p.keywords, p.abstract, p.state, p.title" +
+				" having count(sinodal.protocol_id) = 3;"
+	)
+	fun findAllBySinodalAreFull(): List<Protocol>
 }

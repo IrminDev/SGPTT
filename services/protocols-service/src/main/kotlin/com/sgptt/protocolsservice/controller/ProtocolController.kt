@@ -16,6 +16,7 @@ import org.springframework.http.MediaType
 import org.springframework.http.ResponseEntity
 import org.springframework.validation.BindingResult
 import org.springframework.web.bind.annotation.GetMapping
+import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PutMapping
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestParam
@@ -28,7 +29,7 @@ import org.springframework.web.multipart.MultipartFile
 class ProtocolController(private val service: ProtocolService) {
 	
 	@GetMapping("/all")
-	//@RequiresRole(roles = ["Catt"])
+	@RequiresRole(roles = ["Catt"])
 	fun getPageOfProtocols(
 		@RequestParam(defaultValue = "0") page: Int,
 		@RequestParam(defaultValue = "5") size: Int,
@@ -36,6 +37,19 @@ class ProtocolController(private val service: ProtocolService) {
 		val pageable = PageRequest.of(page, size, Sort.by("createdAt").descending())
 		return ResponseEntity(service.getPageOfProtocols(pageable), HttpStatus.OK)
 	}
+	
+	@GetMapping("/professor/suggestions/{professorId}")
+	@RequiresRole(roles = ["Professor", "Catt"])
+	fun getAllSuggestionByProfessorAcademy(@PathVariable professorId: Long) =
+			service.findAllSuggestionByProfessorAcademy(professorId)
+	
+	@GetMapping("/all/missingSynodals")
+	@RequiresRole(roles = ["Catt"])
+	fun getProtocolsSynodalsAreMissing() = service.allProtocolsMissingSynodals
+	
+	@GetMapping("/all/allSynodals")
+	@RequiresRole(roles = ["Catt"])
+	fun getProtocolsSynodalsAreFull() = service.allProtocolsSinodalsAreFull
 	
 	@GetMapping("/get")
 	@RequiresRole(roles = ["Catt", "Student", "Professor"])

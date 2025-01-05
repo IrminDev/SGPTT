@@ -58,8 +58,21 @@ class ProtocolService(
 	fun findAllByProfessorId(id: Long): List<ProtocolDTO> =
 		protocolRepository.findAllByProfessorId(id).map { it.toDomain() }
 	
-	fun findBySynodalId(id: Long): List<ProtocolDTO>
-		= protocolRepository.findBySynodalId(id).map { it.toDomain() }
+	fun findBySynodalId(id: Long): List<ProtocolDTO> = protocolRepository.findBySynodalId(id).map { it.toDomain() }
+	
+	val allProtocolsMissingSynodals: List<ProtocolDTO>
+		get() = protocolRepository.findAllBySinodalsCountIsLessThan3().map { it.toDomain() }
+	
+	val allProtocolsSinodalsAreFull: List<ProtocolDTO>
+		get() = protocolRepository.findAllBySinodalAreFull().map { it.toDomain() }
+	
+	@Throws(EntityNotFoundException::class)
+	fun findAllSuggestionByProfessorAcademy(professorId: Long): List<ProtocolDTO> {
+		val professor = professorRepository.findById(professorId).orElseThrow {
+			ProfessorNotFoundException("Professor with number $professorId not found")
+		}
+		return protocolRepository.findAllSuggestionByProfessorAcademy(professor.academy.name).map { it.toDomain() }
+	}
 	
 	@Throws(EntityNotFoundException::class, WrongUploadDateException::class, DifferentCareerException::class)
 	fun registryProtocol(
