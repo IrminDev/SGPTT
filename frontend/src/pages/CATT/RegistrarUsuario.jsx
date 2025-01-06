@@ -2,49 +2,28 @@ import React, { useState } from "react";
 import OptionBar from "../../components/common/OptionBar";
 import FormularioRegistroUsuario from "../../components/users/Catt/FormularioRegistroUsuario";
 import TittleSection from "../../components/common/TittleSection";
+import FormularioRegistroAlumno from "../../components/users/Catt/FormularioRegistroAlumno";
+import FormularioRegistroProfesor from "../../components/users/Catt/FormularioRegistroProfesor";
+import FormularioRegistroCATT from "../../components/users/Catt/FormularioRegistroCATT";
 
 const RegistrarUsuario = () => {
   const [tipoUsuario, setTipoUsuario] = useState("Alumno");
 
-  const opciones = ["Alumno", "Profesor", "CAT"];
+  const opciones = ["Alumno", "Profesor", "CATT"];
 
   const renderFormulario = () => {
     switch (tipoUsuario) {
       case "Alumno":
         return (
-          <FormularioRegistroUsuario
-            titulo="Registro de alumno"
-            dropdownLabel="Carrera"
-            dropdownOptions={[
-              { value: "ISC", label: "ISC" },
-              { value: "Ciencia de Datos", label: "Ciencia de Datos" },
-              { value: "IA", label: "IA" },
-            ]}
-          />
+          <FormularioRegistroAlumno />
         );
       case "Profesor":
         return (
-          <FormularioRegistroUsuario
-            titulo="Registro de profesor"
-            dropdownLabel="Área"
-            dropdownOptions={[
-              { value: "Ingeniería de software", label: "Ingeniería de software" },
-              { value: "Sistemas digitales", label: "Sistemas digitales" },
-              { value: "Ciencias de la computación", label: "Ciencias de la computación" },
-            ]}
-          />
+          <FormularioRegistroProfesor />
         );
-      case "CAT":
+      case "CATT":
         return (
-          <FormularioRegistroUsuario
-            titulo="Registro de usuario CAT"
-            dropdownLabel="Rol"
-            dropdownOptions={[
-              { value: "Coordinador", label: "Coordinador" },
-              { value: "Asistente", label: "Asistente" },
-              { value: "Administrativo", label: "Administrativo" },
-            ]}
-          />
+          <FormularioRegistroCATT />
         );
       default:
         return null;

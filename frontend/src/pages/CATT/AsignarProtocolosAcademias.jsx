@@ -1,50 +1,58 @@
-import React from "react";
+import React, { useState, useEffect} from "react";
 import ProtocolosPendientesAreaCard from "../../components/users/Catt/ProtocolosPendientesAreaCard";
 import TittleSection from "../../components/common/TittleSection";
+import protocolService from "../../services/protocol.service";
 
 // Información de prueba para los protocolos
-const protocols = [
+const protocolos = [
   {
-    protocolName: "Protocolo 1",
-    career: "IA",
-    members: ["Juan Pérez", "Angel Hernandez", "Hernandez Jimenez Irmin"],
+    id: 1,
+    title: "Protocolo 1",
+    abstract: "IA",
+    keywords: ["Juan Pérez", "Angel Hernandez", "Hernandez Jimenez Irmin"],
+    fileUrl: "http://localhost:8081/api/document/protocol/2",
   },
   {
-    protocolName: "Protocolo 2",
-    career: "TI",
-    members: ["Maria Lopez", "Carlos Sanchez"],
+    id: 2,
+    title: "Protocolo 2",
+    abstract: "TI",
+    fileUrl: "http://localhost:8081/api/document/protocol/2",
+    keywords: ["Maria Lopez", "Carlos Sanchez"],
   },
-];
-
-// Información de prueba para las áreas disponibles
-const areaOptions = [
-  { value: "A", label: "Area A" },
-  { value: "B", label: "Area B" },
-  { value: "C", label: "Area C" },
-  { value: "X", label: "Area X" },
-  { value: "Y", label: "Area Y" },
-  { value: "Z", label: "Area Z" },
-  { value: "1", label: "Area 1" },
-  { value: "2", label: "Area 2" },
-  { value: "3", label: "Area 3" },
 ];
 
 const AsignarProtocolosAcademias = () => {
+  const [protocols, setProtocols] = useState([]);
+
+  useEffect(() => {
+    protocolService.getProtocolsByState("PENDING").then((response) => {
+      setProtocols(response);
+    }).catch((error) => {
+      console.error('Error fetching protocols:', error);
+    });
+  }, [])
+
   return (
     <div className="bg-gray-800 min-h-screen flex flex-col">
       <div className="mb-4">
         <TittleSection tittle="Asignar Protocolos a Academias" />
       </div>
-      <div className="p-8 bg-gray-800 rounded-lg shadow-md w-full max-w-4xl mx-auto">
-        {protocols.map((protocol, index) => (
-          <ProtocolosPendientesAreaCard
-            key={index}
-            protocolName={protocol.protocolName}
-            career={protocol.career}
-            members={protocol.members}
-            areaOptions={areaOptions}
-          />
-        ))}
+      <div className="p-8 bg-gray-800 rounded-lg shadow-md w-full">
+        { protocols.length > 0 ? (
+          protocolos.map((protocol, index) => (
+            <ProtocolosPendientesAreaCard
+              key={index}
+              title={protocol.title}
+              abstract={protocol.abstract}
+              keywords={protocol.keywords}
+              fileURL={protocol.fileUrl}
+              id={protocol.id}
+            />
+          ))
+        ) : (
+          <p className="text-white text-center">No hay protocolos pendientes de asignar academia</p>
+        )
+        }
       </div>
     </div>
   );

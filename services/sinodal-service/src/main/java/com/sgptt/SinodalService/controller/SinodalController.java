@@ -22,7 +22,7 @@ public class SinodalController {
     }
 
     @PostMapping
-    @RequiresRole({"Catt"})
+    @RequiresRole({"Catt", "Professor"})
     public ResponseEntity<SinodalDTO> createSinodal(@ModelAttribute SinodalRequestDTO sinodalRequestDTO) {
         try {
             SinodalDTO sinodalDTO = sinodalService.createSinodal(sinodalRequestDTO);

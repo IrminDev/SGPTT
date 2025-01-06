@@ -38,7 +38,7 @@ services:
       - es_data:/usr/share/elasticsearch/data
 
   auth-service:
-    image: diegoxze35/auth-service:v1
+    image: diegoxze35/auth-service:v1.1
     container_name: auth-service
     ports:
       - "8090:8090"
@@ -52,7 +52,7 @@ services:
       - db
 
   document-builder-service:
-    image: irmindev/document-builder-service:1.0
+    image: irmindev/document-builder-service:1.3
     container_name: document-builder-service
     ports:
       - "8070:8070"
@@ -61,6 +61,34 @@ services:
       - DATABASE_USER=irmin
       - DATABASE_PASSWORD=irmin
       - PORT=8070
+
+  utils-service:
+    image: irmindev/utils-service:1.4
+    container_name: utils-service
+    ports:
+      - "8080:8080"
+    environment:
+      - DATABASE_URL=jdbc:postgresql://db:5432/sgptt
+      - DATABASE_USER=irmin
+      - DATABASE_PASSWORD=irmin
+      - PORT=8080
+      - ELASTICSEARCH_URL=http://elastic-search:9200
+      - DATA_AUTH_URL=http://auth-service:8090
+      - DOCUMENT_BUILDER_URL=http://document-builder-service:8070
+
+  sinodal-service:
+    image: irmindev/sinodal-service:1.4
+    container_name: sinodal-service
+    ports:
+      - "8060:8060"
+    environment:
+      - DATABASE_URL=jdbc:postgresql://db:5432/sgptt
+      - DATABASE_USER=irmin
+      - DATABASE_PASSWORD=irmin
+      - PORT=8060
+      - ELASTICSEARCH_URL=http://elastic-search:9200
+      - DATA_AUTH_URL=http://auth-service:8090
+      - DOCUMENT_BUILDER_URL=http://document-builder-service:8070
     
 volumes:
   pgdata:

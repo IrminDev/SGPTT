@@ -19,7 +19,7 @@ spec:
     spec:
       containers:
         - name: administration-service
-          image: ediazh1900/administration-service:v1
+          image: ediazh1900/administration-service:v1.1
           ports:
             - containerPort: 8084
           resources:

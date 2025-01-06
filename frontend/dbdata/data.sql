@@ -26,6 +26,7 @@ insert into academy (academy_id, name) values
 (2, 'Sistemas digitales')
 on conflict (academy_id) do nothing;
 
+
 --Profesores
 insert into professor (person_id, professor_number, academy_id)
 values (3,'9275018326', 1),

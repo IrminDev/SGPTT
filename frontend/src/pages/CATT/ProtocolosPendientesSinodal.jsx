@@ -1,6 +1,7 @@
-import React from "react";
+import React, { useState, useEffect} from "react";
 import ProtocolosPendientesSinodalCard from "../../components/users/Catt/ProtocolosPendientesSinodalCard";
 import TittleSection from "../../components/common/TittleSection";
+import protocolService from "../../services/protocol.service";
 
 // Información de prueba para los protocolos
 const protocols = [
@@ -32,22 +33,36 @@ const sinodalOptions = [
 ];
 
 const ProtocolosPendientesSinodal = () => {
+  const [protocols, setProtocols] = useState([])
+
+  useEffect(() => {
+    protocolService.getProtocolsByState("PENDING").then((response) => {
+      setProtocols(response);
+    }).catch((error) => {
+      console.error('Error fetching protocols:', error);
+    });
+  },[])
+
   return (
     <div className="bg-gray-800 min-h-screen flex flex-col">
       <div className="mb-4">
         <TittleSection tittle="Protocolos Pendientes de Sinodales" />
       </div>
       <div className="p-8 bg-gray-800 rounded-lg shadow-md w-full max-w-4xl mx-auto">
-        {protocols.map((protocol, index) => (
-          <ProtocolosPendientesSinodalCard
-            key={index}
-            protocolName={protocol.protocolName}
-            area={protocol.area}
-            career={protocol.career}
-            members={protocol.members}
-            sinodalOptions={sinodalOptions}
-          />
-        ))}
+        { protocols.length > 0 ? (
+          protocols.map((protocol, index) => (
+            <ProtocolosPendientesSinodalCard
+              key={index}
+              protocolName={protocol.protocolName}
+              area={protocol.area}
+              career={protocol.career}
+              members={protocol.members}
+              sinodalOptions={sinodalOptions}
+            />
+          ))
+        ) : (
+          <p className="text-white text-center">No hay protocolos pendientes de asignar sinodales</p>
+        )}
       </div>
     </div>
   );

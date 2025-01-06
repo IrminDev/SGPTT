@@ -1,23 +1,19 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import TittleSection from '../../components/common/TittleSection';
 import SolicitudesProtocolosCard from '../../components/users/Catt/SolicitudesProtocolosCard';
+import changeRequestService from '../../services/changeRequest.service';
 
 export default function SolicitudesModificacionProtocolos() {
-  const solicitudes = [
-    {
-      titulo: "Título de prueba para un protocolo 1",
-      integrantes: ["Integrante1", "Integrante2", "Integrante3"],
-      comentarios: "Queremos modificar la sección de resultados.",
-      pdfFile: "ruta/al/archivo1.pdf",
-    },
-    {
-      titulo: "Título de prueba para un protocolo 2",
-      integrantes: ["Integrante4", "Integrante5", "Integrante6"],
-      comentarios: "Necesitamos actualizar la metodología.",
-      pdfFile: "ruta/al/archivo2.pdf",
-    },
-    // Puedes agregar más solicitudes aquí
-  ];
+  const [changeRequests, setChangeRequests] = useState([])
+
+  useEffect(() => {
+    changeRequestService.getAllChangeRequests().then((data) => {
+      console.log(data)
+      setChangeRequests(data)
+    }).catch((error) => {
+      console.log(error)
+    })
+  }, []);
 
   return (
     <div className="bg-gray-800 min-h-screen flex flex-col">
@@ -25,7 +21,7 @@ export default function SolicitudesModificacionProtocolos() {
         <TittleSection tittle="Solicitudes de Modificación de Protocolos" />
       </div>
       <div className="p-4 bg-gray-800 rounded-lg shadow-md w-full max-w-7xl mx-auto">
-        {solicitudes.map((solicitud, index) => (
+        {changeRequests.map((solicitud, index) => (
           <SolicitudesProtocolosCard key={index} solicitud={solicitud} />
         ))}
       </div>

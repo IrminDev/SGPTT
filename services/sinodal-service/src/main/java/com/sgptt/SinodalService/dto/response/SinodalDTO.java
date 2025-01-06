@@ -6,6 +6,16 @@ public class SinodalDTO {
     private ProfessorDTO professor;
 
     private ProtocolDTO protocol;
+    
+    private boolean isSinodal;
+
+    public boolean isSinodal() {
+        return isSinodal;
+    }
+
+    public void setSinodal(boolean isSinodal) {
+        this.isSinodal = isSinodal;
+    }
 
     public Long getId() {
         return id;

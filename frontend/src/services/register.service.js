@@ -19,23 +19,23 @@ axiosInstance.interceptors.request.use(
     }
 );
 
-const createChangeRequest = async (data) => {
-    const response = await axiosInstance.post('/api/utils/change-request', data);
+const registerStudent = async (data) => {
+    const response = await axiosInstance.post('/api/utils/register/student', data);
     return response.data;
-}
+};
 
-const getProtocolChangeRequests = async (id) => {
-    const response = await axiosInstance.get(`/api/utils/change-request/protocol/${id}`);
+const registerProfessor = async (data) => {
+    const response = await axiosInstance.post('/api/utils/register/professor', data);
     return response.data;
-}
+};
 
-const getAllChangeRequests = async () => {
-    const response = await axiosInstance.get('/api/utils/change-request/');
+const registerCATT = async (data) => {
+    const response = await axiosInstance.post('/api/utils/register/catt', data);
     return response.data;
-}
+};
 
 export default {
-    createChangeRequest,
-    getProtocolChangeRequests,
-    getAllChangeRequests
+    registerStudent,
+    registerProfessor,
+    registerCATT
 }

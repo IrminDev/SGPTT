@@ -2,8 +2,6 @@ package com.sgptt.SinodalService.dto.response;
 
 import com.sgptt.SinodalService.model.State;
 
-import java.util.Date;
-
 public class ProtocolDTO {
     private Long protocolId;
 

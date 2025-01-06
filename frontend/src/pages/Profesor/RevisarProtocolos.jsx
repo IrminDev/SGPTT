@@ -1,35 +1,50 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import TittleSection from '../../components/common/TittleSection';
-import FormularioRevisarProtocolo from '../../components/users/Profesores/FormularioRevisarProtocolo';
-import ProtocoloInfoCard from '../../components/common/ProtocoloInfoCard';
+import ProtocolCard from '../../components/common/ProtocolCard';
+import protocolService from '../../services/protocol.service';
+import { useNavigate } from 'react-router-dom';
 
 export default function RevisarProtocolo() {
+  const navigate = useNavigate();
+  
+  const [protocols, setProtocols] = useState([])
+
+  useEffect(() => {
+    const person = JSON.parse(localStorage.getItem('person'));
+    protocolService.getSinodalProtocols(person.personId).then((data) => {
+      // filter all the protocols with status "EVALUATING"
+      const filteredProtocols = data.filter(protocol => protocol.state === "EVALUATING")
+      setProtocols(filteredProtocols)
+    }).catch((error) => {
+      if(error.status === 403) {
+        navigate('/')
+      }
+    }); 
+  }, []);
+
   const protocolos = [
     {
-      tipoProtocolo: "Primer Curse",
-      titulo: "Título de prueba 1",
-      palabrasClave: ["Palabra1", "Palabra2", "Palabra3"],
-      resumen: "Este es el resumen del protocolo 1.",
-      pdfFile: "ruta/al/archivo1.pdf",
-      integrantes: ["Integrante1", "Integrante2", "Integrante3"],
-      director: "Nombre del Director 1",
-      carrera: "ISC",
-      sinodales: ["Sinodal 1", "Sinodal 2", "Sinodal 3"],
-      estado: "En evaluación",
+      id: 1,
+      title: "Título de prueba 1",
+      keywords: ["Palabra1", "Palabra2", "Palabra3"],
+      asbtract: "Este es el resumen del protocolo 1.",
+      fileUrl: "ruta/al/archivo1.pdf",
+      students: ["Integrante1", "Integrante2", "Integrante3"],
+      directors: "Nombre del Director 1",
+      state: "Rechazado",
+      createdAt: "2021-10-01T00:00:00.000Z",
     },
     {
-      tipoProtocolo: "Segundo Curse",
-      titulo: "Título de prueba 2",
-      palabrasClave: ["Palabra4", "Palabra5", "Palabra6"],
-      resumen: "Este es el resumen del protocolo 2.",
-      pdfFile: "ruta/al/archivo2.pdf",
-      integrantes: ["Integrante4", "Integrante5", "Integrante6"],
-      director: "Nombre del Director 2",
-      carrera: "ISC",
-      sinodales: ["Sinodal 4", "Sinodal 5", "Sinodal 6"],
-      estado: "En evaluación",
+      id: 2,
+      title: "Título de prueba 1",
+      keywords: ["Palabra1", "Palabra2", "Palabra3"],
+      asbtract: "Este es el resumen del protocolo 1.",
+      fileUrl: "ruta/al/archivo1.pdf",
+      students: ["Integrante1", "Integrante2", "Integrante3"],
+      directors: "Nombre del Director 1",
+      state: "Rechazado",
+      createdAt: "2021-10-01T00:00:00.000Z",
     },
-    // Puedes agregar más protocolos aquí
   ];
 
   return (
@@ -37,22 +52,15 @@ export default function RevisarProtocolo() {
       <div className="mb-4">
         <TittleSection tittle="Revisar Protocolos" />
       </div>
-      <div className="flex flex-col justify-center items-start p-4 bg-gray-800 rounded-lg shadow-md w-full max-w-7xl mx-auto space-y-4">
-        {protocolos.map((protocolo, index) => (
-          <React.Fragment key={index}>
-            <div className="flex flex-col md:flex-row justify-center items-start w-full space-y-4 md:space-y-0 md:space-x-4">
-              <div className="w-full md:w-1/2 p-4">
-                <ProtocoloInfoCard protocolo={protocolo} />
-              </div>
-              <div className="w-full md:w-1/2 p-4">
-                <FormularioRevisarProtocolo />
-              </div>
-            </div>
-            {index < protocolos.length - 1 && (
-              <hr className="border-t border-gray-600 my-4 w-full" />
-            )}
-          </React.Fragment>
-        ))}
+      <div className="flex flex-row flex-wrap items-center justify-between p-4 bg-gray-800 rounded-lg shadow-md w-full">
+        {
+          protocols.length > 0 ? 
+          protocols.map((protocol, index) => (
+            <ProtocolCard key={index} protocol={protocol} />
+          ))
+          :
+          <h1 className="text-center w-full text-white text-2xl">No hay protocolos a revisar.</h1>
+        }
       </div>
     </div>
   );

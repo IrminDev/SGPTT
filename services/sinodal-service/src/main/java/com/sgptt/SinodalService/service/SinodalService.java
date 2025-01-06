@@ -1,19 +1,21 @@
 package com.sgptt.SinodalService.service;
 
+import java.util.List;
+import java.util.Optional;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 import com.sgptt.SinodalService.dto.request.SinodalRequestDTO;
 import com.sgptt.SinodalService.dto.response.SinodalDTO;
 import com.sgptt.SinodalService.entity.Professor;
 import com.sgptt.SinodalService.entity.Protocol;
 import com.sgptt.SinodalService.entity.Sinodal;
 import com.sgptt.SinodalService.mapper.SinodalMapper;
+import com.sgptt.SinodalService.model.State;
 import com.sgptt.SinodalService.repository.ProfessorRepository;
 import com.sgptt.SinodalService.repository.ProtocolRepository;
 import com.sgptt.SinodalService.repository.SinodalRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
-import java.util.List;
-import java.util.Optional;
 
 @Service
 public class SinodalService {
@@ -39,6 +41,12 @@ public class SinodalService {
             if(protocol.isPresent()){
                 sinodal.setProtocol(protocol.get());
                 sinodalRepository.save(sinodal);
+                Protocol protocolEntity = protocol.get();
+                if(protocolEntity.getSinodals().size() == 3){
+                    protocolEntity.setState(State.EVALUATING);
+                    protocolRepository.save(protocol.get());
+                }
+
                 return sinodalMapper.sinodalToSinodalDTO(sinodal);
             } else {
                 throw new IllegalArgumentException("Protocol not found");

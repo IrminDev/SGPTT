@@ -44,6 +44,11 @@ const getProfessorProtocols = async (id) => {
     return response.data;
 }
 
+const getSinodalProtocols = async (id) => {
+    const response = await axiosInstance.get(`/api/protocols/get?professorId=${id}&isSynodal=true`);
+    return response.data;
+}
+
 const getCATTProtocols = async (id) => {
     const response = await axiosInstance.get(`/api/protocols/get?cattId=${id}`);
     return response.data;
@@ -54,6 +59,26 @@ const uploadProtocol = async (data) => {
     return response.data;
 }
 
+const changeProtocolStatus = async (data) => {
+    const response = await axiosInstance.put('/api/protocols/state?protocolId=' + data.protocolId + '&state=' + data.state);
+    return response.data;
+}
+
+const updateProtocolFile = async (data, id) => {
+    const response = await axiosInstance.put('/api/protocols/update/file?protocolId=' + id, data);
+    return response.data;
+}
+
+const getProtocolsByState = async (state) => {
+    const response = await axiosInstance.get(`/api/protocols/all/state?state=${state}`);
+    return response.data;
+}
+
+const getSuggestionProtocols = async (id) => {
+    const response = await axiosInstance.get(`/api/protocols/professor/suggestions/${id}`);
+    return response.data;
+}
+
 export default {
     getProtocols,
     getProtocol,
@@ -61,5 +86,10 @@ export default {
     getAllProtocols,
     getProfessorProtocols,
     uploadProtocol,
-    getCATTProtocols
+    getCATTProtocols,
+    getSinodalProtocols,
+    changeProtocolStatus,
+    updateProtocolFile,
+    getProtocolsByState,
+    getSuggestionProtocols
 }

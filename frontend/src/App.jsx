@@ -20,6 +20,7 @@ import EditarProtocolo from "./pages/Alumno/EditarProtocolo";
 import ProtocolosACargo from "./pages/Profesor/ProtocolosACargo";
 import ProtocolosDisponibles from "./pages/Profesor/ProtocolosDisponibles";
 import RevisarProtocolos from "./pages/Profesor/RevisarProtocolos";
+import EvaluarProtocolo from "./pages/Profesor/EvaluarProtocolo";
 
 // Importar componentes en común
 import Dashboard from "./pages/common/Dashboard";
@@ -43,6 +44,7 @@ import AdminW from "./assets/images/admin-white.svg";
 import AdminB from "./assets/images/admin-black.svg";
 import TeacherW from "./assets/images/teacher-white.svg";
 import TeacherB from "./assets/images/teacher-black.svg";
+import AsignarAcademia from "./pages/CATT/AsignarAcademia";
 
 export default function App() {
   // Definir rutas para usuarios CATT
@@ -50,6 +52,7 @@ export default function App() {
     { path: "/", element: <Inicio /> },
     { path: "agendar-periodo", element: <AgendarPeriodo /> },
     { path: "protocolos-pendientes-area", element: <AsignarProtocolosAcademias /> },
+    { path: "protocolos-pendientes-area/:id", element: <AsignarAcademia /> },
     { path: "protocolos-pendientes-sinodal", element: <ProtocolosPendientesSinodal /> },
     { path: "registrar-usuario", element: <RegistrarUsuario /> },
     { path: "solicitudes-modificacion", element: <SolicitudesModificacionProtocolos /> },
@@ -69,6 +72,7 @@ export default function App() {
     { path: "protocolo-a-cargo", element: <ProtocolosACargo /> },
     { path: "protocolos-disponibles", element: <ProtocolosDisponibles /> },
     { path: "revisar-protocolos", element: <RevisarProtocolos /> },
+    { path: "revisar-protocolos/:id", element: <EvaluarProtocolo /> },
   ];
 
   // Definir items de la barra lateral para usuarios CATT
