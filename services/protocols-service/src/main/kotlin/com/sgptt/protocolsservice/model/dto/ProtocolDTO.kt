@@ -13,5 +13,6 @@ data class ProtocolDTO(
 	val fileUrl: String,
 	val students: List<String>,
 	val directors: List<String>,
-	val synodales: List<String>
+	val synodales: List<String>,
+	val academies: List<AcademyDTO>
 )

@@ -1,5 +1,6 @@
 package com.sgptt.protocolsservice.extension
 
+import com.sgptt.protocolsservice.model.dto.AcademyDTO
 import com.sgptt.protocolsservice.model.dto.ProtocolDTO
 import com.sgptt.protocolsservice.repository.entity.Person
 import com.sgptt.protocolsservice.repository.entity.Protocol
@@ -33,6 +34,13 @@ fun Protocol.toDomain(): ProtocolDTO {
 			val iter = this@toDomain.sinodals.iterator()
 			while (iter.hasNext()) {
 				add(iter.next().fullName)
+			}
+		},
+		academies = buildList {
+			val iter = this@toDomain.academies.iterator()
+			while (iter.hasNext()) {
+				val academy = iter.next()
+				add(AcademyDTO(academy.academyId, academy.name))
 			}
 		}
 	)
