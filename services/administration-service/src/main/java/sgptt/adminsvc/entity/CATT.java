@@ -20,8 +20,9 @@ public class CATT extends Person {
     private String cattId;
 
     @Builder
-    public CATT(String name, String paternalSurname, String maternalSurname, String email, String pass, Date createdAt, Role role) {
+    public CATT(String name, String paternalSurname, String maternalSurname, String email, String pass, Date createdAt, Role role, String cattId) {
         super(null, name, paternalSurname, maternalSurname, email, pass, createdAt, true);
+        this.cattId = cattId;
         this.role = role;
     }
 }

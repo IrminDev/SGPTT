@@ -41,6 +41,7 @@ public class PersonMapper {
                     .pass(pass)
                     .createdAt(new Timestamp(System.currentTimeMillis()))
                     .role(catt.getRole())
+                    .cattId(catt.getNumber())
                     .build();
             default -> throw new IllegalStateException("Unexpected value: " + personDTO);
         };
