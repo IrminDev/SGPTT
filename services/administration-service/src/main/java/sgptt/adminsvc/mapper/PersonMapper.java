@@ -33,6 +33,15 @@ public class PersonMapper {
                     .career(student.getCareer())
                     .isIrregular(student.getIsIrregular())
                     .build();
+            case PersonDTO.CATT catt -> sgptt.adminsvc.entity.CATT.builder()
+                    .name(catt.getName())
+                    .paternalSurname(catt.getPaternalSurname())
+                    .maternalSurname(catt.getMaternalSurname())
+                    .email(email)
+                    .pass(pass)
+                    .createdAt(new Timestamp(System.currentTimeMillis()))
+                    .role(catt.getRole())
+                    .build();
             default -> throw new IllegalStateException("Unexpected value: " + personDTO);
         };
     }
