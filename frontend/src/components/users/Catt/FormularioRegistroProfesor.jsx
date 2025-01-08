@@ -2,6 +2,7 @@ import React from 'react'
 import { useState } from 'react';
 import Button from '../../common/Button';
 import Input from '../../common/Input';
+import registerService from '../../../services/register.service';
 
 const FormularioRegistroProfesor = () => {
     const [name, setName] = useState("");
@@ -61,7 +62,19 @@ const FormularioRegistroProfesor = () => {
             password: password,
         }
 
-        console.log(data);
+        registerService.registerUser(data).then((response) => {
+            setName("");
+            setLastname("");
+            setMotherLastname("");
+            setNumber("");
+            setAcademy("");
+            setEmail("");
+            setPassword("");
+            setSchool("");
+            console.log(response)
+        }).catch((error) => {
+            console.log("Error registrando profesor:", error);
+        })
     }
 
     return (

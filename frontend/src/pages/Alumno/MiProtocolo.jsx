@@ -21,7 +21,7 @@ const MiProtocolo = () => {
       </div>
       <div className="p-8 bg-gray-800 rounded-lg shadow-md w-full max-w-4xl mx-auto">
         {protocol?.map((protocolo, index) => (
-          <ProtocoloInfoCard key={index} protocolo={protocolo} />
+          <ProtocoloInfoCard key={index} protocol={protocolo} />
         ))}
       </div>
     </div>

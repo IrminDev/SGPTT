@@ -20,6 +20,7 @@ spec:
       containers:
         - name: protocol-service
           image: diegoxze35/protocols-service:v1.1.2
+          imagePullPolicy: Always
           ports:
             - containerPort: 8081
           resources:

@@ -19,7 +19,7 @@ spec:
     spec:
       containers:
         - name: sinodal-service
-          image: irmindev/sinodal-service:1.5
+          image: irmindev/sinodal-service:1.9
           ports:
             - containerPort: 8085
           resources:

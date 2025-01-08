@@ -45,6 +45,7 @@ import AdminB from "./assets/images/admin-black.svg";
 import TeacherW from "./assets/images/teacher-white.svg";
 import TeacherB from "./assets/images/teacher-black.svg";
 import AsignarAcademia from "./pages/CATT/AsignarAcademia";
+import FormularioAsignarSinodales from "./components/users/Catt/FormularioAsignarSinodales";
 
 export default function App() {
   // Definir rutas para usuarios CATT
@@ -54,6 +55,7 @@ export default function App() {
     { path: "protocolos-pendientes-area", element: <AsignarProtocolosAcademias /> },
     { path: "protocolos-pendientes-area/:id", element: <AsignarAcademia /> },
     { path: "protocolos-pendientes-sinodal", element: <ProtocolosPendientesSinodal /> },
+    { path: "protocolos-pendientes-sinodal/:id", element: <FormularioAsignarSinodales /> },
     { path: "registrar-usuario", element: <RegistrarUsuario /> },
     { path: "solicitudes-modificacion", element: <SolicitudesModificacionProtocolos /> },
   ];
@@ -91,6 +93,7 @@ export default function App() {
     { icon: Protocol, text: "Mi protocolo", path: "mi-protocolo" },
     { icon: Upload, text: "Subir Protocolo", path: "subir-protocolo" },
     { icon: Edit, text: "Editar Protocolo", path: "editar-protocolo" },
+    { icon: Edit, text: "Corregir protocolo", path: "corregir-protocolo" },
   ];
   
   // Definir items de la barra lateral para profesores

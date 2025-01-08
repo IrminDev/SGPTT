@@ -2,22 +2,8 @@ import React, { useState, useEffect} from "react";
 import ProtocolosPendientesSinodalCard from "../../components/users/Catt/ProtocolosPendientesSinodalCard";
 import TittleSection from "../../components/common/TittleSection";
 import protocolService from "../../services/protocol.service";
-
-// Información de prueba para los protocolos
-const protocols = [
-  {
-    protocolName: "Protocolo 1",
-    area: "Circuitos",
-    career: "IA",
-    members: ["Juan Pérez", "Angel Hernandez", "Hernandez Jimenez Irmin"],
-  },
-  {
-    protocolName: "Protocolo 2",
-    area: "Redes",
-    career: "TI",
-    members: ["Maria Lopez", "Carlos Sanchez"],
-  },
-];
+import ProtocolCard from "../../components/common/ProtocolCard";
+import ProtocolSinodalCard from "../../components/common/ProtocolSinodalCard";
 
 // Información de prueba para los sinodales disponibles
 const sinodalOptions = [
@@ -37,7 +23,12 @@ const ProtocolosPendientesSinodal = () => {
 
   useEffect(() => {
     protocolService.getProtocolsByState("PENDING").then((response) => {
-      setProtocols(response);
+      // Set all the protocols with less than 3 elements in the array "synodales" and at least 1 element in the array "academies"
+      const filteredProtocols = response.filter(protocol => protocol.synodales.length < 3 && protocol.academies.length > 0)
+
+      setProtocols(filteredProtocols);
+
+      console.log(response);
     }).catch((error) => {
       console.error('Error fetching protocols:', error);
     });
@@ -51,14 +42,7 @@ const ProtocolosPendientesSinodal = () => {
       <div className="p-8 bg-gray-800 rounded-lg shadow-md w-full max-w-4xl mx-auto">
         { protocols.length > 0 ? (
           protocols.map((protocol, index) => (
-            <ProtocolosPendientesSinodalCard
-              key={index}
-              protocolName={protocol.protocolName}
-              area={protocol.area}
-              career={protocol.career}
-              members={protocol.members}
-              sinodalOptions={sinodalOptions}
-            />
+            <ProtocolSinodalCard protocol={protocol} key={index} />
           ))
         ) : (
           <p className="text-white text-center">No hay protocolos pendientes de asignar sinodales</p>

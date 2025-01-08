@@ -17,7 +17,7 @@ export default function EditarProtocolo() {
     protocolService.getStudentProtocols(person.personId).then((response) => {
       console.log(response)
       response.forEach((protocolo) => {
-        if (protocolo.state === "PENDING") {
+        if (protocolo.state !== "REJECTED") {
           protocolService.getProtocol(protocolo.id).then((response) => {
             setProtocol(response[0]);
             changeRequestService.getProtocolChangeRequests(response[0].id).then((response) => {
@@ -43,27 +43,31 @@ export default function EditarProtocolo() {
         <TittleSection tittle="Editar Protocolo" />
       </div>
       <div className="p-4 bg-gray-800 rounded-lg shadow-md w-full max-w-4xl mx-auto">
-        {loading ? <p>Cargando...</p> : <ProtocoloInfoCard protocolo={protocol} />}
+        {loading ? <p>Cargando...</p> : <ProtocoloInfoCard protocol={protocol} />}
       </div>
       <div className="flex justify-center items-center mt-4 relative">
         {/* Tarjeta para la edición de protocolo */}
         <div className="w-full max-w-7xl bg-gray-800 rounded-lg shadow-md overflow-hidden mt-5">
           {/* Contenido de la tarjeta en dos columnas SeccionDeComentarios y FormularioEditarProtocolo respectivamente */}
-          <div className="flex flex-col md:flex-row justify-evenly items-center">
+          <div className="flex flex-col flex-wrap md:flex-row justify-evenly items-center">
             {/* Seccion de solicitudes de cambio anteriores */}
             <div className="w-full md:w-5/12 mb-10">
-              {changeRequests.map((changeRequest, index) => (
-                <div key={index} className="p-6 bg-gray-700 rounded-lg shadow-md w-full max-w-4xl mx-auto mb-8">
-                  <h2 className="text-2xl font-bold text-white mb-4">Solicitud de cambio {changeRequest.id}</h2>
-                  <p className=' text-white mt-5'>Comentarios: {changeRequest.requestComments}</p>
-                  <p className=' text-white mt-5 mb-5'>Creado: {changeRequest.createdAt.substring(0,10)}</p>
-                  <p className=' text-white mt-5 mb-5'>Estado: {changeRequest.state}</p>
-                  <a className=' rounded-lg bg-indigo-800 px-5 py-3 text-white font-medium' href={changeRequest.filePath}>Mirar archivo</a>
-                </div>
-              ))}
+              { changeRequests.length > 0 ? (
+                changeRequests.map((changeRequest, index) => (
+                  <div key={index} className="p-6 bg-gray-700 rounded-lg shadow-md w-full max-w-4xl mx-auto mb-8">
+                    <h2 className="text-2xl font-bold text-white mb-4">Solicitud de cambio {changeRequest.id}</h2>
+                    <p className=' text-white mt-5'>Comentarios: {changeRequest.requestComments}</p>
+                    <p className=' text-white mt-5 mb-5'>Creado: {changeRequest.createdAt.substring(0,10)}</p>
+                    <p className=' text-white mt-5 mb-5'>Estado: {changeRequest.state}</p>
+                    <a className=' rounded-lg bg-indigo-800 px-5 py-3 text-white font-medium' href={changeRequest.filePath}>Mirar archivo</a>
+                  </div>
+                ))
+              ) : (
+                <p className='text-white'>No hay solicitudes de cambio anteriores para este protocolo</p>
+              )}
             </div>
             {/* FormularioEditarProtocolo */}
-            <div className="w-full md:w-5/12 mb-10">
+            <div className="w-fulL mb-10">
               <FormularioEditarProtocolo protocol={protocol.id} />
             </div>
           </div>

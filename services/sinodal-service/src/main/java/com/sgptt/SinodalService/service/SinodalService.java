@@ -56,6 +56,35 @@ public class SinodalService {
         }
     }
 
+    public SinodalDTO createSinodalByProfessor(SinodalRequestDTO sinodalRequestDTO) {
+        Sinodal sinodal = new Sinodal();
+        Optional<Professor> professor = professorRepository.findById(sinodalRequestDTO.getProfessorId());
+        if(professor.isPresent()){
+            if(professor.get().getSinodals().size() >= 5){
+                throw new IllegalArgumentException("Professor already has 5 sinodals");
+            } else {
+                sinodal.setProfessor(professor.get());
+                Optional<Protocol> protocol = protocolRepository.findById(sinodalRequestDTO.getProtocolId());
+                if(protocol.isPresent()){
+                    sinodal.setProtocol(protocol.get());
+                    sinodalRepository.save(sinodal);
+                    Protocol protocolEntity = protocol.get();
+                    if(protocolEntity.getSinodals().size() == 3){
+                        protocolEntity.setState(State.EVALUATING);
+                        protocolRepository.save(protocol.get());
+                    }
+
+                    return sinodalMapper.sinodalToSinodalDTO(sinodal);
+                } else {
+                    throw new IllegalArgumentException("Protocol not found");
+                }
+            }
+        } else {
+            throw new IllegalArgumentException("Professor not found");
+        }
+
+    }
+
     public SinodalDTO getSinodal(Long id) {
         Sinodal sinodal = sinodalRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Sinodal not found"));
         return sinodalMapper.sinodalToSinodalDTO(sinodal);

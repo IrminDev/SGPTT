@@ -6,6 +6,15 @@ public class ProfessorDTO {
     private String name;
     private String paternalSurname;
     private String maternalSurname;
+    private AcademyDTO academy;
+
+    public AcademyDTO getAcademy() {
+        return academy;
+    }
+
+    public void setAcademy(AcademyDTO academy) {
+        this.academy = academy;
+    }
 
     public String getProfessorNumber() {
         return professorNumber;

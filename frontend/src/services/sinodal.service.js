@@ -20,10 +20,16 @@ axiosInstance.interceptors.request.use(
 );
 
 const createSinodal = async (data) => {
-    const response = await axiosInstance.post('/api/utils/sinodal', data);
+    const response = await axiosInstance.post('/api/sinodal', data);
+    return response.data;
+}
+
+const getAllProfessors = async () => {
+    const response = await axiosInstance.get('/api/sinodal/professors/all');
     return response.data;
 }
 
 export default {
-    createSinodal
+    createSinodal,
+    getAllProfessors
 }

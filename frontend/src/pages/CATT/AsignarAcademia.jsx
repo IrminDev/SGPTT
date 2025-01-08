@@ -2,8 +2,11 @@ import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import protocolService from '../../services/protocol.service';
 import assessmentService from '../../services/assessment.service';
+import { useNavigate } from 'react-router-dom';
 
 const AsignarAcademia = () => {
+    const navigate = useNavigate();
+    
     const { id } = useParams();
     const [selectedAcademy, setSelectedAcademy] = useState('');
     const [assignedAcademies, setAssignedAcademies] = useState([]);
@@ -37,12 +40,12 @@ const AsignarAcademia = () => {
         }
 
         assessmentService.assignAcademy(data).then((response) => {
-            console.log(response);
+            if(response.status === 202) {
+                navigate('/dashboard-catt/protocolos-pendientes-area');
+            }
         }).catch((error) => {
             console.log(error);
         })
-
-        console.log(data);
     }
 
     return (

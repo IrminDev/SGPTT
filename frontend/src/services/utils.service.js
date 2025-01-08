@@ -19,12 +19,11 @@ axiosInstance.interceptors.request.use(
     }
 );
 
-const registerUser = async (data) => {
-    const response = await axiosInstance.put('/api/administration/register', data);
+const getSuggestions = async (id) => {
+    const response = await axiosInstance.get(`/api/sinodal/suggestions/${id}`);
     return response.data;
-};
-
+}
 
 export default {
-    registerUser
+    getSuggestions
 }

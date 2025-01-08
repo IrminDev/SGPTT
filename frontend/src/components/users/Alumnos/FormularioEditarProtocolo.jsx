@@ -2,11 +2,14 @@ import React, {useState, useEffect} from 'react';
 import Input from '../../common/Input';
 import Button from '../../common/Button';
 import changeRequestService from '../../../services/changeRequest.service';
+import { useNavigate } from 'react-router-dom';
 
 
 export default function FormularioEditarProtocolo({protocol}) {
   const [formData, setFormData] = useState()
   const [comments, setComments] = useState()
+
+  const navigate = useNavigate()
 
   const handleFormData = (e) => {
     setFormData(e.target.files[0])
@@ -30,7 +33,7 @@ export default function FormularioEditarProtocolo({protocol}) {
     form.append("data", new Blob([JSON.stringify(data)], { type: "application/json" }))
 
     changeRequestService.createChangeRequest(form).then((response) => {
-      console.log(response)
+      navigate('/dashboard-alumno/mi-protocolo')
     }).catch((error) => {
       console.log(error)
     })

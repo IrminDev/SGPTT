@@ -8,7 +8,7 @@ const ProtocolCard = ({ id, title, abstract, students, directors }) => {
       <p className="text-gray-600 mb-4">{abstract}</p>
 
       <div className="mb-4">
-        <h3 className="text-lg font-semibold text-gray-700">Students:</h3>
+        <h3 className="text-lg font-semibold text-gray-700">Alumnos:</h3>
         <ul className="list-disc list-inside text-gray-600">
           {students.map((student, index) => (
             <li key={index}>{student}</li>
@@ -17,7 +17,7 @@ const ProtocolCard = ({ id, title, abstract, students, directors }) => {
       </div>
 
       <div className="mb-4">
-        <h3 className="text-lg font-semibold text-gray-700">Directors:</h3>
+        <h3 className="text-lg font-semibold text-gray-700">Directores:</h3>
         <ul className="list-disc list-inside text-gray-600">
           {directors.map((director, index) => (
             <li key={index}>{director}</li>

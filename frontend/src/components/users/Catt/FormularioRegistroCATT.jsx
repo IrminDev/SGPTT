@@ -2,6 +2,7 @@ import React from 'react'
 import { useState } from 'react';
 import Button from '../../common/Button';
 import Input from '../../common/Input';
+import registerService from '../../../services/register.service';
 
 const FormularioRegistroCATT = () => {
     const [name, setName] = useState("");
@@ -43,7 +44,7 @@ const FormularioRegistroCATT = () => {
     const handleSubmit = (e) => {
         const data = {
             person: {
-                type: "professor",
+                type: "catt",
                 name,
                 paternalSurname: lastname,
                 maternalSurname: motherLastname,
@@ -54,7 +55,21 @@ const FormularioRegistroCATT = () => {
             password: password,
         }
 
-        console.log(data);
+        console.log("Data:", data);
+
+        registerService.registerUser(data).then((response) => {
+            setName("");
+            setLastname("");
+            setMotherLastname("");
+            setNumber("");
+            setRole("");
+            setEmail("");
+            setPassword("");
+
+            console.log(response);
+        }).catch((error) => {
+            console.error('Error registering user:', error);
+        })
     }
 
     return (

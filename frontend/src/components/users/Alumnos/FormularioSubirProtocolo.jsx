@@ -1,7 +1,10 @@
 import React, { useState, useEffect} from "react";
 import protocolService from "../../../services/protocol.service";
+import { useNavigate } from "react-router-dom";
 
 const FormularioSubirProtocolo = ({ tipoProtocolo }) => {
+    const navigate = useNavigate();
+
     const [workMates, setWorkMates] = useState([]);
     const [workMatesValue, setWorkMatesValue] = useState('');
     const [directors, setDirectors] = useState([]);
@@ -87,7 +90,9 @@ const FormularioSubirProtocolo = ({ tipoProtocolo }) => {
 
         console.log("Formulario: ", form);
         protocolService.uploadProtocol(formData).then((response) => {
-            console.log(response);
+            if(response.new){
+                navigate('/alumno/mi-protocolo');
+            }
         }).catch((error) => {
             console.log(error);
         })
