@@ -35,6 +35,8 @@ dependencies {
 	testImplementation("org.jetbrains.kotlin:kotlin-test-junit5")
 	testRuntimeOnly("org.junit.platform:junit-platform-launcher")
 	
+	testRuntimeOnly("com.h2database:h2")
+	
 }
 
 kotlin {
@@ -58,3 +60,7 @@ tasks
                 org.jetbrains.kotlin.gradle.dsl.KotlinVersion.KOTLIN_1_9
             )
     }
+
+tasks.withType<Test> {
+	useJUnitPlatform()
+}

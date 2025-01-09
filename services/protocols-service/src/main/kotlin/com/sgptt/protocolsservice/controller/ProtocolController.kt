@@ -47,10 +47,7 @@ class ProtocolController(private val service: ProtocolService) {
 	@GetMapping("/all/state")
 	@RequiresRole(roles = ["Catt"])
 	fun getAllByState(
-		@RequestParam(
-			required = true,
-			defaultValue = "PENDING"
-		) state: State
+		@RequestParam(required = true, defaultValue = "PENDING") state: State
 	): ResponseEntity<List<ProtocolDTO>> = ResponseEntity(service.findAllByState(state), HttpStatus.OK)
 	
 	@GetMapping("/all/missingSynodals")

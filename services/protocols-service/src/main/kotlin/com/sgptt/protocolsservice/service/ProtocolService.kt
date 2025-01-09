@@ -1,5 +1,7 @@
 package com.sgptt.protocolsservice.service
 
+import com.sgptt.protocolsservice.extension.firstActiveProtocol
+import com.sgptt.protocolsservice.extension.fullName
 import com.sgptt.protocolsservice.extension.toDomain
 import com.sgptt.protocolsservice.model.ActivityName
 import com.sgptt.protocolsservice.model.ProtocolPage
@@ -10,6 +12,7 @@ import com.sgptt.protocolsservice.model.exception.DifferentCareerException
 import com.sgptt.protocolsservice.model.exception.EntityNotFoundException
 import com.sgptt.protocolsservice.model.exception.ProfessorNotFoundException
 import com.sgptt.protocolsservice.model.exception.ProtocolNotFoundException
+import com.sgptt.protocolsservice.model.exception.StudentAlreadyHasActiveProtocolException
 import com.sgptt.protocolsservice.model.exception.StudentNotFoundException
 import com.sgptt.protocolsservice.model.exception.WrongUploadDateException
 import com.sgptt.protocolsservice.repository.ActivityRepository
@@ -76,7 +79,12 @@ class ProtocolService(
 		return protocolRepository.findAllSuggestionByProfessorAcademy(professor.academy.name).map { it.toDomain() }
 	}
 	
-	@Throws(EntityNotFoundException::class, WrongUploadDateException::class, DifferentCareerException::class)
+	@Throws(
+		EntityNotFoundException::class,
+		WrongUploadDateException::class,
+		DifferentCareerException::class,
+		StudentAlreadyHasActiveProtocolException::class
+	)
 	fun registryProtocol(
 		file: MultipartFile,
 		studentId: Long,
@@ -113,6 +121,9 @@ class ProtocolService(
 		}
 		
 		val allStudents: Set<Student> = buildSet {
+			whoIsUploadingProtocol.firstActiveProtocol?.let {
+				throwStudentAlreadyHasAnActiveProtocol(whoIsUploadingProtocol, it)
+			}
 			add(whoIsUploadingProtocol)
 			workMates.forEach { studentId ->
 				if (!studentRepository.existsStudentByStudentNumber(studentId))
@@ -120,6 +131,9 @@ class ProtocolService(
 				val mate = studentRepository.findByStudentNumber(studentId)
 				if (whoIsUploadingProtocol.career != mate.career)
 					throwDifferentSameCareerException(whoIsUploadingProtocol, mate)
+				mate.firstActiveProtocol?.let {
+					throwStudentAlreadyHasAnActiveProtocol(mate, it)
+				}
 				add(mate)
 			}
 		}
@@ -179,11 +193,18 @@ class ProtocolService(
 						throw StudentNotFoundException("Student with enrollment $studentId not found")
 					if (index == 0) {
 						firstStudent = studentRepository.findByStudentNumber(studentId)
+						firstStudent.firstActiveProtocol?.let {
+							throwStudentAlreadyHasAnActiveProtocol(
+								firstStudent,
+								it
+							)
+						}
 						add(firstStudent)
 					} else {
 						val student = studentRepository.findByStudentNumber(studentId)
 						if (firstStudent.career != student.career)
 							throwDifferentSameCareerException(firstStudent, student)
+						student.firstActiveProtocol?.let { throwStudentAlreadyHasAnActiveProtocol(student, it) }
 						add(student)
 					}
 				}
@@ -251,11 +272,21 @@ class ProtocolService(
 		}
 		
 		if (protocol.state != State.CORRECTIONS)
-			throw IllegalStateException("Your protocol ${protocol.title} must be in the 'Corrections'" +
-					" state to be corrected")
+			throw IllegalStateException(
+				"Your protocol ${protocol.title} must be in the 'Corrections'" +
+						" state to be corrected"
+			)
 		
 		protocol.fileData = file.bytes
 		return protocolRepository.save(protocol).toDomain()
+	}
+	
+	fun throwStudentAlreadyHasAnActiveProtocol(s: Student, p: Protocol): Nothing {
+		val message = buildString {
+			append("The student ${s.fullName} has a protocol with state ")
+			append("${p.state} and title ${p.title}")
+		}
+		throw StudentAlreadyHasActiveProtocolException(message)
 	}
 	
 }

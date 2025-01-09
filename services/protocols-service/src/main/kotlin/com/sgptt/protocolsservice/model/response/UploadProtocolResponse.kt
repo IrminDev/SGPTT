@@ -3,6 +3,7 @@ package com.sgptt.protocolsservice.model.response
 import com.sgptt.protocolsservice.model.Career
 import com.sgptt.protocolsservice.model.dto.ProtocolDTO
 import com.sgptt.protocolsservice.model.exception.EntityNotFoundException
+import com.sgptt.protocolsservice.model.exception.StudentAlreadyHasActiveProtocolException
 import com.sgptt.protocolsservice.model.exception.WrongUploadDateException
 
 /**
@@ -43,5 +44,5 @@ sealed class UploadProtocolResponse(open val message: String) {
 		override val message: String,
 		val students: Map<String, Career>
 	) : UploadProtocolResponse(message)
-	
+	class StudentAlreadyHasActiveProtocolResponse(e: StudentAlreadyHasActiveProtocolException) : UploadProtocolResponse(e.message)
 }

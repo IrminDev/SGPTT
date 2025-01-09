@@ -1,10 +1,12 @@
 package com.sgptt.protocolsservice.extension
 
+import com.sgptt.protocolsservice.model.State
 import com.sgptt.protocolsservice.model.dto.AcademyDTO
 import com.sgptt.protocolsservice.model.dto.ProtocolDTO
 import com.sgptt.protocolsservice.repository.entity.Person
 import com.sgptt.protocolsservice.repository.entity.Protocol
 import com.sgptt.protocolsservice.repository.entity.Sinodal
+import com.sgptt.protocolsservice.repository.entity.Student
 import org.springframework.validation.BindingResult
 
 private val protocolUrl = System.getenv("DATA_PROTOCOL_URL")
@@ -53,8 +55,11 @@ fun BindingResult.buildErrorMessage() = buildString {
 	}
 }
 
-internal val Person.fullName: String
+val Person.fullName: String
 	get() = "$name $paternalSurname $maternalSurname"
 
-internal val Sinodal.fullName: String
+val Sinodal.fullName: String
 	get() = professor.fullName
+
+val Student.firstActiveProtocol: Protocol?
+	get() = protocols.firstOrNull { it.state != State.REJECTED }
