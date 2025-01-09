@@ -13,6 +13,7 @@ const FormularioAsignarSinodales = () => {
     const [assignedSynodales, setAssignedSynodales] = useState([]);
     const [protocol, setProtocol] = useState({})
     const [professors, setProfessors] = useState([]);
+    const [suggestions, setSuggestions] = useState([]);
 
     useEffect(() => {
       protocolService.getProtocol(id).then((response) => {
@@ -24,14 +25,18 @@ const FormularioAsignarSinodales = () => {
             const directors = response[0].directors;
             const academies = response[0].academies.map(academy => academy.id);
             const synodales = response[0].synodales;
-            console.log("Directors:", directors);
-            console.log("Academies:", academies);
-            console.log("Synodales:", synodales);
             const filteredProfessors = resp.filter((professor) => {
-                return !directors.includes(professor.name) && academies.includes(professor.academy.academyId) && !synodales.includes(`${professor.name} ${professor.paternalSurname} ${professor.maternalSurname}`);
+                return !directors.includes(professor.name) && academies.includes(professor.academy?.academyId) && !synodales.includes(`${professor.name} ${professor.paternalSurname} ${professor.maternalSurname}`);
             });
     
             setProfessors(filteredProfessors);
+
+            utilsService.getSuggestions(id).then((response) => {
+                console.log("Suggestions:", response);
+                setSuggestions(response);
+            }).catch((error) => {
+              console.log("Error fetching suggestions:", error);
+            })
         }).catch((error) => {
             console.log("Error fetching professors:", error);
         });
@@ -159,6 +164,24 @@ const FormularioAsignarSinodales = () => {
             >
               Subir Sinodales
             </button>
+          </div>
+
+          {/* Sugerencias */}
+          <div className="mt-6">
+            <h3 className="text-lg font-semibold mb-4 text-gray-800">
+              Sugerencias
+            </h3>
+            <ul className="list-disc list-inside text-gray-600">
+              {
+                suggestions.length > 0 ? (
+                  suggestions.map((suggestion, index) => (
+                    <li key={index}>{suggestion}</li>
+                  ))
+                ) : (
+                  <p className="text-gray-500">No hay sugerencias, asigna los sinodales de acuerdo a tu criterio.</p>
+                )
+              }
+            </ul>
           </div>
         </div>
       </div>

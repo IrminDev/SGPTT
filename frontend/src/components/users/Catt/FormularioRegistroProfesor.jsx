@@ -95,10 +95,10 @@ const FormularioRegistroProfesor = () => {
             </h2>
             {/* Formulario de registro */}
             <form className="space-y-4">
-              <Input onChange={handleNameChange} label="Nombre(s)" type="text" placeholder="Nombre(s)" required />
-              <Input onChange={handleLastnameChange} label="Apellido paterno" type="text" placeholder="Apellido paterno" required />
-              <Input onChange={handleMotherLastnameChange} label="Apellido materno" type="text" placeholder="Apellido materno" required />
-              <Input onChange={handleNumberChange} label="Número de empleado" type="text" placeholder="Número de empleado" required />
+              <Input onChange={handleNameChange} value={name} label="Nombre(s)" type="text" placeholder="Nombre(s)" required />
+              <Input onChange={handleLastnameChange} value={lastname} label="Apellido paterno" type="text" placeholder="Apellido paterno" required />
+              <Input onChange={handleMotherLastnameChange} value={motherLastname} label="Apellido materno" type="text" placeholder="Apellido materno" required />
+              <Input onChange={handleNumberChange} value={number} label="Número de empleado" type="text" placeholder="Número de empleado" required />
               <div>
                 <label className="block text-white text-sm font-bold mb-2">Academia</label>
                 <Input
@@ -114,19 +114,18 @@ const FormularioRegistroProfesor = () => {
                         { value: "Ciencias básicas", label: "Ciencias básicas" },
                     ]}
                     defaultValue=""
+                    value={academy}
                     onChange={handleAcademyChange}
                     required
                 />
               </div>
-                <Input onChange={handleEmailChange} label="Correo electrónico" type="email" placeholder="Correo electrónico" required />
+                <Input onChange={handleEmailChange} value={email} label="Correo electrónico" type="email" placeholder="Correo electrónico" required />
 
-                <Input onChange={handlePasswordChange} label="Contraseña" type="password" placeholder="Contraseña" required />
+                <Input onChange={handlePasswordChange} value={password} label="Contraseña" type="password" placeholder="Contraseña" required />
 
-                <Input onChange={handleSchoolChange} label="Escuela" type="text" placeholder="Escuela" required />
+                <Input onChange={handleSchoolChange} value={school} label="Escuela" type="text" placeholder="Escuela" required />
         
                 <Button onClick={handleSubmit} label="Registrar" className="bg-teal-500 hover:bg-teal-700" />
-
-                
             </form>
           </div>
         </div>

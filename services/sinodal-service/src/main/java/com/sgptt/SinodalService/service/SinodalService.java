@@ -40,13 +40,13 @@ public class SinodalService {
             Optional<Protocol> protocol = protocolRepository.findById(sinodalRequestDTO.getProtocolId());
             if(protocol.isPresent()){
                 sinodal.setProtocol(protocol.get());
+                sinodal.setSinodal(true);
                 sinodalRepository.save(sinodal);
                 Protocol protocolEntity = protocol.get();
                 if(protocolEntity.getSinodals().size() == 3){
                     protocolEntity.setState(State.EVALUATING);
                     protocolRepository.save(protocol.get());
                 }
-
                 return sinodalMapper.sinodalToSinodalDTO(sinodal);
             } else {
                 throw new IllegalArgumentException("Protocol not found");
@@ -67,6 +67,7 @@ public class SinodalService {
                 Optional<Protocol> protocol = protocolRepository.findById(sinodalRequestDTO.getProtocolId());
                 if(protocol.isPresent()){
                     sinodal.setProtocol(protocol.get());
+                    sinodal.setSinodal(true);
                     sinodalRepository.save(sinodal);
                     Protocol protocolEntity = protocol.get();
                     if(protocolEntity.getSinodals().size() == 3){

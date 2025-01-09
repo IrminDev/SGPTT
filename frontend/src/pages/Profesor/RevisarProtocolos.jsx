@@ -12,7 +12,7 @@ export default function RevisarProtocolo() {
   useEffect(() => {
     const person = JSON.parse(localStorage.getItem('person'));
     protocolService.getSinodalProtocols(person.personId).then((data) => {
-      // filter all the protocols with status "EVALUATING"
+      console.log(data)
       const filteredProtocols = data.filter(protocol => protocol.state === "EVALUATING")
       setProtocols(filteredProtocols)
     }).catch((error) => {
@@ -22,30 +22,6 @@ export default function RevisarProtocolo() {
     }); 
   }, []);
 
-  const protocolos = [
-    {
-      id: 1,
-      title: "Título de prueba 1",
-      keywords: ["Palabra1", "Palabra2", "Palabra3"],
-      asbtract: "Este es el resumen del protocolo 1.",
-      fileUrl: "ruta/al/archivo1.pdf",
-      students: ["Integrante1", "Integrante2", "Integrante3"],
-      directors: "Nombre del Director 1",
-      state: "Rechazado",
-      createdAt: "2021-10-01T00:00:00.000Z",
-    },
-    {
-      id: 2,
-      title: "Título de prueba 1",
-      keywords: ["Palabra1", "Palabra2", "Palabra3"],
-      asbtract: "Este es el resumen del protocolo 1.",
-      fileUrl: "ruta/al/archivo1.pdf",
-      students: ["Integrante1", "Integrante2", "Integrante3"],
-      directors: "Nombre del Director 1",
-      state: "Rechazado",
-      createdAt: "2021-10-01T00:00:00.000Z",
-    },
-  ];
 
   return (
     <div className="bg-gray-800 min-h-screen flex flex-col">
@@ -56,7 +32,14 @@ export default function RevisarProtocolo() {
         {
           protocols.length > 0 ? 
           protocols.map((protocol, index) => (
-            <ProtocolCard key={index} protocol={protocol} />
+            <ProtocolCard key={index}
+              id={protocol.id}
+              title={protocol.title}
+              abstract={protocol.abstract}
+              students={protocol.students}
+              directors={protocol.directors}
+              
+            />
           ))
           :
           <h1 className="text-center w-full text-white text-2xl">No hay protocolos a revisar.</h1>

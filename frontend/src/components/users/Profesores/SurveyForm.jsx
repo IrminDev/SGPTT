@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import assessmentService from '../../../services/assessment.service';
 
 const SurveyForm = ({id, professorId}) => {
   const [responses, setResponses] = useState([
@@ -45,7 +46,6 @@ const SurveyForm = ({id, professorId}) => {
     if(responses.some(response => response.result === null)) {
         return;
     }
-    
 
     const data = {
         protocolId: id,
@@ -56,7 +56,11 @@ const SurveyForm = ({id, professorId}) => {
         }
     }
 
-    console.log(data);
+    assessmentService.createAssessment(data).then((response) => {
+        console.log("Assessment created successfully:", response);
+    }).catch((error) => {
+        console.log("Error creating assessment:", error);
+    });
   };
 
   return (

@@ -20,7 +20,7 @@ axiosInstance.interceptors.request.use(
 );
 
 const getSuggestions = async (id) => {
-    const response = await axiosInstance.get(`/api/sinodal/suggestions/${id}`);
+    const response = await axiosInstance.get(`/api/utils/suggestions/${id}`);
     return response.data;
 }
 
