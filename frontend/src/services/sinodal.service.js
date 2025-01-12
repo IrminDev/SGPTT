@@ -29,7 +29,13 @@ const getAllProfessors = async () => {
     return response.data;
 }
 
+const createSinodalByProfessor = async (data) => {
+    const response = await axiosInstance.post('/api/sinodal/professor', data);
+    return response.data;
+}
+
 export default {
     createSinodal,
-    getAllProfessors
+    getAllProfessors,
+    createSinodalByProfessor,
 }

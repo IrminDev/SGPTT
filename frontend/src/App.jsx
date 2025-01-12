@@ -46,11 +46,16 @@ import TeacherW from "./assets/images/teacher-white.svg";
 import TeacherB from "./assets/images/teacher-black.svg";
 import AsignarAcademia from "./pages/CATT/AsignarAcademia";
 import FormularioAsignarSinodales from "./components/users/Catt/FormularioAsignarSinodales";
+import InicioAlumno from "./pages/Alumno/InicioAlumno";
+import CorregirProtocolo from "./pages/Alumno/CorregirProtocolo";
+import InicioCATT from "./pages/CATT/InicioCATT";
+import Plagios from "./pages/CATT/Plagios";
+import PlagioProtocolo from "./pages/CATT/PlagioProtocolo";
 
 export default function App() {
   // Definir rutas para usuarios CATT
   const cattRoutes = [
-    { path: "/", element: <Inicio /> },
+    { path: "/", element: <InicioCATT /> },
     { path: "agendar-periodo", element: <AgendarPeriodo /> },
     { path: "protocolos-pendientes-area", element: <AsignarProtocolosAcademias /> },
     { path: "protocolos-pendientes-area/:id", element: <AsignarAcademia /> },
@@ -58,14 +63,17 @@ export default function App() {
     { path: "protocolos-pendientes-sinodal/:id", element: <FormularioAsignarSinodales /> },
     { path: "registrar-usuario", element: <RegistrarUsuario /> },
     { path: "solicitudes-modificacion", element: <SolicitudesModificacionProtocolos /> },
+    { path: "plagios", element: <Plagios /> },
+    { path: "plagios/:id", element: <PlagioProtocolo /> },
   ];
 
   // Definir rutas para alumnos
   const alumnoRoutes = [
-    { path: "/", element: <Inicio /> },
+    { path: "/", element: <InicioAlumno /> },
     { path: "mi-protocolo", element: <MiProtocolo /> },
     { path: "subir-protocolo", element: <SubirProtocolo /> },
     { path: "editar-protocolo", element: <EditarProtocolo /> },
+    { path: "corregir-protocolo", element: <CorregirProtocolo /> },
   ];
   
   // Definir rutas para profesores
@@ -85,6 +93,7 @@ export default function App() {
     { icon: Warn, text: "Protocolos Pendientes", path: "protocolos-pendientes-sinodal" },
     { icon: Request, text: "Solicitudes de Modificación", path: "solicitudes-modificacion" },
     { icon: NewUser, text: "Registrar Nuevo Usuario", path: "registrar-usuario" },
+    { icon: Warn, text: "Verificar plagios", path: "plagios" },
   ];
 
   // Definir items de la barra lateral para alumnos

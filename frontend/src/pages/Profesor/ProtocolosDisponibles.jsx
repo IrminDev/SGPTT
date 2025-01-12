@@ -12,10 +12,9 @@ const ProtocolosDisponibles = () => {
     const person = JSON.parse(localStorage.getItem('person'));
 
     protocolService.getSuggestionProtocols(person.personId).then((data) => {
-      //filter all the protocols with status "PENDING"
-      const filteredProtocols = data.filter(protocol => protocol.state === "PENDING")
+      const filteredProtocols = data.filter(protocol => protocol.state === "PENDING" && !protocol.synodales.find(synodal => synodal === person.name))
       setProtocols(filteredProtocols)
-      console.log(protocols)
+      console.log(data)
     }).catch((error) => {
       console.log(error)
     })
@@ -28,8 +27,9 @@ const ProtocolosDisponibles = () => {
     }
 
     console.log(data)
-    sinodalService.createSinodal(data).then((data) => {
-      console.log(data)
+    sinodalService.createSinodalByProfessor(data).then((resp) => {
+      console.log(resp)
+      setProtocols(protocols.filter(protocol => protocol.id !== protocolId))
     }).catch((error) => {
       console.log(error)
     })

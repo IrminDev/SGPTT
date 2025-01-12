@@ -149,13 +149,13 @@ correcto funcionamiento y el rendimiento de los sistemas digitales',
 
 insert into activity (activity_id, open_date, close_date, activity)
 values
-    (1, current_date, '2025-01-09 11:59:59',
+    (1, current_date, '2025-02-09 11:59:59',
         0),
-    (2, '2024-12-19 00:00:00', '2025-01-09 11:59:59',
+    (2, current_date, '2025-02-09 11:59:59',
      1),
-    (3, '2025-01-10 00:00:00', '2025-01-17 11:59:59',
+    (3, current_date, '2025-02-17 11:59:59',
      2),
-    (4, '2025-01-17 00:00:00', '2025-01-24 11:59:59',
+    (4, current_date, '2025-02-24 11:59:59',
      3)
 on conflict (activity_id) do nothing;
 

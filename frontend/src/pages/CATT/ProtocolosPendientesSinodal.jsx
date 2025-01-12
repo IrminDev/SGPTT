@@ -1,22 +1,7 @@
 import React, { useState, useEffect} from "react";
-import ProtocolosPendientesSinodalCard from "../../components/users/Catt/ProtocolosPendientesSinodalCard";
 import TittleSection from "../../components/common/TittleSection";
 import protocolService from "../../services/protocol.service";
-import ProtocolCard from "../../components/common/ProtocolCard";
 import ProtocolSinodalCard from "../../components/common/ProtocolSinodalCard";
-
-// Información de prueba para los sinodales disponibles
-const sinodalOptions = [
-  { value: "A", label: "Profe A" },
-  { value: "B", label: "Profe B" },
-  { value: "C", label: "Profe C" },
-  { value: "X", label: "Profe X" },
-  { value: "Y", label: "Profe Y" },
-  { value: "Z", label: "Profe Z" },
-  { value: "1", label: "Profe 1" },
-  { value: "2", label: "Profe 2" },
-  { value: "3", label: "Profe 3" },
-];
 
 const ProtocolosPendientesSinodal = () => {
   const [protocols, setProtocols] = useState([])

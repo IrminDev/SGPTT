@@ -28,7 +28,13 @@ const assignAcademy = async (data) => {
     return response;
 }
 
+const getEvaluations = async (id) => {
+    const response = await axiosInstance.get(`/api/assessment/evaluations/protocol/${id}`);
+    return response.data;
+}
+
 export default {
     createAssessment,
-    assignAcademy
+    assignAcademy,
+    getEvaluations
 }

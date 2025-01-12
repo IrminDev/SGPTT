@@ -24,6 +24,12 @@ const getSuggestions = async (id) => {
     return response.data;
 }
 
+const checkSimilarProtocol = async (id) => {
+    const response = await axiosInstance.get(`/api/utils/similar/${id}`);
+    return response.data;
+}
+
 export default {
-    getSuggestions
+    getSuggestions,
+    checkSimilarProtocol
 }

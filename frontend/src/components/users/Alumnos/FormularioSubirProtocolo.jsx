@@ -91,7 +91,7 @@ const FormularioSubirProtocolo = ({ tipoProtocolo }) => {
         console.log("Formulario: ", form);
         protocolService.uploadProtocol(formData).then((response) => {
             if(response.new){
-                navigate('/alumno/mi-protocolo');
+                navigate('/dashboard-alumno/mi-protocolo');
             }
         }).catch((error) => {
             console.log(error);

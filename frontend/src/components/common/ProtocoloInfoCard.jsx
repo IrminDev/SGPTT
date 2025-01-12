@@ -39,7 +39,7 @@ const ProtocoloInfoCard = ({ protocol }) => {
         <div className="md:w-1/2 mb-4 md:mb-0 md:pr-8">
           <div className="mb-4">
             <label className="block text-gray-300 font-medium mb-1">Palabras clave</label>
-            <p className="text-white">{protocol.keywords.join(", ")}</p>
+            <p className="text-white">{protocol.keywords?.join(", ")}</p>
           </div>
           <div className="mb-4">
             <label className="block text-gray-300 font-medium mb-1">Resumen</label>
@@ -47,7 +47,7 @@ const ProtocoloInfoCard = ({ protocol }) => {
           </div>
           <div className="mb-4">
             <label className="block text-gray-300 font-medium mb-1">Fecha de creación</label>
-            <p className="text-white">{protocol.createdAt.substring(0,10)}</p>
+            <p className="text-white">{protocol.createdAt?.substring(0,10)}</p>
           </div>
         </div>
 

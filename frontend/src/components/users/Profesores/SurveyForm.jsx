@@ -1,7 +1,10 @@
 import React, { useState } from 'react';
 import assessmentService from '../../../services/assessment.service';
+import { useNavigate } from 'react-router-dom'; 
 
 const SurveyForm = ({id, professorId}) => {
+  const navigate = useNavigate();
+  
   const [responses, setResponses] = useState([
     { criterion: "FIRST", result: null, comment: '' },
     { criterion: "SECOND", result: null, comment: '' },
@@ -58,6 +61,7 @@ const SurveyForm = ({id, professorId}) => {
 
     assessmentService.createAssessment(data).then((response) => {
         console.log("Assessment created successfully:", response);
+        navigate('../');
     }).catch((error) => {
         console.log("Error creating assessment:", error);
     });

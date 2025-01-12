@@ -26,7 +26,8 @@ const FormularioAsignarSinodales = () => {
             const academies = response[0].academies.map(academy => academy.id);
             const synodales = response[0].synodales;
             const filteredProfessors = resp.filter((professor) => {
-                return !directors.includes(professor.name) && academies.includes(professor.academy?.academyId) && !synodales.includes(`${professor.name} ${professor.paternalSurname} ${professor.maternalSurname}`);
+                const professorName = `${professor.name} ${professor.paternalSurname} ${professor.maternalSurname}`;
+                return !directors.includes(professorName) && academies.includes(professor.academy?.academyId) && !synodales.includes(professorName);
             });
     
             setProfessors(filteredProfessors);
@@ -46,7 +47,7 @@ const FormularioAsignarSinodales = () => {
     }, []);
 
     const handleAddSynodal = () => {
-      if (selectedSynodal && !assignedSynodales.includes(selectedSynodal)) {
+      if (selectedSynodal && !assignedSynodales.includes(selectedSynodal) && assignedSynodales.length + protocol.synodales.length < 3) {
         setAssignedSynodales([...assignedSynodales, selectedSynodal]);
         setSelectedSynodal(""); // Reinicia el select
       }
@@ -171,17 +172,22 @@ const FormularioAsignarSinodales = () => {
             <h3 className="text-lg font-semibold mb-4 text-gray-800">
               Sugerencias
             </h3>
-            <ul className="list-disc list-inside text-gray-600">
+            <div className="list-disc list-inside text-gray-600">
               {
                 suggestions.length > 0 ? (
                   suggestions.map((suggestion, index) => (
-                    <li key={index}>{suggestion}</li>
+                    <div
+                      key={index}
+                      className="p-4 border rounded-md shadow-sm bg-gray-50"
+                    >
+                      <p key={index}><span className=' font-bold'>Nombre:</span> {suggestion.name + ' ' + suggestion.paternalSurname + ' ' + suggestion.maternalSurname}</p>
+                    </div>
                   ))
                 ) : (
                   <p className="text-gray-500">No hay sugerencias, asigna los sinodales de acuerdo a tu criterio.</p>
                 )
               }
-            </ul>
+            </div>
           </div>
         </div>
       </div>

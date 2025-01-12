@@ -79,6 +79,7 @@ const getSuggestionProtocols = async (id) => {
     return response.data;
 }
 
+
 export default {
     getProtocols,
     getProtocol,
