@@ -28,7 +28,7 @@ public class GetEvaluationsService {
         ArrayList<EvaluationsByProtocolResponse> evaluationsByProtocol = new ArrayList<>();
 
         for (Evaluation evaluation : evaluations)
-            evaluationsByProtocol.add(new EvaluationsByProtocolResponse(evaluation.getSinodal().getId(), evaluation.getCriterionEvaluations(), evaluation.getEvaluationComments(), evaluation.getIsApproved()));
+            evaluationsByProtocol.add(new EvaluationsByProtocolResponse(evaluation.getSinodal().getProfessor().getPersonId(), evaluation.getCriterionEvaluations(), evaluation.getEvaluationComments(), evaluation.getIsApproved()));
 
         return evaluationsByProtocol;
     }
@@ -55,7 +55,7 @@ public class GetEvaluationsService {
 
     public EvaluationResponse getEvaluationById(Long evaluationId) {
         Evaluation evaluation = evaluationRepository.findById(evaluationId).orElseThrow(() -> new RuntimeException("Evaluation not found"));
-        return new EvaluationResponse(evaluation.getEvaluationId(), evaluation.getSinodal().getProtocol().getProtocolId(), evaluation.getCriterionEvaluations(), evaluation.getEvaluationComments(), evaluation.getIsApproved());
+        return new EvaluationResponse(evaluation.getSinodal().getProtocol().getProtocolId(), evaluation.getSinodal().getProfessor().getPersonId(), evaluation.getCriterionEvaluations(), evaluation.getEvaluationComments(), evaluation.getIsApproved());
     }
 
     public void deleteEvaluationsByProtocol(Long protocolId) {

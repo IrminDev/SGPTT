@@ -46,8 +46,9 @@ public class ProtocolAssessmentService {
             throw new RuntimeException("Activity \"REVIEW_PROTOCOLS\" has already ended");
 
         evaluationRespository.save(evaluation);
+        evaluations.add(evaluation);
 
-        if (evaluations.size() < 3)
+        if (evaluations.size() == 3)
             if (evaluations.stream().allMatch(Evaluation::getIsApproved))
                 protocol.setState(APPROVED);
             else

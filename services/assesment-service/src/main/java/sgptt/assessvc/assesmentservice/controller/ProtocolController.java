@@ -39,28 +39,28 @@ public class ProtocolController {
     }
 
     @GetMapping("/evaluations/protocol/{protocolId}")
-    @ResponseStatus(HttpStatus.FOUND)
+    @ResponseStatus(HttpStatus.OK)
     @RequiresRole({"Student", "Professor", "Catt"})
     public List<EvaluationsByProtocolResponse> getEvaluationsByProtocol(@PathVariable Long protocolId) {
         return getEvaluationsService.getEvaluationsByProtocol(protocolId);
     }
 
     @GetMapping("/evaluations/all")
-    @ResponseStatus(HttpStatus.FOUND)
+    @ResponseStatus(HttpStatus.OK)
     @RequiresRole({"Catt"})
     public List<AllEvaluationsResponse> getAllEvaluations() {
         return getEvaluationsService.getAllEvaluations();
     }
 
     @GetMapping("/evaluations/professor/{personId}")
-    @ResponseStatus(HttpStatus.FOUND)
+    @ResponseStatus(HttpStatus.OK)
     @RequiresRole({"Professor", "Catt"})
     public List<EvaluationsByProfessorResponse> getEvaluationsByProfessor(@PathVariable Long personId) {
         return getEvaluationsService.getEvaluationsByProfessor(personId);
     }
 
     @GetMapping("/evaluations/id/{id}")
-    @ResponseStatus(HttpStatus.FOUND)
+    @ResponseStatus(HttpStatus.OK)
     @RequiresRole({"Professor", "Catt"})
     public EvaluationResponse getEvaluationById(@PathVariable Long id) {
         return getEvaluationsService.getEvaluationById(id);
