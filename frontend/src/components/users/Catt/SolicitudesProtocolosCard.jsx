@@ -1,6 +1,21 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
+import changeRequestService from '../../../services/changeRequest.service';
 
 const SolicitudesProtocolosCard = ({ solicitud }) => {
+  const handleRechazar = () => {
+    const updateRequest = {
+      state: 'REJECTED',
+      id: solicitud.id
+    }
+
+    changeRequestService.updateChangeRequest(updateRequest, solicitud.id).then((data) => {
+      console.log(data)
+    }).catch((error) => {
+      console.log(error)
+    })
+  }
+
   return (
     <div className="bg-white p-6 rounded-lg shadow-md mb-4">
       <h2 className="text-2xl font-bold text-gray-900 mb-2">ID del protocolo: {solicitud.protocolId}</h2>
@@ -11,6 +26,13 @@ const SolicitudesProtocolosCard = ({ solicitud }) => {
       <h1 className=' font-bold text-center text-xl'>Formato de solicitud de cambios</h1>
       <div className="mt-4">
         <iframe src={solicitud.filePath} className=' w-full h-96'></iframe>
+      </div>
+      <div className='flex justify-evenly mt-4'>
+        <Link to={`./${solicitud.id}`} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-4 inline-block">Modificar protocolo</Link> 
+        <button
+          className='bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded mt-4 inline-block'
+          onClick={handleRechazar}
+        >Rechazar cambios</button>
       </div>
     </div>
   );

@@ -51,6 +51,8 @@ import CorregirProtocolo from "./pages/Alumno/CorregirProtocolo";
 import InicioCATT from "./pages/CATT/InicioCATT";
 import Plagios from "./pages/CATT/Plagios";
 import PlagioProtocolo from "./pages/CATT/PlagioProtocolo";
+import IniciProfesor from "./pages/Profesor/InicioProfesor";
+import EditarProtocoloPorSolicitud from "./pages/CATT/EditarProtocoloPorSolicitud";
 
 export default function App() {
   // Definir rutas para usuarios CATT
@@ -63,6 +65,7 @@ export default function App() {
     { path: "protocolos-pendientes-sinodal/:id", element: <FormularioAsignarSinodales /> },
     { path: "registrar-usuario", element: <RegistrarUsuario /> },
     { path: "solicitudes-modificacion", element: <SolicitudesModificacionProtocolos /> },
+    { path: "solicitudes-modificacion/:id", element: <EditarProtocoloPorSolicitud /> },
     { path: "plagios", element: <Plagios /> },
     { path: "plagios/:id", element: <PlagioProtocolo /> },
   ];
@@ -78,7 +81,7 @@ export default function App() {
   
   // Definir rutas para profesores
   const profesorRoutes = [
-    { path: "/", element: <Inicio /> },
+    { path: "/", element: <IniciProfesor /> },
     { path: "protocolo-a-cargo", element: <ProtocolosACargo /> },
     { path: "protocolos-disponibles", element: <ProtocolosDisponibles /> },
     { path: "revisar-protocolos", element: <RevisarProtocolos /> },

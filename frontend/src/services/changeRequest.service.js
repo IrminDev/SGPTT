@@ -34,8 +34,20 @@ const getAllChangeRequests = async () => {
     return response.data;
 }
 
+const getChangeRequestById = async (id) => {
+    const response = await axiosInstance.get(`/api/utils/change-request/${id}`);
+    return response.data;
+}
+
+const updateChangeRequest = async (data, id) => {
+    const response = await axiosInstance.put(`/api/utils/change-request/${id}`, data);
+    return response.data;
+}
+
 export default {
     createChangeRequest,
     getProtocolChangeRequests,
-    getAllChangeRequests
+    getAllChangeRequests,
+    getChangeRequestById,
+    updateChangeRequest
 }

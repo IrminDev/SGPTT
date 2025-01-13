@@ -19,7 +19,7 @@ spec:
     spec:
       containers:
         - name: assessment-service
-          image: ediazh1900/assesment-service:v1.4
+          image: ediazh1900/assesment-service:v1.5
           ports:
             - containerPort: 8083
           resources:

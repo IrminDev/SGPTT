@@ -1,6 +1,12 @@
 package com.sgptt.SinodalService.entity;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 
 @Entity
 public class Sinodal{
@@ -13,7 +19,7 @@ public class Sinodal{
     private Professor professor;
 
     @Column(name = "is_sinodal", nullable = false, columnDefinition = "boolean default true")
-    private boolean isSinodal;
+    private boolean isSinodal = true;
 
     @ManyToOne
     @JoinColumn(name = "protocol_id")

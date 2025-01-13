@@ -8,8 +8,8 @@ export default function SolicitudesModificacionProtocolos() {
 
   useEffect(() => {
     changeRequestService.getAllChangeRequests().then((data) => {
-      console.log(data)
-      setChangeRequests(data)
+      const filteredChangeRequests = data.filter((solicitud) => solicitud.state === 'PENDING')
+      setChangeRequests(filteredChangeRequests)
     }).catch((error) => {
       console.log(error)
     })
@@ -21,9 +21,16 @@ export default function SolicitudesModificacionProtocolos() {
         <TittleSection tittle="Solicitudes de Modificación de Protocolos" />
       </div>
       <div className="p-4 bg-gray-800 rounded-lg shadow-md w-full max-w-7xl mx-auto">
-        {changeRequests.map((solicitud, index) => (
-          <SolicitudesProtocolosCard key={index} solicitud={solicitud} />
-        ))}
+        {changeRequests.length === 0 ? (
+          <p className="text-center text-slate-100">No hay solicitudes de modificación de protocolos pendientes</p>
+        ) : (
+          changeRequests.map((solicitud, index) => (
+            <SolicitudesProtocolosCard
+              key={index}
+              solicitud={solicitud}
+            />
+          ))
+        )}
       </div>
     </div>
   );

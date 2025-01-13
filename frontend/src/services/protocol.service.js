@@ -79,6 +79,10 @@ const getSuggestionProtocols = async (id) => {
     return response.data;
 }
 
+const updateProtocol = async (data, id) => {
+    const response = await axiosInstance.put(`/api/protocols/update?protocolId=${id}`, data);
+    return response.data;
+}
 
 export default {
     getProtocols,
@@ -92,5 +96,6 @@ export default {
     changeProtocolStatus,
     updateProtocolFile,
     getProtocolsByState,
-    getSuggestionProtocols
+    getSuggestionProtocols,
+    updateProtocol
 }

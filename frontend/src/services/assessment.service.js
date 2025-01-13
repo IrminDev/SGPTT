@@ -33,8 +33,14 @@ const getEvaluations = async (id) => {
     return response.data;
 }
 
+const deleteAssessment = async (id) => {
+    const response = await axiosInstance.delete(`/api/assessment/delete/${id}`);
+    return response.data;
+}
+
 export default {
     createAssessment,
     assignAcademy,
-    getEvaluations
+    getEvaluations,
+    deleteAssessment
 }

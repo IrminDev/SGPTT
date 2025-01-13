@@ -53,7 +53,12 @@ const CorregirProtocolo = () => {
             protocolService.updateProtocolFile(formData, protocol.id).then((resp) => {
                 console.log(resp)
                 protocolService.changeProtocolStatus({ protocolId: protocol.id, state: 'EVALUATING' }).then((response) => {
-                    console.log(response)
+                    assessmentService.deleteAssessment(protocol.id).then((res) => {
+                        console.log(res)
+                        window.location.reload()
+                    }).catch((error) => {
+                        console.log(error)
+                    })
                 }).catch((error) => {
                     console.log(error)
                 })
