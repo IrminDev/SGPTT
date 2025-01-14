@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import protocolService from '../../services/protocol.service'
 import assessmentService from '../../services/assessment.service'
+import { toast } from 'react-toastify';
+import { useNavigate } from 'react-router-dom';
 
 const questions = [
     "¿El título corresponde al producto esperado?",
@@ -16,6 +18,8 @@ const questions = [
 ]
 
 const CorregirProtocolo = () => {
+    const navigate = useNavigate()
+
     const [evaluations, setEvaluations] = useState([])
     const [person, setPerson] = useState(JSON.parse(localStorage.getItem('person')))
     const [protocol, setProtocol] = useState(null)
@@ -54,19 +58,22 @@ const CorregirProtocolo = () => {
                 console.log(resp)
                 protocolService.changeProtocolStatus({ protocolId: protocol.id, state: 'EVALUATING' }).then((response) => {
                     assessmentService.deleteAssessment(protocol.id).then((res) => {
-                        console.log(res)
-                        window.location.reload()
+                        toast.success('Archivo subido exitosamente')
+                        navigate('../mi-protocolo')
                     }).catch((error) => {
+                        toast.error('Error al subir archivo')
                         console.log(error)
                     })
                 }).catch((error) => {
+                    toast.error('Error al subir archivo')
                     console.log(error)
                 })
             }).catch((error) => {
+                toast.error('Error al subir archivo')
                 console.log(error)
             })
         } else {
-            alert('Seleccione un archivo antes de subir.')
+            toast.error('Seleccione un archivo')
         }
     }
 

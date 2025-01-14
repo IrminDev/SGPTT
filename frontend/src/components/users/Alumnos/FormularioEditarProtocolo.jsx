@@ -3,7 +3,7 @@ import Input from '../../common/Input';
 import Button from '../../common/Button';
 import changeRequestService from '../../../services/changeRequest.service';
 import { useNavigate } from 'react-router-dom';
-
+import { toast } from 'react-toastify';
 
 export default function FormularioEditarProtocolo({protocol}) {
   const [formData, setFormData] = useState()
@@ -33,6 +33,7 @@ export default function FormularioEditarProtocolo({protocol}) {
     form.append("data", new Blob([JSON.stringify(data)], { type: "application/json" }))
 
     changeRequestService.createChangeRequest(form).then((response) => {
+      toast.success("Solicitud de cambio enviada")
       navigate('/dashboard-alumno/mi-protocolo')
     }).catch((error) => {
       console.log(error)

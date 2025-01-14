@@ -1,7 +1,6 @@
 import React from "react";
 
 const EvaluationReview = ({ evaluation }) => {
-    console.log(evaluation)
 
   const questions = [
     "¿El título corresponde al producto esperado?",

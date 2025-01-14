@@ -13,7 +13,7 @@ export default function SubirProtocolo() {
     protocolService.getStudentProtocols(person.personId).then((response) => {
       if(response.length !== 0){
         response.map((protocol) => {
-          if(protocol.state === "PENDING" || protocol.state === "APPROVED" || protocol.state === "EVALUATING" || protocol.state === "CORRECTING"){
+          if(protocol.state === "PENDING" || protocol.state === "APPROVED" || protocol.state === "EVALUATING" || protocol.state === "CORRECTIONS"){
             setEnabled(false)
             return
           }

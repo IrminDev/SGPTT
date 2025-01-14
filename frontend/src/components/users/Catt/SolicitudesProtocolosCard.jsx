@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import changeRequestService from '../../../services/changeRequest.service';
+import { toast } from 'react-toastify';
 
 const SolicitudesProtocolosCard = ({ solicitud }) => {
   const handleRechazar = () => {
@@ -10,8 +11,10 @@ const SolicitudesProtocolosCard = ({ solicitud }) => {
     }
 
     changeRequestService.updateChangeRequest(updateRequest, solicitud.id).then((data) => {
-      console.log(data)
+      toast.success('Solicitud rechazada');
+      window.location.reload();
     }).catch((error) => {
+      toast.error('Error rechazando solicitud');
       console.log(error)
     })
   }

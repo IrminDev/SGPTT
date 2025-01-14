@@ -1,6 +1,7 @@
 import React, { useState, useEffect} from "react";
 import protocolService from "../../../services/protocol.service";
 import { useNavigate } from "react-router-dom";
+import { toast } from 'react-toastify';
 
 const FormularioSubirProtocolo = ({ tipoProtocolo }) => {
     const navigate = useNavigate();
@@ -69,6 +70,16 @@ const FormularioSubirProtocolo = ({ tipoProtocolo }) => {
     const handleSubmit = (e) => {
         e.preventDefault();
 
+        if(workMates.find((mate) => mate.length < 10)){
+            toast.error("Ingresa una boleta válida");
+            return;
+        }
+
+        if(directors.find((director) => director.length < 10)){
+            toast.error("Ingresa un número de empleado válido");
+            return;
+        }
+
         const form = {
             workMates,
             directors,
@@ -91,9 +102,11 @@ const FormularioSubirProtocolo = ({ tipoProtocolo }) => {
         console.log("Formulario: ", form);
         protocolService.uploadProtocol(formData).then((response) => {
             if(response.new){
+                toast.success("Protocolo subido exitosamente");
                 navigate('/dashboard-alumno/mi-protocolo');
             }
         }).catch((error) => {
+            toast.error("Error al subir el protocolo");
             console.log(error);
         })
     }

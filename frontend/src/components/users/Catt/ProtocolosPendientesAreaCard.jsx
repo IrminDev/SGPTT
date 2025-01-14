@@ -2,15 +2,19 @@ import React, { useState } from "react";
 import Button from "../../common/Button";
 import { Link } from "react-router-dom";
 import protocolService from "../../../services/protocol.service";
+import { toast } from "react-toastify";
 
 // Componente ProtocolosPendientesAreaCard que recibe el nombre del protocolo, el área, la carrera, los miembros y las opciones de áreas como props
 export default function ProtocolosPendientesAreaCard({ id, title, abstract, keywords, fileURL }) {
   const handleRejection = () => {
     protocolService.changeProtocolStatus({ protocolId: id, state: "REJECTED" })
       .then((response) => {
+        toast.success("Protocolo rechazado exitosamente");
+        window.location.reload();
         console.log(response);
       })
       .catch((error) => {
+        toast.error("Error rechazando protocolo");
         console.error("Error rejecting protocol:", error);
       });
   }

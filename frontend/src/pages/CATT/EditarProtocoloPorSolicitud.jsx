@@ -1,10 +1,13 @@
 import React, { useState, useEffect } from 'react'
 import protocolService from '../../services/protocol.service'
 import changeRequestService from '../../services/changeRequest.service'
-import { useParams } from 'react-router-dom'
+import { useParams, useNavigate } from 'react-router-dom'
+import { toast } from 'react-toastify'
 
 const EditarProtocoloPorSolicitud = () => {
     const { id } = useParams()
+    
+    const navigate = useNavigate()
 
     const [title, setTitle] = useState('')
     const [keywords, setKeywords] = useState('')
@@ -47,11 +50,14 @@ const EditarProtocoloPorSolicitud = () => {
             }
 
             changeRequestService.updateChangeRequest(updateRequest, changeRequest.id).then((data) => {
-                console.log(data)
+                toast.success('Protocolo actualizado')
+                navigate('../')
             }).catch((error) => {
+                toast.error('Error actualizando protocolo')
                 console.log(error)
             })
         }).catch((error) => {
+            toast.error('Error actualizando protocolo')
             console.log(error)
         })
     }

@@ -19,7 +19,7 @@ spec:
             service:
               name: protocols-service
               port:
-                number: 8081
+                number: 8087
         - path: /api/auth
           pathType: Prefix
           backend:

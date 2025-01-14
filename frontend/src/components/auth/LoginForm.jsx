@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import InputAuth from './InputAuth';
 import ButtonSignUp from './ButtonSignUp';
 import authService from '../../services/auth.service';
+import { toast } from 'react-toastify';
 
 function LoginForm() {
     const [error, setError] = useState(false);
@@ -23,6 +24,7 @@ function LoginForm() {
                 localStorage.setItem("token", response.token);
                 localStorage.setItem("person", JSON.stringify(response.person));
 
+                toast.success("Inicio de sesión exitoso")
                 if(response.person.career){
                     navigate("/dashboard-alumno");
                 } else if(response.person.school){
@@ -31,8 +33,7 @@ function LoginForm() {
                     navigate("/dashboard-catt");
                 }
             } else {
-                setError(true);
-                setTimeout(() => setError(false), 1000);
+                toast.error("Correo o contraseña incorrectos")
             }
         }).catch((error) => {
             console.log(error);

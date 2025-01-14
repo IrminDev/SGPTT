@@ -9,5 +9,5 @@ spec:
     service: protocol
   ports:
     - protocol: TCP
-      port: 8081
-      targetPort: 8081
+      port: 8087
+      targetPort: 8087

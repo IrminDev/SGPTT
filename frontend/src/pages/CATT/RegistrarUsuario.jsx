@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import OptionBar from "../../components/common/OptionBar";
-import FormularioRegistroUsuario from "../../components/users/Catt/FormularioRegistroUsuario";
 import TittleSection from "../../components/common/TittleSection";
 import FormularioRegistroAlumno from "../../components/users/Catt/FormularioRegistroAlumno";
 import FormularioRegistroProfesor from "../../components/users/Catt/FormularioRegistroProfesor";

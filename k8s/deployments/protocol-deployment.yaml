@@ -22,7 +22,7 @@ spec:
           image: diegoxze35/protocols-service:v1.1.4
           imagePullPolicy: Always
           ports:
-            - containerPort: 8081
+            - containerPort: 8087
           resources:
             requests:
               memory: "512Mi"  # Increase the memory request
@@ -44,7 +44,7 @@ spec:
             - name: DATA_PROTOCOL_URL
               value: "http://localhost:8081/api/document/protocol/"
             - name: PORT
-              value: "8081"
+              value: "8087"
             - name: MAX_FILE_SIZE
               value: "4MB"
             - name: MAX_MULTIPART_SIZE

@@ -3,6 +3,8 @@ import { useParams, useNavigate } from 'react-router-dom';
 import protocolService from '../../../services/protocol.service';
 import utilsService from '../../../services/utils.service';
 import sinodalService from '../../../services/sinodal.service';
+import { toast } from 'react-toastify';
+
 
 const FormularioAsignarSinodales = () => {
     const navigate = useNavigate();
@@ -64,9 +66,10 @@ const FormularioAsignarSinodales = () => {
         console.log("Data:", data);
 
         sinodalService.createSinodal(data).then((response) => {
-            console.log("Sinodal created:", response);
+            toast.success("Sinodal asignado exitosamente");    
             navigate("../");
         }).catch((error) => {
+            toast.error("Error al asignar sinodal");
             console.log("Error creating sinodal:", error);
         })
       })

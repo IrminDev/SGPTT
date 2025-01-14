@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import assessmentService from '../../../services/assessment.service';
 import { useNavigate } from 'react-router-dom'; 
+import { toast } from 'react-toastify';
 
 const SurveyForm = ({id, professorId}) => {
   const navigate = useNavigate();
@@ -48,8 +49,8 @@ const SurveyForm = ({id, professorId}) => {
     e.preventDefault();
     if(responses.some(response => response.result === null)) {
         return;
+        toast.error("Por favor, responde todas las preguntas");
     }
-
     const data = {
         protocolId: id,
         evaluationDTO: {
@@ -60,9 +61,11 @@ const SurveyForm = ({id, professorId}) => {
     }
 
     assessmentService.createAssessment(data).then((response) => {
+        toast.success("Evaluación creada exitosamente");
         console.log("Assessment created successfully:", response);
         navigate('../');
     }).catch((error) => {
+        toast.error("Error al crear la evaluación");
         console.log("Error creating assessment:", error);
     });
   };

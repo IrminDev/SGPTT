@@ -3,6 +3,8 @@ import { useParams } from 'react-router-dom';
 import protocolService from '../../services/protocol.service';
 import assessmentService from '../../services/assessment.service';
 import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
+
 
 const AsignarAcademia = () => {
     const navigate = useNavigate();
@@ -41,9 +43,11 @@ const AsignarAcademia = () => {
 
         assessmentService.assignAcademy(data).then((response) => {
             if(response.status === 202) {
+                toast.success('Academia asignada correctamente');
                 navigate('/dashboard-catt/protocolos-pendientes-area');
             }
         }).catch((error) => {
+            toast.error('Error al asignar academia');
             console.log(error);
         })
     }

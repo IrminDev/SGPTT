@@ -4,6 +4,7 @@ import ProtocoloInfoCard from "../../components/common/ProtocoloInfoCard";
 import Button from "../../components/common/Button";
 import protocolService from "../../services/protocol.service";
 import sinodalService from "../../services/sinodal.service";
+import { toast } from "react-toastify";
 
 const ProtocolosDisponibles = () => {
   const [protocols, setProtocols] = useState([])
@@ -28,39 +29,12 @@ const ProtocolosDisponibles = () => {
 
     console.log(data)
     sinodalService.createSinodalByProfessor(data).then((resp) => {
-      console.log(resp)
+      toast.success('Protocolo seleccionado exitosamente')
       setProtocols(protocols.filter(protocol => protocol.id !== protocolId))
     }).catch((error) => {
       console.log(error)
     })
   }
-  
-
-  // Datos de prueba para los protocolos (SOLO LOS PROTOCOLOS QUE CONTENGAN MENOS DE 2 SINODALES)
-  const protocolos = [
-    {
-      id: 1,
-      title: "Título de prueba 1",
-      keywords: ["Palabra1", "Palabra2", "Palabra3"],
-      asbtract: "Este es el resumen del protocolo 1.",
-      fileUrl: "ruta/al/archivo1.pdf",
-      students: ["Integrante1", "Integrante2", "Integrante3"],
-      directors: "Nombre del Director 1",
-      state: "Rechazado",
-      createdAt: "2021-10-01T00:00:00.000Z",
-    },
-    {
-      id: 2,
-      title: "Título de prueba 1",
-      keywords: ["Palabra1", "Palabra2", "Palabra3"],
-      asbtract: "Este es el resumen del protocolo 1.",
-      fileUrl: "ruta/al/archivo1.pdf",
-      students: ["Integrante1", "Integrante2", "Integrante3"],
-      directors: "Nombre del Director 1",
-      state: "Rechazado",
-      createdAt: "2021-10-01T00:00:00.000Z",
-    },
-  ];
 
   return (
     <div className="bg-gray-800 min-h-screen flex flex-col">

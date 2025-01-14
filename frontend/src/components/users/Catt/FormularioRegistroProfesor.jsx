@@ -3,6 +3,8 @@ import { useState } from 'react';
 import Button from '../../common/Button';
 import Input from '../../common/Input';
 import registerService from '../../../services/register.service';
+import { toast } from 'react-toastify';
+
 
 const FormularioRegistroProfesor = () => {
     const [name, setName] = useState("");
@@ -71,8 +73,10 @@ const FormularioRegistroProfesor = () => {
             setEmail("");
             setPassword("");
             setSchool("");
+            toast.success("Profesor registrado exitosamente");
             console.log(response)
         }).catch((error) => {
+            toast.error("Error al registrar profesor");
             console.log("Error registrando profesor:", error);
         })
     }
