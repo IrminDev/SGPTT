@@ -33,6 +33,7 @@ const AsignarAcademia = () => {
     const handleUpload = (e) => {
         e.preventDefault();
         if (assignedAcademies.length === 0) {
+            toast.error('Debes asignar al menos una academia');
             return;
         }
 

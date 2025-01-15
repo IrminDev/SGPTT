@@ -29,6 +29,12 @@ const EditarProtocoloPorSolicitud = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault()
+        // Check if all the fields are filled
+        if (!title || !keywords || !abstract) {
+            toast.error('Por favor llena todos los campos')
+            return
+        }
+
         const form = {
             title: title,
             keywords: keywords.split(',').map(keyword => keyword.trim()),

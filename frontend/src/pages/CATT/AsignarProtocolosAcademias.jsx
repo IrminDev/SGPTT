@@ -3,24 +3,6 @@ import ProtocolosPendientesAreaCard from "../../components/users/Catt/Protocolos
 import TittleSection from "../../components/common/TittleSection";
 import protocolService from "../../services/protocol.service";
 
-// Información de prueba para los protocolos
-const protocolos = [
-  {
-    id: 1,
-    title: "Protocolo 1",
-    abstract: "IA",
-    keywords: ["Juan Pérez", "Angel Hernandez", "Hernandez Jimenez Irmin"],
-    fileUrl: "http://localhost:8081/api/document/protocol/2",
-  },
-  {
-    id: 2,
-    title: "Protocolo 2",
-    abstract: "TI",
-    fileUrl: "http://localhost:8081/api/document/protocol/2",
-    keywords: ["Maria Lopez", "Carlos Sanchez"],
-  },
-];
-
 const AsignarProtocolosAcademias = () => {
   const [protocols, setProtocols] = useState([]);
 

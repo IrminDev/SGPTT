@@ -21,6 +21,12 @@ export default function FormularioEditarProtocolo({protocol}) {
 
   const handleUpload = (e) => {
     e.preventDefault()
+    // Check if all the fields are filled
+    if (!formData || !comments) {
+      toast.error("Por favor llena todos los campos")
+      return
+    }
+    
     const data = {
       requestComments: comments,
       protocolId: protocol

@@ -28,7 +28,7 @@ export default function RevisarProtocolo() {
       <div className="mb-4">
         <TittleSection tittle="Revisar Protocolos" />
       </div>
-      <div className="flex flex-row flex-wrap items-center justify-between p-4 bg-gray-800 rounded-lg shadow-md w-full">
+      <div className="flex flex-row flex-wrap items-center justify-evenly p-4 bg-gray-800 rounded-lg shadow-md w-full">
         {
           protocols.length > 0 ? 
           protocols.map((protocol, index) => (

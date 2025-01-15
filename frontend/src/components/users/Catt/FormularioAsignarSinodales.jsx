@@ -57,6 +57,8 @@ const FormularioAsignarSinodales = () => {
   
     const handleUploadSynodales = () => {
       console.log(assignedSynodales)
+
+      
       assignedSynodales.forEach((synodal) => {
         const data = {
           protocolId: parseInt(id),

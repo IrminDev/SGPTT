@@ -2,12 +2,10 @@ package com.sgpttt.UtilsService.dto.response;
 
 public class ProtocolDocumentDTO {
     private Long id;
-
     private String title;
-
     private String keywords;
-
     private String protocolAbstract;
+    private float score; // Add score field
 
     // Getters and Setters
     public Long getId() {
@@ -42,4 +40,11 @@ public class ProtocolDocumentDTO {
         this.protocolAbstract = protocolAbstract;
     }
 
+    public float getScore() {
+        return score;
+    }
+
+    public void setScore(float score) {
+        this.score = score;
+    }
 }

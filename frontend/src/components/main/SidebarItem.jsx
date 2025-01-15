@@ -23,7 +23,7 @@ const SidebarItem = ({ icon, text, active, onClick, isLogOut }) => {
 
   return (
     <div
-      className={`flex items-center p-2 cursor-pointer bg-gray-200 rounded-full text-black transition-colors duration-300 ease-in-out ${active ? "bg-blue-700" : ""} ${isLogOut ? "hover:bg-red-500" : "hover:bg-blue-400"} ${windowWidth < 720 ? "justify-center" : "justify-start"}`}
+      className={`flex items-center p-2 cursor-pointer bg-gray-200 rounded-full text-black transition-colors duration-300 ease-in-out ${active ? "bg-blue-800" : ""} ${isLogOut ? "hover:bg-red-500" : "hover:bg-blue-400"} ${windowWidth < 720 ? "justify-center" : "justify-start"}`}
       onClick={onClick}
     >
       <img src={icon} alt={`icono-${text}`} className={`${getImageSize()} mx-2`} />

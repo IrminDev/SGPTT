@@ -19,6 +19,12 @@ const FormularioSubirProtocolo = ({ tipoProtocolo }) => {
 
     const handleWorkMates = (e) => {
         e.preventDefault();
+        // Check if the element is already in the array
+        if(workMates.find((mate) => mate === workMatesValue)){
+            toast.error("Integrante ya agregado");
+            return;
+        }
+
         if(workMates.length <= 3){
             setWorkMates([...workMates, workMatesValue]);
             setWorkMatesValue('');
@@ -29,6 +35,12 @@ const FormularioSubirProtocolo = ({ tipoProtocolo }) => {
 
     const handleDirectors = (e) => {
         e.preventDefault();
+        // Check if the element is already in the array
+        if(directors.find((director) => director === directorsValue)){
+            toast.error("Director ya agregado");
+            return;
+        }
+
         if(directors.length <= 3){
             setDirectors([...directors, directorsValue]);
             setDirectorsValue('');
@@ -39,6 +51,18 @@ const FormularioSubirProtocolo = ({ tipoProtocolo }) => {
 
     const handleKeywords = (e) => {
         e.preventDefault();
+        // Check if the element is already in the array
+        if(keywords.find((keyword) => keyword === keywordsValue)){
+            toast.error("Palabra clave ya agregada");
+            return;
+        }
+
+        // Check if the element has only letters, numbers and spaces
+        if(!/^[a-zA-Z0-9 ]+$/.test(keywordsValue)){
+            toast.error("Ingresa una palabra clave válida");
+            return
+        }
+
         setKeywords([...keywords, keywordsValue]);
         setKeywordsValue('');
     }
@@ -77,6 +101,16 @@ const FormularioSubirProtocolo = ({ tipoProtocolo }) => {
 
         if(directors.find((director) => director.length < 10)){
             toast.error("Ingresa un número de empleado válido");
+            return;
+        }
+
+        if(keywords.length === 0){
+            toast.error("Ingresa al menos una palabra clave");
+            return;
+        }
+
+        if(!pdfFile){
+            toast.error("Sube un archivo PDF");
             return;
         }
 

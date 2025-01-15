@@ -27,14 +27,17 @@ public class ProtocolDocumentService {
     public List<ProtocolDocumentDTO> findSimilarDocuments(String id) {
         MoreLikeThisQuery moreLikeThisQuery = new MoreLikeThisQuery();
         moreLikeThisQuery.setId(id);
-        moreLikeThisQuery.addFields("title", "keywords", "abstractText");
+        moreLikeThisQuery.addFields("title", "keywords", "protocolAbstract");
         moreLikeThisQuery.setMinDocFreq(1);
         moreLikeThisQuery.setMinTermFreq(1);
+        moreLikeThisQuery.setMaxQueryTerms(10);
 
         SearchHits<ProtocolDocument> searchHits = elasticsearchOperations.search(moreLikeThisQuery, ProtocolDocument.class);
 
-        List<ProtocolDocument> protocolDocuments = searchHits.getSearchHits().stream().map(SearchHit::getContent).collect(Collectors.toList());
-
-        return protocolDocumentMapper.protocolDocumentsToProtocolDTOs(protocolDocuments);
+        return searchHits.getSearchHits().stream().map(hit -> {
+            ProtocolDocumentDTO dto = protocolDocumentMapper.protocolDocumentToProtocolDocumentDTO(hit.getContent());
+            dto.setScore(hit.getScore()); // Set the score
+            return dto;
+        }).collect(Collectors.toList());
     }
 }

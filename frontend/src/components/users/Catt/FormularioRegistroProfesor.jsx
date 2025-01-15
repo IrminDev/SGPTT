@@ -50,6 +50,18 @@ const FormularioRegistroProfesor = () => {
 
 
     const handleSubmit = (e) => {
+        // Check if all the fields are filled
+        if (!name || !lastname || !motherLastname || !password || !number || !role || !email) {
+            toast.error("Por favor llena todos los campos");
+            return;
+        }
+
+        // Check if the number has a length of 10
+        if (number.length !== 10) {
+            toast.error("El número de empleado debe tener 10 dígitos");
+            return;
+        }
+
         const data = {
             person: {
                 type: "professor",
